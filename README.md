@@ -13,5 +13,6 @@ does not change ERPNext.
 - "Show Jalali Dates" in ERPNext Iran Settings: Date and Datetime values in lists and reports are shown as Jalali (stored and entered as Gregorian); `{{ doc.posting_date | jalali_date }}` for print formats
 - Iran Cheque (چک دریافتنی / پرداختنی, Erpnext Iran module, `/desk/iran-cheque`): submittable, status buttons Deposit / Endorse / Mark Cleared / Mark Bounced, each posting a Journal Entry (flow in `erpnext_iran/cheques.py`). Accounts come from ERPNext Iran Settings > Cheque Accounts, else from account numbers 110402, 110401 and 210201 of the Iran chart. Amounts are in the company currency. Sayad ID is only checked for 16 digits
 - Bank Account: an Iranian Sheba (IR + 24 digits, with or without IR and spaces) is checked with the ISO 13616 mod 97 test and stored as `IR...`
+- "Iran Sales Invoice" print format (Persian, right to left, Jalali date, buyer's national / legal / economic ids, VAT lines, signature boxes): choose it in the Sales Invoice print view. Digits follow "Use Persian Digits". The layout is not the official tax-authority invoice form
 
 Not done yet: the Moadian tax-authority integration, Iranian payment gateways.

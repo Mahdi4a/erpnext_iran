@@ -13,7 +13,13 @@ app_include_js = "/assets/erpnext_iran/js/erpnext_iran.js"
 
 extend_bootinfo = "erpnext_iran.defaults.extend_bootinfo"
 
-jinja = {"filters": ["erpnext_iran.defaults.persian_digits", "erpnext_iran.jalali.jalali_date"]}
+jinja = {
+	"filters": [
+		"erpnext_iran.defaults.persian_digits",
+		"erpnext_iran.defaults.iran_digits",
+		"erpnext_iran.jalali.jalali_date",
+	]
+}
 
 doc_events = {
 	"Company": {

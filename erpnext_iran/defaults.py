@@ -70,3 +70,12 @@ def persian_digits(value) -> str:
 	from iran_base.utils.numbers import to_persian_digits
 
 	return to_persian_digits(value)
+
+
+def iran_digits(value) -> str:
+	"""For print formats: Persian digits when "Use Persian Digits" is ticked, 0-9 otherwise."""
+	from iran_base.utils.numbers import to_persian_digits
+
+	from erpnext_iran.jalali import persian_digits_enabled
+
+	return to_persian_digits(value) if persian_digits_enabled() else str(value if value is not None else "")
