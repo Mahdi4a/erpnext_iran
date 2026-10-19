@@ -33,3 +33,35 @@ def validate_address(doc, method=None):
 	value = _clean(doc, "pincode")
 	if value and not validators.is_valid_postal_code(value):
 		frappe.throw(_("Postal Code is not valid"), title=_("Invalid Address"))
+
+
+def iran_sheba_check_digits_ok(iban: str) -> bool:
+	"""ISO 13616 mod 97 check: move the first four characters to the end, letters become 10-35."""
+	rearranged = iban[4:] + iban[:4]
+	number = "".join(str(int(c, 36)) for c in rearranged)
+	return int(number) % 97 == 1
+
+
+def normalize_sheba(value) -> str:
+	"""'ir06 2960 ...' or '062960...' to 'IR062960...'. Anything else is returned cleaned up only."""
+	text = to_latin_digits(value or "").replace(" ", "").replace("-", "").upper()
+	if len(text) == 24 and text.isdigit():
+		text = "IR" + text
+	return text
+
+
+def is_valid_sheba(value) -> bool:
+	"""IR, two check digits and 22 digits, 26 characters in all, with a valid mod 97 check."""
+	text = normalize_sheba(value)
+	return len(text) == 26 and text.startswith("IR") and text[2:].isdigit() and iran_sheba_check_digits_ok(text)
+
+
+def validate_bank_account(doc, method=None):
+	"""Iranian Sheba numbers (IR...) are checked here. Another country's IBAN is left alone."""
+	value = normalize_sheba(doc.get("iban"))
+	if not value:
+		return
+	if value.startswith("IR"):
+		if not is_valid_sheba(value):
+			frappe.throw(_("Sheba (IBAN) is not valid"), title=_("Invalid Bank Account"))
+		doc.set("iban", value)

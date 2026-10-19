@@ -1,0 +1,52 @@
+{
+ "doctype": "DocType",
+ "name": "Iran Cheque Account",
+ "module": "Erpnext Iran",
+ "istable": 1,
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "cheques_in_hand",
+  "cheques_in_collection",
+  "cheques_payable"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "label": "Company",
+   "fieldtype": "Link",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "cheques_in_hand",
+   "label": "Received Cheques in Hand",
+   "fieldtype": "Link",
+   "options": "Account",
+   "in_list_view": 1,
+   "description": "Default: account 110402 of the Iran chart"
+  },
+  {
+   "fieldname": "cheques_in_collection",
+   "label": "Received Cheques in Collection",
+   "fieldtype": "Link",
+   "options": "Account",
+   "in_list_view": 1,
+   "description": "Default: account 110401"
+  },
+  {
+   "fieldname": "cheques_payable",
+   "label": "Issued Cheques Payable",
+   "fieldtype": "Link",
+   "options": "Account",
+   "in_list_view": 1,
+   "description": "Default: account 210201"
+  }
+ ],
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

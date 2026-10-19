@@ -25,6 +25,7 @@ doc_events = {
 	},
 	"Customer": {"validate": "erpnext_iran.validations.validate_party"},
 	"Supplier": {"validate": "erpnext_iran.validations.validate_party"},
+	"Bank Account": {"validate": "erpnext_iran.validations.validate_bank_account"},
 	"Address": {"validate": "erpnext_iran.validations.validate_address"},
 }
 

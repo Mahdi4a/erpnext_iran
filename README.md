@@ -11,5 +11,7 @@ does not change ERPNext.
 - "Use Persian Digits" in ERPNext Iran Settings: Persian digits in lists, reports and read-only values (inputs stay 0-9); `{{ value | persian_digits }}` for print formats
 - Jalali (Shamsi) fiscal years named after the Jalali year (1404, 1405...), starting 1 Farvardin: "Create Jalali Fiscal Year" button on the Fiscal Year list, the current and next year are also created daily. ERPNext only accepts a year of exactly one Gregorian year, so a Jalali year of another length gets "Is Short Year" ticked; if a year overlaps an existing one, give it a company
 - "Show Jalali Dates" in ERPNext Iran Settings: Date and Datetime values in lists and reports are shown as Jalali (stored and entered as Gregorian); `{{ doc.posting_date | jalali_date }}` for print formats
+- Iran Cheque (چک دریافتنی / پرداختنی, Erpnext Iran module, `/desk/iran-cheque`): submittable, status buttons Deposit / Endorse / Mark Cleared / Mark Bounced, each posting a Journal Entry (flow in `erpnext_iran/cheques.py`). Accounts come from ERPNext Iran Settings > Cheque Accounts, else from account numbers 110402, 110401 and 210201 of the Iran chart. Amounts are in the company currency. Sayad ID is only checked for 16 digits
+- Bank Account: an Iranian Sheba (IR + 24 digits, with or without IR and spaces) is checked with the ISO 13616 mod 97 test and stored as `IR...`
 
 Not done yet: the Moadian tax-authority integration, Iranian payment gateways.
