@@ -8,8 +8,10 @@ ACCOUNT_NAME = "Value Added Tax"
 
 
 def vat_rate() -> float:
-	"""The VAT percentage. Set `iran_vat_rate` in site_config.json; the law changes, so it is not hard-coded."""
-	return float(frappe.conf.get("iran_vat_rate") or DEFAULT_VAT_RATE)
+	"""The VAT percentage, from the ERPNext Iran Settings page. The law changes, so it is not hard-coded."""
+	from iran_base.settings import get_setting
+
+	return float(get_setting("iran_vat_rate", "ERPNext Iran Settings") or DEFAULT_VAT_RATE)
 
 
 def ensure_vat_account(company: str) -> str | None:

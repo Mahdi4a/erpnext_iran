@@ -1,0 +1,33 @@
+{
+ "doctype": "DocType",
+ "name": "ERPNext Iran Settings",
+ "module": "Erpnext Iran",
+ "issingle": 1,
+ "engine": "InnoDB",
+ "editable_grid": 1,
+ "description": "Empty values fall back to the same key in site_config.json.",
+ "fields": [
+  {
+   "fieldname": "iran_vat_rate",
+   "label": "VAT Rate (%)",
+   "fieldtype": "Percent",
+   "default": "10",
+   "description": "Used by the Iran VAT tax templates. Check the current legal rate; existing templates are not changed."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "index_web_pages_for_search": 0
+}
