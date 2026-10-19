@@ -13,6 +13,13 @@
    "fieldtype": "Percent",
    "default": "10",
    "description": "Used by the Iran VAT tax templates. Check the current legal rate; existing templates are not changed."
+  },
+  {
+   "fieldname": "use_persian_digits",
+   "label": "Use Persian Digits (۰۱۲۳)",
+   "fieldtype": "Check",
+   "default": "0",
+   "description": "Shows numbers in lists, reports and read-only values with Persian digits. Inputs and stored values stay 0-9. For print formats use the persian_digits filter."
   }
  ],
  "permissions": [

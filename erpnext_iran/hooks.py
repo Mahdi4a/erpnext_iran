@@ -9,9 +9,18 @@ required_apps = ["iran_base", "erpnext"]
 
 after_install = "erpnext_iran.install.after_install"
 
+app_include_js = "/assets/erpnext_iran/js/erpnext_iran.js"
+
+extend_bootinfo = "erpnext_iran.defaults.extend_bootinfo"
+
+jinja = {"filters": ["erpnext_iran.defaults.persian_digits"]}
+
 doc_events = {
 	"Company": {
-		"before_validate": "erpnext_iran.chart_of_accounts.before_company_save",
+		"before_validate": [
+			"erpnext_iran.defaults.set_company_currency",
+			"erpnext_iran.chart_of_accounts.before_company_save",
+		],
 		"on_update": "erpnext_iran.setup.on_company_update",
 	},
 	"Customer": {"validate": "erpnext_iran.validations.validate_party"},
