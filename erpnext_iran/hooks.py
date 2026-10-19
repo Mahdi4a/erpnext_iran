@@ -10,6 +10,7 @@ required_apps = ["iran_base", "erpnext"]
 after_install = "erpnext_iran.install.after_install"
 
 doc_events = {
+	"Company": {"on_update": "erpnext_iran.setup.on_company_update"},
 	"Customer": {"validate": "erpnext_iran.validations.validate_party"},
 	"Supplier": {"validate": "erpnext_iran.validations.validate_party"},
 	"Address": {"validate": "erpnext_iran.validations.validate_address"},

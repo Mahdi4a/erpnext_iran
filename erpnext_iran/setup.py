@@ -64,3 +64,12 @@ def ensure_vat_templates(company: str):
 				],
 			}
 		).insert(ignore_permissions=True)
+
+
+def on_company_update(doc, method=None):
+	"""A company made after this app was installed gets the VAT templates as well.
+
+	The chart of accounts is created while the company is saved, so this runs after it and
+	does nothing when there is no tax account to hang the template on yet.
+	"""
+	ensure_vat_templates(doc.name)
