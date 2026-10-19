@@ -6,7 +6,7 @@ PARTY_FIELDS = [
 		"label": "Iran Tax Identifiers",
 		"fieldtype": "Section Break",
 		"insert_after": "tax_category",
-		"collapsible": 1,
+		"collapsible": 0,
 	},
 	{
 		"fieldname": "national_id",
