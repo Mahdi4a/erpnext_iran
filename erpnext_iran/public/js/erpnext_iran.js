@@ -23,6 +23,30 @@
 		});
 	}
 
+	// Date and Datetime columns, read-only: '2025-03-21' shows as '1404-01-01'
+	function wrapDateFormatters() {
+		if (!(frappe.boot.erpnext_iran && frappe.boot.erpnext_iran.show_jalali_dates)) return;
+		const persianDigits = frappe.boot.erpnext_iran.persian_digits;
+		const formatters = {
+			Date: (value) => iran_base.formatJalali(value, persianDigits),
+			Datetime: (value) => {
+				const local = moment(frappe.datetime.convert_to_user_tz(value)).format('YYYY-MM-DD HH:mm');
+				const text = iran_base.formatJalali(local, false) + local.slice(10);
+				return persianDigits ? iran_base.toPersianDigits(text) : text;
+			},
+		};
+		Object.keys(formatters).forEach((type) => {
+			const original = frappe.form.formatters[type];
+			if (!original || original._jalali) return;
+			const wrapped = function (value) {
+				return value ? formatters[type](value) : original.apply(this, arguments);
+			};
+			wrapped._jalali = true;
+			frappe.form.formatters[type] = wrapped;
+		});
+	}
+
 	$(document).on('startup', wrapFormatters);
+	$(document).on('startup', wrapDateFormatters);
 	window.erpnext_iran = Object.assign(window.erpnext_iran || {}, { persianDigits: persian });
 })();

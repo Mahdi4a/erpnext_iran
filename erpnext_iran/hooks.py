@@ -13,7 +13,7 @@ app_include_js = "/assets/erpnext_iran/js/erpnext_iran.js"
 
 extend_bootinfo = "erpnext_iran.defaults.extend_bootinfo"
 
-jinja = {"filters": ["erpnext_iran.defaults.persian_digits"]}
+jinja = {"filters": ["erpnext_iran.defaults.persian_digits", "erpnext_iran.jalali.jalali_date"]}
 
 doc_events = {
 	"Company": {
@@ -31,3 +31,7 @@ doc_events = {
 override_whitelisted_methods = {
 	"erpnext.accounts.doctype.account.chart_of_accounts.chart_of_accounts.get_charts_for_country": "erpnext_iran.chart_of_accounts.get_charts_for_country",
 }
+
+scheduler_events = {"daily": ["erpnext_iran.jalali.ensure_current_and_next_fiscal_years"]}
+
+doctype_list_js = {"Fiscal Year": "public/js/fiscal_year_list.js"}

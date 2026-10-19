@@ -9,5 +9,7 @@ does not change ERPNext.
 - Chart of accounts "Iran - Chart of Accounts" (کدینگ حسابداری), offered on the Company form when the country is Iran. The coding (1 current assets, 2 non-current assets, 3 current liabilities, 4 non-current liabilities, 5 equity, 6 income, 7 costs) is a common convention, not an official standard: review it with your accountant
 - IRR and IRT currencies with whole numbers, and Iran defaults for the site (number format `#,###`, no currency decimals, Saturday as first day of the week, Asia/Tehran) applied on install only where the stock value is still in place; an Iranian company without a currency gets IRR
 - "Use Persian Digits" in ERPNext Iran Settings: Persian digits in lists, reports and read-only values (inputs stay 0-9); `{{ value | persian_digits }}` for print formats
+- Jalali (Shamsi) fiscal years named after the Jalali year (1404, 1405...), starting 1 Farvardin: "Create Jalali Fiscal Year" button on the Fiscal Year list, the current and next year are also created daily. ERPNext only accepts a year of exactly one Gregorian year, so a Jalali year of another length gets "Is Short Year" ticked; if a year overlaps an existing one, give it a company
+- "Show Jalali Dates" in ERPNext Iran Settings: Date and Datetime values in lists and reports are shown as Jalali (stored and entered as Gregorian); `{{ doc.posting_date | jalali_date }}` for print formats
 
 Not done yet: the Moadian tax-authority integration, Iranian payment gateways.
