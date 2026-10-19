@@ -1,0 +1,19 @@
+[project]
+name = "erpnext_iran"
+authors = [{ name = "Mahdi", email = "guts2day@gmail.com" }]
+description = "Iran localization for ERPNext: tax identifiers, VAT template"
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+dependencies = ["requests"]
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.ruff]
+line-length = 110
+indent-width = 4
+
+[tool.ruff.format]
+indent-style = "tab"
