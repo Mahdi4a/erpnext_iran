@@ -15,3 +15,8 @@ def after_install():
 	ensure_current_and_next_fiscal_years()
 	for company in frappe.get_all("Company", pluck="name"):
 		ensure_vat_templates(company)
+
+
+def after_migrate():
+	"""Keeps the custom fields in step with this app after an update."""
+	create_custom_fields(CUSTOM_FIELDS, update=True)

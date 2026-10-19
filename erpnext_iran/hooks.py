@@ -8,6 +8,7 @@ app_license = "gpl-3.0"
 required_apps = ["iran_base", "erpnext"]
 
 after_install = "erpnext_iran.install.after_install"
+after_migrate = "erpnext_iran.install.after_migrate"
 
 app_include_js = "/assets/erpnext_iran/js/erpnext_iran.js"
 

@@ -15,4 +15,6 @@ does not change ERPNext.
 - Bank Account: an Iranian Sheba (IR + 24 digits, with or without IR and spaces) is checked with the ISO 13616 mod 97 test and stored as `IR...`
 - "Iran Sales Invoice" print format (Persian, right to left, Jalali date, buyer's national / legal / economic ids, VAT lines, signature boxes): choose it in the Sales Invoice print view. Digits follow "Use Persian Digits". The layout is not the official tax-authority invoice form
 
-Not done yet: the Moadian tax-authority integration, Iranian payment gateways.
+- Moadian (سامانه مؤدیان), data model and draft payload only. **Unverified**: the field names and code lists are from memory of the public description, not from an official document. Custom fields: Sales Invoice (Moadian section: inty, inp, ins, tob, setm, taxid, status), Item (goods or service ID), UOM (unit code), Company (tax memory ID, with Tax ID as the economic code). `erpnext_iran.moadian.get_payload(invoice_name)` returns the draft payload and a list of missing data. There is no tax ID generation, signing, encryption or API call. Assumptions to decide: amounts are whole Rials (IRT x 10), one VAT rate per invoice (first tax row), invoice time is Tehran time as Unix milliseconds
+
+Not done yet: the Moadian tax-authority integration itself, Iranian payment gateways.
