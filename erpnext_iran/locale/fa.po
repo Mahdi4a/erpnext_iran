@@ -12600,3 +12600,1984 @@ msgstr "ERPNext ایران"
 
 msgid "ERPNext Iran"
 msgstr "ERPNext ایران"
+
+# Strings added to the source after the shipped Persian file was made (erpnext)
+
+msgid "(A) Balance Qty"
+msgstr "(الف) مقدار مانده"
+
+msgid "(B) Expected Balance Qty"
+msgstr "(ب) مقدار مانده مورد انتظار"
+
+msgid "(C) Change in Stock Value"
+msgstr "(ج) تغییر ارزش موجودی"
+
+msgid "(D) Expected Change in Stock Value"
+msgstr "(د) تغییر مورد انتظار ارزش موجودی"
+
+msgid "(E) Valuation Rate"
+msgstr "(ه) نرخ ارزش‌گذاری"
+
+msgid "(F) Expected Valuation Rate"
+msgstr "(و) نرخ ارزش‌گذاری مورد انتظار"
+
+msgid "(G) Balance Stock Value"
+msgstr "(ز) ارزش موجودی مانده"
+
+msgid "(H) Expected Balance Stock Value"
+msgstr "(ح) ارزش موجودی مانده مورد انتظار"
+
+msgid "A band of scores, and what happens to suppliers in it."
+msgstr "بازهٔ امتیازها و آنچه برای تأمین‌کنندگان در آن اتفاق می‌افتد."
+
+msgid "A bank account of yours or of a customer or supplier."
+msgstr "حساب بانکی شما یا مشتری یا تأمین‌کننده."
+
+msgid "A bank you or your customers and suppliers hold accounts with."
+msgstr "بانکی که شما یا مشتریان و تأمین‌کنندگانتان در آن حساب دارید."
+
+msgid "A batch of payments to send to your bank."
+msgstr "مجموعه‌ای از پرداخت‌ها برای ارسال به بانک شما."
+
+msgid "A bill from a supplier for what you bought."
+msgstr "فاکتور تأمین‌کننده برای آنچه خریده‌اید."
+
+msgid "A bill to a customer for what you sold."
+msgstr "فاکتور مشتری برای آنچه فروخته‌اید."
+
+msgid "A branch of your company."
+msgstr "شعبه‌ای از شرکت شما."
+
+msgid "A brand your items are sold under."
+msgstr "برندی که کالاهای شما با آن فروخته می‌شوند."
+
+msgid "A business or person you buy from. See [Supplier](https://docs.frappe.io/erpnext/user/manual/en/supplier)."
+msgstr "کسب‌وکار یا شخصی که از او خرید می‌کنید. ببینید: [تأمین‌کننده](https://docs.frappe.io/erpnext/user/manual/en/supplier)."
+
+msgid "A business or person you sell to. See [Customer](https://docs.frappe.io/erpnext/user/manual/en/customer)."
+msgstr "کسب‌وکار یا شخصی که به او می‌فروشید. ببینید: [مشتری](https://docs.frappe.io/erpnext/user/manual/en/customer)."
+
+msgid "A certificate that lets you withhold less tax from a supplier."
+msgstr "گواهی‌ای که اجازه می‌دهد از تأمین‌کننده مالیات کمتری کسر کنید."
+
+msgid "A channel customers reach you on, like a phone line."
+msgstr "کانالی که مشتریان از آن با شما تماس می‌گیرند، مانند خط تلفن."
+
+msgid "A class of shares, like equity or preference."
+msgstr "دسته‌ای از سهام، مانند عادی یا ممتاز."
+
+msgid "A code customers enter to get a discount from a pricing rule."
+msgstr "کدی که مشتریان برای دریافت تخفیف از قانون قیمت‌گذاری وارد می‌کنند."
+
+msgid "A code from a code list and what it maps to."
+msgstr "کدی از فهرست کدها و آنچه به آن نگاشت می‌شود."
+
+msgid "A company or person you buy goods or services from."
+msgstr "شرکت یا شخصی که از او کالا یا خدمات می‌خرید."
+
+msgid "A company or person you sell goods or services to."
+msgstr "شرکت یا شخصی که به او کالا یا خدمات می‌فروشید."
+
+msgid "A company that makes the items you buy or sell."
+msgstr "شرکتی که کالاهایی را که می‌خرید یا می‌فروشید تولید می‌کند."
+
+msgid "A company you are trying to win as a customer, with its leads."
+msgstr "شرکتی که می‌خواهید به‌عنوان مشتری جذب کنید، همراه با سرنخ‌هایش."
+
+msgid "A customer's claim to repair or replace an item under warranty."
+msgstr "درخواست مشتری برای تعمیر یا تعویض کالا تحت گارانتی."
+
+msgid "A customer's confirmed order."
+msgstr "سفارش تأییدشدهٔ مشتری."
+
+msgid "A date range you can close so no one posts into it."
+msgstr "بازهٔ تاریخی که می‌توانید ببندید تا کسی در آن ثبت نکند."
+
+msgid "A department of your company."
+msgstr "بخشی از شرکت شما."
+
+msgid "A direct entry in your books, for anything without its own form."
+msgstr "ثبت مستقیم در دفاتر شما، برای هر چیزی که فرم مخصوص خودش را ندارد."
+
+msgid "A distributor, dealer or reseller who sells for you on commission."
+msgstr "توزیع‌کننده، نماینده یا فروشنده‌ای که با کمیسیون برای شما می‌فروشد."
+
+msgid "A finer grouping of bank accounts, like savings or current."
+msgstr "گروه‌بندی دقیق‌تر حساب‌های بانکی، مانند پس‌انداز یا جاری."
+
+msgid "A group of tax withholding categories that apply together."
+msgstr "گروهی از دسته‌های کسر مالیات که با هم اعمال می‌شوند."
+
+msgid "A group of units of an item made or received together."
+msgstr "گروهی از واحدهای یک کالا که با هم تولید یا دریافت شده‌اند."
+
+msgid "A grouping of bank accounts, like checking or credit card."
+msgstr "گروه‌بندی حساب‌های بانکی، مانند جاری یا کارت اعتباری."
+
+msgid "A grouping of calls, like sales or support."
+msgstr "گروه‌بندی تماس‌ها، مانند فروش یا پشتیبانی."
+
+msgid "A grouping of inspection parameters."
+msgstr "گروه‌بندی پارامترهای بازرسی."
+
+msgid "A grouping of issues, like billing or technical."
+msgstr "گروه‌بندی درخواست‌ها، مانند مالی یا فنی."
+
+msgid "A grouping of projects, like internal or external."
+msgstr "گروه‌بندی پروژه‌ها، مانند داخلی یا خارجی."
+
+msgid "A grouping of tasks, like bug or feature."
+msgstr "گروه‌بندی تسک‌ها، مانند خطا یا قابلیت."
+
+msgid "A grouping of units, like weight or length."
+msgstr "گروه‌بندی واحدها، مانند وزن یا طول."
+
+msgid "A grouping of warehouses, like transit or store."
+msgstr "گروه‌بندی انبارها، مانند ترانزیت یا فروشگاه."
+
+msgid "A guarantee a bank gives on your behalf, or on a customer's or supplier's."
+msgstr "تضمینی که بانک از طرف شما یا مشتری یا تأمین‌کننده می‌دهد."
+
+msgid "A job title, like manager or accountant."
+msgstr "عنوان شغلی، مانند مدیر یا حسابدار."
+
+msgid "A kind of stock entry, like material transfer or manufacture."
+msgstr "نوعی از ثبت موجودی، مانند انتقال مواد یا تولید."
+
+msgid "A kind of work you track time against, like design or support."
+msgstr "نوعی از کار که زمان را برای آن پیگیری می‌کنید، مانند طراحی یا پشتیبانی."
+
+msgid "A kind of workstation, with its costs."
+msgstr "نوعی از ایستگاه کار، همراه با هزینه‌هایش."
+
+msgid "A ledger in your chart of accounts that entries are posted to."
+msgstr "حسابی در سرفصل حساب‌های شما که ثبت‌ها در آن انجام می‌شود."
+
+msgid "A legal entity with its own books, like your business or a subsidiary."
+msgstr "شخصیت حقوقی با دفاتر مستقل، مانند کسب‌وکار شما یا یک شرکت تابعه."
+
+msgid "A line from your bank statement, ready to be matched with a payment."
+msgstr "یک ردیف از صورت‌حساب بانکی شما که آمادهٔ تطبیق با پرداخت است."
+
+msgid "A machine or place where operations are done."
+msgstr "ماشین یا محلی که عملیات در آن انجام می‌شود."
+
+msgid "A marketing campaign, to see which leads and sales it brought in."
+msgstr "کمپین بازاریابی، برای دیدن اینکه چه سرنخ‌ها و فروش‌هایی آورده است."
+
+msgid "A meeting booked with a lead or customer."
+msgstr "جلسه‌ای که با سرنخ یا مشتری رزرو شده است."
+
+msgid "A meeting to review quality, with its agenda and minutes."
+msgstr "جلسه‌ای برای بررسی کیفیت، همراه با دستور کار و صورت‌جلسه."
+
+msgid "A parcel size you ship often."
+msgstr "اندازهٔ بسته‌ای که اغلب ارسال می‌کنید."
+
+msgid "A parcel you send through a carrier."
+msgstr "بسته‌ای که از طریق حمل‌کننده ارسال می‌کنید."
+
+msgid "A part of your business you track income and expenses for, like a branch or product line."
+msgstr "بخشی از کسب‌وکار که درآمد و هزینه‌اش را پیگیری می‌کنید، مانند یک شعبه یا خط تولید."
+
+msgid "A periodic check of how a quality goal is going."
+msgstr "بررسی دوره‌ای پیشرفت یک هدف کیفیتی."
+
+msgid "A person or company that owns shares in your company."
+msgstr "شخص یا شرکتی که سهام شرکت شما را دارد."
+
+msgid "A phone call made or received."
+msgstr "تماس تلفنی برقرارشده یا دریافتی."
+
+msgid "A piece of work to be done, often part of a project."
+msgstr "کاری که باید انجام شود، اغلب بخشی از یک پروژه."
+
+msgid "A piece of work with tasks, time and costs."
+msgstr "کاری با تسک‌ها، زمان و هزینه‌ها."
+
+msgid "A place where you keep stock."
+msgstr "مکانی که موجودی را در آن نگه می‌دارید."
+
+msgid "A place where your assets are kept."
+msgstr "مکانی که دارایی‌های شما در آن نگهداری می‌شوند."
+
+msgid "A potential sale to a lead or customer."
+msgstr "فروش بالقوه به سرنخ یا مشتری."
+
+msgid "A problem or question raised by a customer."
+msgstr "مشکل یا پرسشی که مشتری مطرح کرده است."
+
+msgid "A product or a service you sell. See [Item](https://docs.frappe.io/erpnext/user/manual/en/item)."
+msgstr "محصول یا خدمتی که می‌فروشید. ببینید: [کالا](https://docs.frappe.io/erpnext/user/manual/en/item)."
+
+msgid "A product or service you buy, sell or keep in stock."
+msgstr "محصول یا خدمتی که می‌خرید، می‌فروشید یا در موجودی نگه می‌دارید."
+
+msgid "A progress update collected from the project team."
+msgstr "گزارش پیشرفت که از تیم پروژه جمع‌آوری می‌شود."
+
+msgid "A property item variants differ by, like size or colour."
+msgstr "ویژگی‌ای که گونه‌های کالا در آن تفاوت دارند، مانند اندازه یا رنگ."
+
+msgid "A published list of codes, like units or tax categories, used in e-invoicing."
+msgstr "فهرست منتشرشدهٔ کدها، مانند واحدها یا دسته‌های مالیاتی، که در فاکتور الکترونیکی استفاده می‌شود."
+
+msgid "A record of maintenance done on an asset."
+msgstr "سابقهٔ نگهداری انجام‌شده روی دارایی."
+
+msgid "A record of shares issued, bought back or moved between shareholders."
+msgstr "سابقهٔ سهام صادرشده، بازخریدشده یا جابه‌جاشده بین سهامداران."
+
+msgid "A region you sell in, to group customers and set targets."
+msgstr "منطقه‌ای که در آن می‌فروشید، برای گروه‌بندی مشتریان و تعیین هدف."
+
+msgid "A regular email summing up how the business is doing."
+msgstr "ایمیل منظمی که وضعیت کسب‌وکار را خلاصه می‌کند."
+
+msgid "A reminder to a customer about an overdue invoice."
+msgstr "یادآوری به مشتری دربارهٔ فاکتور سررسیدگذشته."
+
+msgid "A repair made to an asset, and what it cost."
+msgstr "تعمیر انجام‌شده روی دارایی و هزینهٔ آن."
+
+msgid "A request to buy, transfer or make items."
+msgstr "درخواست برای خرید، انتقال یا تولید کالا."
+
+msgid "A sale made at the point of sale."
+msgstr "فروشی که در صندوق فروش انجام شده است."
+
+msgid "A saved set of accounts to start journal entries from."
+msgstr "مجموعهٔ ذخیره‌شده‌ای از حساب‌ها برای شروع ثبت‌های دفتر روزنامه."
+
+msgid "A separate set of books, for example to depreciate assets under another rule."
+msgstr "دفاتر جداگانه، مثلاً برای استهلاک دارایی‌ها با قاعدهٔ دیگر."
+
+msgid "A series of emails sent to leads or contacts on a schedule."
+msgstr "مجموعه‌ای از ایمیل‌ها که طبق زمان‌بندی برای سرنخ‌ها یا مخاطبان ارسال می‌شود."
+
+msgid "A set of discounts and free items, like buy two get one free."
+msgstr "مجموعه‌ای از تخفیف‌ها و کالاهای رایگان، مانند دو بخر یکی هدیه بگیر."
+
+msgid "A set of item prices for buying, selling or both."
+msgstr "مجموعه‌ای از قیمت کالاها برای خرید، فروش یا هر دو."
+
+msgid "A set of payment terms to apply to invoices and orders."
+msgstr "مجموعه‌ای از شرایط پرداخت برای اعمال روی فاکتورها و سفارش‌ها."
+
+msgid "A set of tasks to start new projects from."
+msgstr "مجموعه‌ای از تسک‌ها برای شروع پروژه‌های جدید."
+
+msgid "A short code added to account names, like Cash - AC."
+msgstr "کد کوتاهی که به نام حساب‌ها اضافه می‌شود، مانند Cash - AC."
+
+msgid "A single unit of an item, tracked by its own number."
+msgstr "یک واحد از کالا که با شمارهٔ خودش پیگیری می‌شود."
+
+msgid "A step in making an item, like cutting or assembly."
+msgstr "مرحله‌ای در تولید کالا، مانند برش یا مونتاژ."
+
+msgid "A step in your sales process, like qualification or negotiation."
+msgstr "مرحله‌ای در فرایند فروش شما، مانند صلاحیت‌سنجی یا مذاکره."
+
+msgid "A task becomes Overdue on its own once its Expected End Date passes"
+msgstr "تسک پس از گذشتن تاریخ پایان مورد انتظار، خودکار «سررسیدگذشته» می‌شود"
+
+msgid "A unit you measure items in, like kg or box."
+msgstr "واحدی که کالاها را با آن اندازه می‌گیرید، مانند کیلوگرم یا جعبه."
+
+msgid "A value a scorecard criterion is calculated from."
+msgstr "مقداری که معیار کارنامه از آن محاسبه می‌شود."
+
+msgid "A vehicle's route to deliver to several customers."
+msgstr "مسیر یک وسیله نقلیه برای تحویل به چند مشتری."
+
+msgid "A view of your workstations and what each is doing."
+msgstr "نمایی از ایستگاه‌های کار و کاری که هر یک انجام می‌دهد."
+
+msgid "A visit to service or repair what a customer bought."
+msgstr "بازدید برای سرویس یا تعمیر آنچه مشتری خریده است."
+
+msgid "A way you pay or get paid, like cash, bank transfer or card."
+msgstr "روشی که با آن پرداخت می‌کنید یا دریافت می‌کنید، مانند نقد، انتقال بانکی یا کارت."
+
+msgid "Accepted Stock Value Difference"
+msgstr "اختلاف پذیرفته‌شدهٔ ارزش موجودی"
+
+msgid "Active Customers"
+msgstr "مشتریان فعال"
+
+msgid "Active Suppliers"
+msgstr "تأمین‌کنندگان فعال"
+
+msgid "Add Asset"
+msgstr "افزودن دارایی"
+
+msgid "Add Bank Account"
+msgstr "افزودن حساب بانکی"
+
+msgid "Add Customer"
+msgstr "افزودن مشتری"
+
+msgid "Add Opening Stock"
+msgstr "افزودن موجودی افتتاحیه"
+
+msgid "Add Price"
+msgstr "افزودن قیمت"
+
+msgid "Add Raw Material"
+msgstr "افزودن ماده خام"
+
+msgid "Add Supplier"
+msgstr "افزودن تأمین‌کننده"
+
+msgid "Add a customer"
+msgstr "افزودن مشتری"
+
+msgid "Add a product you make"
+msgstr "افزودن محصولی که تولید می‌کنید"
+
+msgid "Add a raw material"
+msgstr "افزودن ماده خام"
+
+msgid "Add a supplier"
+msgstr "افزودن تأمین‌کننده"
+
+msgid "Add a supplier, order from them and pay their bill."
+msgstr "تأمین‌کننده‌ای اضافه کنید، از او سفارش دهید و فاکتورش را پرداخت کنید."
+
+msgid "Add an asset item"
+msgstr "افزودن کالای دارایی"
+
+msgid "Add an item and a customer, bill them and collect the payment."
+msgstr "کالا و مشتری اضافه کنید، برای او فاکتور بزنید و پرداخت را دریافت کنید."
+
+msgid "Add an item you buy"
+msgstr "افزودن کالایی که می‌خرید"
+
+msgid "Add an item you sell"
+msgstr "افزودن کالایی که می‌فروشید"
+
+msgid "Add an item you stock"
+msgstr "افزودن کالایی که در موجودی دارید"
+
+msgid "Add demo data so you can explore"
+msgstr "داده‌های نمایشی اضافه کنید تا بتوانید بررسی کنید"
+
+msgid "Add the bank account you use"
+msgstr "حساب بانکی‌ای را که استفاده می‌کنید اضافه کنید"
+
+msgid "Add the people you work with and choose what they can see."
+msgstr "افرادی را که با آن‌ها کار می‌کنید اضافه کنید و مشخص کنید چه چیزی را ببینند."
+
+msgid "Adding demo data"
+msgstr "در حال افزودن داده‌های نمایشی"
+
+msgid "Additional Discount has been removed as Pricing Rule {0} is no longer applicable"
+msgstr "تخفیف اضافی حذف شد، چون قانون قیمت‌گذاری {0} دیگر قابل اعمال نیست"
+
+msgid "Adds freight, duty and other charges to the cost of received items."
+msgstr "کرایه حمل، عوارض و سایر هزینه‌ها را به بهای کالاهای دریافتی اضافه می‌کند."
+
+msgid "Adjusted By"
+msgstr "تعدیل‌شده توسط"
+
+msgid "Adjustment Date"
+msgstr "تاریخ تعدیل"
+
+msgid "Adjustment Entry"
+msgstr "ثبت تعدیل"
+
+msgid "Adjustment Time"
+msgstr "زمان تعدیل"
+
+msgid "After the adjustment, Item {0} in Warehouse {1} would hold a qty of {2} worth {3}, instead of {4} worth {5}."
+msgstr "پس از تعدیل، کالای {0} در انبار {1} به‌جای {4} به ارزش {5}، مقدار {2} به ارزش {3} خواهد داشت."
+
+msgid "All Differences"
+msgstr "همهٔ اختلاف‌ها"
+
+msgid "All Entries"
+msgstr "همهٔ ثبت‌ها"
+
+msgid "All Stock Ledger Entries and Serial and Batch Bundles of the selected vouchers will be cancelled and reposting will be queued. Continue?"
+msgstr "همهٔ ثبت‌های دفتر موجودی و بسته‌های سریال و دستهٔ اسناد انتخاب‌شده لغو می‌شوند و ثبت مجدد در صف قرار می‌گیرد. ادامه می‌دهید؟"
+
+msgid "An agreement to buy or sell an item at a fixed price over a period."
+msgstr "توافق برای خرید یا فروش کالا با قیمت ثابت در یک دوره."
+
+msgid "An agreement with a customer, supplier or employee."
+msgstr "توافق با مشتری، تأمین‌کننده یا کارمند."
+
+msgid "An extra way to tag entries, like branch or region, beyond cost centers."
+msgstr "روشی اضافه برای برچسب‌گذاری ثبت‌ها، مانند شعبه یا منطقه، فراتر از مراکز هزینه."
+
+msgid "An extra way to tag stock, like a rack or bin."
+msgstr "روشی اضافه برای برچسب‌گذاری موجودی، مانند قفسه یا سطل."
+
+msgid "An item you can use in place of another."
+msgstr "کالایی که می‌توانید به‌جای کالای دیگر استفاده کنید."
+
+msgid "An order for a subcontractor to make items from your materials."
+msgstr "سفارشی به پیمانکار برای تولید کالا از مواد شما."
+
+msgid "An order to make a quantity of an item."
+msgstr "سفارش تولید مقداری از یک کالا."
+
+msgid "An order to make items for a customer from materials they send."
+msgstr "سفارش تولید کالا برای مشتری از موادی که او می‌فرستد."
+
+msgid "An order you place with a supplier."
+msgstr "سفارشی که به تأمین‌کننده می‌دهید."
+
+msgid "Annual Purchase"
+msgstr "خرید سالانه"
+
+msgid "Annual Sales"
+msgstr "فروش سالانه"
+
+msgid "Anything with a start and an end: a client job, an installation, an internal initiative. See [Project](https://docs.frappe.io/erpnext/user/manual/en/project)."
+msgstr "هر چیزی با آغاز و پایان: کار مشتری، نصب یا طرح داخلی. ببینید: [پروژه](https://docs.frappe.io/erpnext/user/manual/en/project)."
+
+msgid "Anything you keep on shelves and count. See [Item](https://docs.frappe.io/erpnext/user/manual/en/item)."
+msgstr "هر چیزی که روی قفسه نگه می‌دارید و می‌شمارید. ببینید: [کالا](https://docs.frappe.io/erpnext/user/manual/en/item)."
+
+msgid "Applies a tax template automatically when its conditions match."
+msgstr "وقتی شرط‌های قالب مالیات برقرار باشد، آن را خودکار اعمال می‌کند."
+
+msgid "Applying recommended settings"
+msgstr "در حال اعمال تنظیمات پیشنهادی"
+
+msgid "Appointment Booking"
+msgstr "رزرو قرار"
+
+msgid "Ask a customer to pay, by email with a payment link."
+msgstr "از مشتری بخواهید پرداخت کند، با ایمیل و پیوند پرداخت."
+
+msgid "Ask suppliers for prices on the items you need."
+msgstr "از تأمین‌کنندگان برای کالاهای مورد نیاز قیمت بخواهید."
+
+msgid "Asset Maintenance Report"
+msgstr "گزارش نگهداری دارایی"
+
+msgid "Asset Reports"
+msgstr "گزارش‌های دارایی"
+
+msgid "Assets, liabilities and equity on any date, straight from your ledger. See [Balance Sheet](https://docs.frappe.io/erpnext/user/manual/en/balance-sheet)."
+msgstr "دارایی‌ها، بدهی‌ها و حقوق صاحبان سهام در هر تاریخ، مستقیم از دفتر شما. ببینید: [ترازنامه](https://docs.frappe.io/erpnext/user/manual/en/balance-sheet)."
+
+msgid "Assets, liabilities and equity on any date."
+msgstr "دارایی‌ها، بدهی‌ها و حقوق صاحبان سهام در هر تاریخ."
+
+msgid "Audit Reports"
+msgstr "گزارش‌های حسابرسی"
+
+msgid "BOM Reports"
+msgstr "گزارش‌های فهرست مواد"
+
+msgid "Backdated Entry Before Adjustment Entry"
+msgstr "ثبت با تاریخ گذشته پیش از ثبت تعدیل"
+
+msgid "Backflush Materials from WIP Warehouse"
+msgstr "مصرف قهقرایی مواد از انبار کار در جریان"
+
+msgid "Bank Reconciliation (old)"
+msgstr "تطبیق بانکی (قدیمی)"
+
+msgid "Bank and Cash"
+msgstr "بانک و صندوق"
+
+msgid "Batch Tracked"
+msgstr "پیگیری دسته‌ای"
+
+msgid "Bill your customer for the item. Submit it, then use **Print** to see it on paper or send it as a PDF. See [Sales Invoice](https://docs.frappe.io/erpnext/user/manual/en/sales-invoice)."
+msgstr "برای کالا به مشتری فاکتور بزنید. آن را ثبت کنید، سپس با **چاپ** روی کاغذ ببینید یا به‌صورت PDF بفرستید. ببینید: [فاکتور فروش](https://docs.frappe.io/erpnext/user/manual/en/sales-invoice)."
+
+msgid "Bills a customer or supplier for the same things on a schedule."
+msgstr "طبق زمان‌بندی برای مشتری یا تأمین‌کننده برای همان موارد فاکتور می‌زند."
+
+msgid "Books deferred revenue or expense for a period."
+msgstr "درآمد یا هزینهٔ معوق یک دوره را ثبت می‌کند."
+
+msgid "Brands"
+msgstr "برندها"
+
+msgid "Break a project into tasks and log the time your team spends."
+msgstr "پروژه را به تسک‌ها تقسیم کنید و زمانی را که تیم صرف می‌کند ثبت کنید."
+
+msgid "Break it into tasks"
+msgstr "تقسیم به تسک‌ها"
+
+msgid "Bring in a bank statement to match its lines against your books."
+msgstr "صورت‌حساب بانکی را وارد کنید تا ردیف‌هایش با دفاتر شما تطبیق داده شود."
+
+msgid "Bring in your chart of accounts from a spreadsheet."
+msgstr "سرفصل حساب‌های خود را از صفحه‌گسترده وارد کنید."
+
+msgid "Budgeting"
+msgstr "بودجه‌ریزی"
+
+msgid "Build a multi-level BOM in one place."
+msgstr "فهرست مواد چندسطحی را در یک جا بسازید."
+
+msgid "C - D"
+msgstr "ج - د"
+
+msgid "Cancel Stock Ledger Entries"
+msgstr "لغو ثبت‌های دفتر موجودی"
+
+msgid "Cannot create Material Request for item {0} in group warehouse {1}."
+msgstr "ایجاد درخواست مواد برای کالای {0} در انبار گروهی {1} ممکن نیست."
+
+msgid "Cannot find a default warehouse for item {0}. Please select one in the Update Items dialog, or set a default in the Item Master or in the Company."
+msgstr "انبار پیش‌فرض برای کالای {0} پیدا نشد. لطفاً در پنجرهٔ به‌روزرسانی کالاها یکی را انتخاب کنید یا پیش‌فرضی در اطلاعات اصلی کالا یا شرکت تعیین کنید."
+
+msgid "Cannot plan {0} {1} of Item {2} against Sales Order {3}. Only {4} {1} is left to plan."
+msgstr "برنامه‌ریزی {0} {1} از کالای {2} در برابر سفارش فروش {3} ممکن نیست. فقط {4} {1} برای برنامه‌ریزی باقی مانده است."
+
+msgid "Changes a price or gives a discount when its conditions are met."
+msgstr "هنگام برقراری شرط‌ها، قیمتی را تغییر می‌دهد یا تخفیف می‌دهد."
+
+msgid "Changes an asset's value outside its depreciation."
+msgstr "ارزش دارایی را خارج از استهلاک آن تغییر می‌دهد."
+
+msgid "Changes how many shifts an asset works, which changes its depreciation."
+msgstr "تعداد شیفت‌های کار دارایی را تغییر می‌دهد که استهلاک آن را عوض می‌کند."
+
+msgid "Check its depreciation"
+msgstr "بررسی استهلاک آن"
+
+msgid "Check what you owe"
+msgstr "بررسی بدهی‌های شما"
+
+msgid "Check your chart of accounts and taxes, and add the bank account you use."
+msgstr "سرفصل حساب‌ها و مالیات‌ها را بررسی کنید و حساب بانکی مورد استفاده را اضافه کنید."
+
+msgid "Check your profit"
+msgstr "بررسی سود شما"
+
+msgid "Check your stock levels"
+msgstr "بررسی سطح موجودی شما"
+
+msgid "Checks an item against its quality parameters."
+msgstr "کالا را بر اساس پارامترهای کیفیتش بررسی می‌کند."
+
+msgid "Choose a bank account in this chart's filters, or set a default bank account on {0}, to see its balance."
+msgstr "برای دیدن مانده، در فیلترهای این نمودار یک حساب بانکی انتخاب کنید یا در {0} حساب بانکی پیش‌فرض تعیین کنید."
+
+msgid "Choose a company in this chart's filters to see its bank balance."
+msgstr "برای دیدن مانده بانکی، در فیلترهای این نمودار یک شرکت انتخاب کنید."
+
+msgid "Closes a POS shift and totals what was collected."
+msgstr "شیفت POS را می‌بندد و مجموع دریافتی را جمع می‌زند."
+
+msgid "Closes a fiscal year by moving its profit or loss to equity."
+msgstr "سال مالی را با انتقال سود یا زیان آن به حقوق صاحبان سهام می‌بندد."
+
+msgid "Closes stock balances for a period so reports run faster."
+msgstr "مانده‌های موجودی یک دوره را می‌بندد تا گزارش‌ها سریع‌تر اجرا شوند."
+
+msgid "Closing This Month"
+msgstr "بسته‌شدن در این ماه"
+
+msgid "Combine two or more accounts into one."
+msgstr "دو یا چند حساب را در یک حساب ادغام کنید."
+
+msgid "Company Abbreviation cannot have more than {0} characters"
+msgstr "مخفف شرکت نمی‌تواند بیش از {0} نویسه باشد"
+
+msgid "Company cannot be changed for an existing Cost Center"
+msgstr "شرکت مرکز هزینهٔ موجود قابل تغییر نیست"
+
+msgid "Compare the results against the goal, and decide what to change. See [Quality Management](https://docs.frappe.io/erpnext/user/manual/en/quality-management)."
+msgstr "نتایج را با هدف مقایسه کنید و تصمیم بگیرید چه چیزی تغییر کند. ببینید: [مدیریت کیفیت](https://docs.frappe.io/erpnext/user/manual/en/quality-management)."
+
+msgid "Completed This Month"
+msgstr "تکمیل‌شده در این ماه"
+
+msgid "Computers, vehicles, furniture: how each kind depreciates, and which accounts it posts to. See [Asset Category](https://docs.frappe.io/erpnext/user/manual/en/asset-category)."
+msgstr "رایانه، وسیلهٔ نقلیه، مبلمان: هر نوع چگونه مستهلک می‌شود و در کدام حساب‌ها ثبت می‌شود. ببینید: [دستهٔ دارایی](https://docs.frappe.io/erpnext/user/manual/en/asset-category)."
+
+msgid "Confirm a sales order"
+msgstr "تأیید سفارش فروش"
+
+msgid "Confirm what the customer ordered and when it is due. Deliver and invoice from the order itself. See [Sales Order](https://docs.frappe.io/erpnext/user/manual/en/sales-order)."
+msgstr "آنچه مشتری سفارش داده و سررسیدش را تأیید کنید. از خود سفارش تحویل دهید و فاکتور بزنید. ببینید: [سفارش فروش](https://docs.frappe.io/erpnext/user/manual/en/sales-order)."
+
+msgid "Convert to Phantom Item"
+msgstr "تبدیل به کالای فانتوم"
+
+msgid "Convert to Sub Assembly"
+msgstr "تبدیل به زیرمجموعهٔ مونتاژ"
+
+msgid "Create Asset Maintenance"
+msgstr "ایجاد نگهداری دارایی"
+
+msgid "Create Asset Movement"
+msgstr "ایجاد جابه‌جایی دارایی"
+
+msgid "Create BOM"
+msgstr "ایجاد فهرست مواد"
+
+msgid "Create Maintenance Schedule"
+msgstr "ایجاد زمان‌بندی نگهداری"
+
+msgid "Create Material Request"
+msgstr "ایجاد درخواست مواد"
+
+msgid "Create Non Conformance"
+msgstr "ایجاد عدم انطباق"
+
+msgid "Create Production Plan"
+msgstr "ایجاد برنامهٔ تولید"
+
+msgid "Create Project Template"
+msgstr "ایجاد قالب پروژه"
+
+msgid "Create Quality Goal"
+msgstr "ایجاد هدف کیفیت"
+
+msgid "Create Quality Inspection"
+msgstr "ایجاد بازرسی کیفیت"
+
+msgid "Create Quality Inspection Template"
+msgstr "ایجاد قالب بازرسی کیفیت"
+
+msgid "Create Quality Procedure"
+msgstr "ایجاد رویهٔ کیفیت"
+
+msgid "Create Quality Review"
+msgstr "ایجاد بازبینی کیفیت"
+
+msgid "Create Stock Reconciliation"
+msgstr "ایجاد انبارگردانی"
+
+msgid "Create your first Material Request to get started."
+msgstr "برای شروع، اولین درخواست مواد خود را ایجاد کنید."
+
+msgid "Creating Opening Stock Entry..."
+msgstr "در حال ایجاد ثبت موجودی افتتاحیه..."
+
+msgid "Creating your company"
+msgstr "در حال ایجاد شرکت شما"
+
+msgid "Credit Notes"
+msgstr "یادداشت‌های بستانکاری"
+
+msgid "Currency filters are currently unsupported in Custom Financial Report"
+msgstr "فیلترهای ارز در گزارش مالی سفارشی فعلاً پشتیبانی نمی‌شوند"
+
+msgid "Customer Reports"
+msgstr "گزارش‌های مشتری"
+
+msgid "Debit Notes"
+msgstr "یادداشت‌های بدهکاری"
+
+msgid "Decide how many to make. The raw materials you need are worked out from the BOM. See [Work Order](https://docs.frappe.io/erpnext/user/manual/en/work-order)."
+msgstr "تعیین کنید چه تعداد تولید شود. مواد خام مورد نیاز از فهرست مواد محاسبه می‌شود. ببینید: [دستور کار](https://docs.frappe.io/erpnext/user/manual/en/work-order)."
+
+msgid "Decide what to check"
+msgstr "تعیین کنید چه چیزی بررسی شود"
+
+msgid "Declare opportunities lost one at a time"
+msgstr "اعلام از دست رفتن فرصت‌ها یکی‌یکی"
+
+msgid "Default BOMs"
+msgstr "فهرست‌های مواد پیش‌فرض"
+
+msgid "Default source Warehouse"
+msgstr "انبار مبدأ پیش‌فرض"
+
+msgid "Default warehouse from Item Defaults."
+msgstr "انبار پیش‌فرض از پیش‌فرض‌های کالا."
+
+msgid "Defaults to the company's Stock Adjustment Account"
+msgstr "به‌طور پیش‌فرض حساب تعدیل موجودی شرکت است"
+
+msgid "Delete Item"
+msgstr "حذف کالا"
+
+msgid "Deletes a company's transactions, keeping its masters."
+msgstr "تراکنش‌های شرکت را حذف می‌کند و اطلاعات اصلی را نگه می‌دارد."
+
+msgid "Depreciation is posted on schedule, asset by asset, without a journal entry from you. See [Depreciation](https://docs.frappe.io/erpnext/user/manual/en/asset-depreciation)."
+msgstr "استهلاک طبق زمان‌بندی و برای هر دارایی ثبت می‌شود، بدون اینکه شما سند دفتر روزنامه بزنید. ببینید: [استهلاک](https://docs.frappe.io/erpnext/user/manual/en/asset-depreciation)."
+
+msgid "Difference between the Stock Asset accounts balance and the Stock Balance value accepted while submitting"
+msgstr "اختلاف مانده حساب‌های دارایی موجودی و ارزش مانده موجودی که هنگام ثبت پذیرفته می‌شود"
+
+msgid "Dimension-based grouping is currently unsupported in Custom Financial Report"
+msgstr "گروه‌بندی بر اساس بعد در گزارش مالی سفارشی فعلاً پشتیبانی نمی‌شود"
+
+msgid "Discount Removed"
+msgstr "تخفیف حذف شد"
+
+msgid "Disposed"
+msgstr "واگذارشده"
+
+msgid "Do you want to continue?"
+msgstr "می‌خواهید ادامه دهید؟"
+
+msgid "Drafts"
+msgstr "پیش‌نویس‌ها"
+
+msgid "Due This Month"
+msgstr "سررسید در این ماه"
+
+msgid "Due in 7 Days"
+msgstr "سررسید در ۷ روز"
+
+msgid "E - F"
+msgstr "ه - و"
+
+msgid "Emails customers their statements on a schedule."
+msgstr "صورت‌حساب مشتریان را طبق زمان‌بندی برایشان ایمیل می‌کند."
+
+msgid "Enter a supplier's bill"
+msgstr "ثبت فاکتور تأمین‌کننده"
+
+msgid "Enter the stock you have today"
+msgstr "موجودی امروز خود را وارد کنید"
+
+msgid "Enter their bill"
+msgstr "فاکتورشان را ثبت کنید"
+
+msgid "Every depreciation posted, asset by asset."
+msgstr "هر استهلاک ثبت‌شده، به‌تفکیک دارایی."
+
+msgid "Every movement of every item, in and out, with the balance after each. See [Stock Ledger](https://docs.frappe.io/erpnext/user/manual/en/stock-ledger)."
+msgstr "هر جابه‌جایی هر کالا، ورودی و خروجی، با مانده پس از هر کدام. ببینید: [دفتر موجودی](https://docs.frappe.io/erpnext/user/manual/en/stock-ledger)."
+
+msgid "Every movement of every item, in and out."
+msgstr "هر جابه‌جایی هر کالا، ورودی و خروجی."
+
+msgid "Every posting from your invoices and payments, with its debit and credit. See [General Ledger](https://docs.frappe.io/erpnext/user/manual/en/general-ledger)."
+msgstr "هر ثبت از فاکتورها و پرداخت‌های شما، با بدهکار و بستانکار آن. ببینید: [دفتر کل](https://docs.frappe.io/erpnext/user/manual/en/general-ledger)."
+
+msgid "Every posting, with its debit and credit."
+msgstr "هر ثبت، با بدهکار و بستانکار آن."
+
+msgid "Every work order, how far along it is, and what is late."
+msgstr "هر دستور کار، میزان پیشرفتش و آنچه تأخیر دارد."
+
+msgid "Every work order, how far along it is, and what is running late. See [Work Order Summary](https://docs.frappe.io/erpnext/user/manual/en/work-order-summary)."
+msgstr "هر دستور کار، میزان پیشرفتش و آنچه تأخیر دارد. ببینید: [خلاصهٔ دستور کار](https://docs.frappe.io/erpnext/user/manual/en/work-order-summary)."
+
+msgid "Expand / Collapse All"
+msgstr "باز / بستن همه"
+
+msgid "Expected Value Based On"
+msgstr "ارزش مورد انتظار بر اساس"
+
+msgid "Expiring Soon"
+msgstr "به‌زودی منقضی می‌شود"
+
+msgid "Expiring in 7 Days"
+msgstr "منقضی شدن در ۷ روز"
+
+msgid "Feedback on your quality from a customer or employee."
+msgstr "بازخورد دربارهٔ کیفیت شما از مشتری یا کارمند."
+
+msgid "Finish making it"
+msgstr "تکمیل تولید"
+
+msgid "Finished Good Quantity Exceeded"
+msgstr "مقدار محصول نهایی فراتر رفت"
+
+msgid "First Difference per Item-Warehouse"
+msgstr "اولین اختلاف به‌ازای هر کالا-انبار"
+
+msgid "Fix Differences"
+msgstr "رفع اختلاف‌ها"
+
+msgid "Follow every movement"
+msgstr "پیگیری هر جابه‌جایی"
+
+msgid "Follow up on unpaid invoices"
+msgstr "پیگیری فاکتورهای پرداخت‌نشده"
+
+msgid "For Delivery"
+msgstr "برای تحویل"
+
+msgid "For Qty"
+msgstr "برای مقدار"
+
+msgid "For Warehouse {0} must be a non-group warehouse under {1}."
+msgstr "برای انبار {0}، باید یک انبار غیرگروهی زیر {1} باشد."
+
+msgid "For anything that isn't an invoice or a payment: accruals, depreciation, or fixing a mistake. See [Journal Entry](https://docs.frappe.io/erpnext/user/manual/en/journal-entry)."
+msgstr "برای هر چیزی که فاکتور یا پرداخت نیست: تعهدی‌ها، استهلاک یا اصلاح اشتباه. ببینید: [ثبت در دفتر روزنامه](https://docs.frappe.io/erpnext/user/manual/en/journal-entry)."
+
+msgid "From the store to the shop floor, or between branches. See [Stock Entry](https://docs.frappe.io/erpnext/user/manual/en/stock-entry)."
+msgstr "از انبار به سالن تولید یا بین شعبه‌ها. ببینید: [ثبت موجودی](https://docs.frappe.io/erpnext/user/manual/en/stock-entry)."
+
+msgid "Frozen - entries restricted"
+msgstr "مسدود - ثبت‌ها محدود است"
+
+msgid "G - H"
+msgstr "ز - ح"
+
+msgid "Get paid"
+msgstr "دریافت پول"
+
+msgid "Get to know ERPNext"
+msgstr "آشنایی با ERPNext"
+
+msgid "Get your books ready"
+msgstr "دفاتر خود را آماده کنید"
+
+msgid "Goods or services you buy from suppliers. See [Item](https://docs.frappe.io/erpnext/user/manual/en/item)."
+msgstr "کالا یا خدماتی که از تأمین‌کنندگان می‌خرید. ببینید: [کالا](https://docs.frappe.io/erpnext/user/manual/en/item)."
+
+msgid "Group by Dimension"
+msgstr "گروه‌بندی بر اساس بعد"
+
+msgid "Groups accounts into the lines your financial statements show."
+msgstr "حساب‌ها را در ردیف‌هایی که صورت‌های مالی نشان می‌دهند گروه‌بندی می‌کند."
+
+msgid "Groups assets that share accounts and depreciation rules."
+msgstr "دارایی‌هایی را که حساب‌ها و قواعد استهلاک مشترک دارند گروه‌بندی می‌کند."
+
+msgid "Groups customers, for pricing and reporting."
+msgstr "مشتریان را برای قیمت‌گذاری و گزارش‌گیری گروه‌بندی می‌کند."
+
+msgid "Groups items, for pricing, defaults and reporting."
+msgstr "کالاها را برای قیمت‌گذاری، پیش‌فرض‌ها و گزارش‌گیری گروه‌بندی می‌کند."
+
+msgid "Groups suppliers, for terms and reporting."
+msgstr "تأمین‌کنندگان را برای شرایط و گزارش‌گیری گروه‌بندی می‌کند."
+
+msgid "Hand it to a person or place"
+msgstr "تحویل به شخص یا مکان"
+
+msgid "How fast issues must be answered and resolved."
+msgstr "درخواست‌ها با چه سرعتی باید پاسخ داده و حل شوند."
+
+msgid "How items, warehouses and stock transactions work."
+msgstr "نحوهٔ کار کالاها، انبارها و تراکنش‌های موجودی."
+
+msgid "How leads, opportunities and appointments work."
+msgstr "نحوهٔ کار سرنخ‌ها، فرصت‌ها و قرارها."
+
+msgid "How long it takes to get or make an item."
+msgstr "مدت زمان لازم برای تهیه یا تولید کالا."
+
+msgid "How many of one unit make another, like 1000 g in a kg."
+msgstr "چند واحد از یک واحد، واحد دیگر را می‌سازد، مانند ۱۰۰۰ گرم در یک کیلوگرم."
+
+msgid "How much a cost center or project may spend over a fiscal year."
+msgstr "مرکز هزینه یا پروژه در یک سال مالی چقدر می‌تواند خرج کند."
+
+msgid "How much faster an asset depreciates on a given shift."
+msgstr "دارایی در یک شیفت مشخص چقدر سریع‌تر مستهلک می‌شود."
+
+msgid "How much of each item is on your shelves, and what it is worth. From here, every receipt and delivery keeps it up to date. See [Stock Reconciliation](https://docs.frappe.io/erpnext/user/manual/en/stock-reconciliation)."
+msgstr "از هر کالا چقدر روی قفسه‌هاست و ارزشش چقدر است. از اینجا به بعد، هر رسید و تحویل آن را به‌روز نگه می‌دارد. ببینید: [انبارگردانی](https://docs.frappe.io/erpnext/user/manual/en/stock-reconciliation)."
+
+msgid "How much of each item to make, and when."
+msgstr "از هر کالا چقدر و چه زمانی تولید شود."
+
+msgid "How much you expect to sell, to plan production."
+msgstr "انتظار دارید چقدر بفروشید، برای برنامه‌ریزی تولید."
+
+msgid "How quotations, sales orders and pricing work."
+msgstr "نحوهٔ کار پیش‌فاکتورها، سفارش‌های فروش و قیمت‌گذاری."
+
+msgid "How urgent an issue is."
+msgstr "درخواست چقدر فوری است."
+
+msgid "Ignore Differences Below"
+msgstr "نادیده گرفتن اختلاف‌های کمتر از"
+
+msgid "Import a statement from your bank and pair each line with a payment, so your books agree with it. See [Bank Reconciliation](https://docs.frappe.io/erpnext/user/manual/en/bank-reconciliation)."
+msgstr "صورت‌حساب بانکی را وارد کنید و هر ردیف را با یک پرداخت جفت کنید تا دفاتر شما با آن مطابقت کند. ببینید: [تطبیق بانکی](https://docs.frappe.io/erpnext/user/manual/en/bank-reconciliation)."
+
+msgid "In Use"
+msgstr "در حال استفاده"
+
+msgid "Income against expenses for any period, built from every invoice and payment you have recorded."
+msgstr "درآمد در برابر هزینه برای هر دوره، ساخته‌شده از هر فاکتور و پرداختی که ثبت کرده‌اید."
+
+msgid "Income against expenses, from every invoice and payment."
+msgstr "درآمد در برابر هزینه، از هر فاکتور و پرداخت."
+
+msgid "Incoming Leads"
+msgstr "سرنخ‌های ورودی"
+
+msgid "Individuals"
+msgstr "اشخاص حقیقی"
+
+msgid "Inspect goods coming in or going out"
+msgstr "بازرسی کالاهای ورودی یا خروجی"
+
+msgid "Invalid operator {0}"
+msgstr "عملگر {0} نامعتبر است"
+
+msgid "Invalid sort order"
+msgstr "ترتیب مرتب‌سازی نامعتبر"
+
+msgid "Invoicing & Payments"
+msgstr "فاکتور و پرداخت‌ها"
+
+msgid "Issue Status"
+msgstr "وضعیت درخواست"
+
+msgid "Issues Opened"
+msgstr "درخواست‌های باز شده"
+
+msgid "Issues and Receipts"
+msgstr "خروج‌ها و رسیدها"
+
+msgid "It clears their bill and takes the money out of your bank or cash account. See [Payment Entry](https://docs.frappe.io/erpnext/user/manual/en/payment-entry)."
+msgstr "فاکتور آن‌ها را تسویه می‌کند و پول را از حساب بانکی یا صندوق شما کم می‌کند. ببینید: [ثبت پرداخت](https://docs.frappe.io/erpnext/user/manual/en/payment-entry)."
+
+msgid "It has no stock transactions by then."
+msgstr "تا آن زمان تراکنش موجودی ندارد."
+
+msgid "It posts the expense, and what you owe the supplier, to your ledger. See [Purchase Invoice](https://docs.frappe.io/erpnext/user/manual/en/purchase-invoice)."
+msgstr "هزینه و بدهی شما به تأمین‌کننده را در دفتر ثبت می‌کند. ببینید: [فاکتور خرید](https://docs.frappe.io/erpnext/user/manual/en/purchase-invoice)."
+
+msgid "Item Reports"
+msgstr "گزارش‌های کالا"
+
+msgid "Item {0} in Warehouse {1} cannot be adjusted on {2}: {3}"
+msgstr "کالای {0} در انبار {1} در تاریخ {2} قابل تعدیل نیست: {3}"
+
+msgid "Item {0} in Warehouse {1} was adjusted by {2} on {3}, so no stock transaction dated before it can be posted or cancelled. Post it on or after that date, or cancel the Adjustment Entry first."
+msgstr "کالای {0} در انبار {1} توسط {2} در تاریخ {3} تعدیل شده است، بنابراین هیچ تراکنش موجودی با تاریخ قبل از آن قابل ثبت یا لغو نیست. آن را در همان تاریخ یا بعد از آن ثبت کنید، یا ابتدا ثبت تعدیل را لغو کنید."
+
+msgid "Items received from a subcontractor."
+msgstr "کالاهای دریافتی از پیمانکار فرعی."
+
+msgid "Items received from a supplier."
+msgstr "کالاهای دریافتی از تأمین‌کننده."
+
+msgid "Items shipped to a customer."
+msgstr "کالاهای ارسالی به مشتری."
+
+msgid "Its difference on {0} is not before the adjustment date."
+msgstr "اختلاف آن در {0} قبل از تاریخ تعدیل نیست."
+
+msgid "Its stock qty and value are already right on this date."
+msgstr "مقدار و ارزش موجودی آن در این تاریخ از قبل درست است."
+
+msgid "Its stock should be negative on this date, which cannot be counted in."
+msgstr "موجودی آن در این تاریخ باید منفی باشد که قابل شمارش نیست."
+
+msgid "Keep quality in check"
+msgstr "کیفیت را کنترل کنید"
+
+msgid "Keep track of your stock"
+msgstr "موجودی خود را پیگیری کنید"
+
+msgid "Know what you own and owe"
+msgstr "بدانید چه دارید و چه بدهکارید"
+
+msgid "Lead Pipeline"
+msgstr "خط لولهٔ سرنخ‌ها"
+
+msgid "Leave as 0 to allow zero valuation rate."
+msgstr "برای مجاز بودن نرخ ارزش‌گذاری صفر، روی ۰ بگذارید."
+
+msgid "Ledger Tools"
+msgstr "ابزارهای دفتر"
+
+msgid "Log a problem"
+msgstr "ثبت یک مشکل"
+
+msgid "Log time against it"
+msgstr "ثبت زمان برای آن"
+
+msgid "Make Adjustment Entry"
+msgstr "ایجاد ثبت تعدیل"
+
+msgid "Make your first sale"
+msgstr "اولین فروش خود را انجام دهید"
+
+msgid "Match your bank statement"
+msgstr "صورت‌حساب بانکی خود را تطبیق دهید"
+
+msgid "Matches payments to invoices in the background."
+msgstr "پرداخت‌ها را در پس‌زمینه با فاکتورها تطبیق می‌دهد."
+
+msgid "Meetings & Feedback"
+msgstr "جلسات و بازخورد"
+
+msgid "Money you received or paid, matched against invoices."
+msgstr "پولی که دریافت یا پرداخت کرده‌اید، تطبیق‌شده با فاکتورها."
+
+msgid "Monthly Completed Work Order"
+msgstr "دستور کار تکمیل‌شدهٔ ماهانه"
+
+msgid "Move stock between warehouses"
+msgstr "انتقال موجودی بین انبارها"
+
+msgid "Movement Reports"
+msgstr "گزارش‌های جابه‌جایی"
+
+msgid "Moves an asset to another location or person."
+msgstr "دارایی را به محل یا شخص دیگری منتقل می‌کند."
+
+msgid "Moves, receives, issues or manufactures stock."
+msgstr "موجودی را منتقل، دریافت، خارج یا تولید می‌کند."
+
+msgid "Needs Attention"
+msgstr "نیازمند توجه"
+
+msgid "New Assets (This Year)"
+msgstr "دارایی‌های جدید (امسال)"
+
+msgid "New This Week"
+msgstr "جدید در این هفته"
+
+msgid "No Company Found"
+msgstr "شرکتی پیدا نشد"
+
+msgid "No Material Request created"
+msgstr "درخواست موادی ایجاد نشد"
+
+msgid "No default warehouse set for this company. Entry will use Stock Settings default."
+msgstr "برای این شرکت انبار پیش‌فرضی تعیین نشده است. ثبت از پیش‌فرض تنظیمات موجودی استفاده می‌کند."
+
+msgid "No warehouse found for company {0}. Please set a Default Warehouse in Item Defaults or Company."
+msgstr "برای شرکت {0} انباری پیدا نشد. لطفاً انبار پیش‌فرض را در پیش‌فرض‌های کالا یا شرکت تعیین کنید."
+
+msgid "No {0} linked to this Work Order."
+msgstr "هیچ {0} به این دستور کار پیوند نشده است."
+
+msgid "Not Supported"
+msgstr "پشتیبانی نمی‌شود"
+
+msgid "Note down a price a supplier offered, so you can compare suppliers before you order. See [Supplier Quotation](https://docs.frappe.io/erpnext/user/manual/en/supplier-quotation)."
+msgstr "قیمتی را که تأمین‌کننده پیشنهاد داده یادداشت کنید تا پیش از سفارش، تأمین‌کنندگان را مقایسه کنید. ببینید: [پیش‌فاکتور تأمین‌کننده](https://docs.frappe.io/erpnext/user/manual/en/supplier-quotation)."
+
+msgid "Once the customer agrees, turn it into a sales order or an invoice from the quotation itself. See [Quotation](https://docs.frappe.io/erpnext/user/manual/en/quotation)."
+msgstr "وقتی مشتری موافقت کرد، از خود پیش‌فاکتور آن را به سفارش فروش یا فاکتور تبدیل کنید. ببینید: [پیش‌فاکتور](https://docs.frappe.io/erpnext/user/manual/en/quotation)."
+
+msgid "Open Accounts"
+msgstr "باز کردن حساب‌ها"
+
+msgid "Open Accounts Payable"
+msgstr "باز کردن حساب‌های پرداختنی"
+
+msgid "Open Accounts Receivable"
+msgstr "باز کردن حساب‌های دریافتنی"
+
+msgid "Open Asset Depreciation Ledger"
+msgstr "باز کردن دفتر استهلاک دارایی"
+
+msgid "Open Assets"
+msgstr "باز کردن دارایی‌ها"
+
+msgid "Open Balance Sheet"
+msgstr "باز کردن ترازنامه"
+
+msgid "Open Banking"
+msgstr "باز کردن بانکداری"
+
+msgid "Open Buying"
+msgstr "باز کردن خرید"
+
+msgid "Open Chart of Accounts"
+msgstr "باز کردن سرفصل حساب‌ها"
+
+msgid "Open Delayed Tasks Summary"
+msgstr "باز کردن خلاصهٔ تسک‌های معوق"
+
+msgid "Open Fixed Asset Register"
+msgstr "باز کردن دفتر دارایی‌های ثابت"
+
+msgid "Open General Ledger"
+msgstr "باز کردن دفتر کل"
+
+msgid "Open Manufacturing"
+msgstr "باز کردن تولید"
+
+msgid "Open Non Conformances"
+msgstr "باز کردن عدم انطباق‌ها"
+
+msgid "Open Opportunity"
+msgstr "باز کردن فرصت"
+
+msgid "Open Profit and Loss"
+msgstr "باز کردن سود و زیان"
+
+msgid "Open Project Summary"
+msgstr "باز کردن خلاصهٔ پروژه"
+
+msgid "Open Purchase Order Analysis"
+msgstr "باز کردن تحلیل سفارش خرید"
+
+msgid "Open Quality"
+msgstr "باز کردن کیفیت"
+
+msgid "Open Quality Actions"
+msgstr "باز کردن اقدام‌های کیفیت"
+
+msgid "Open Quality Reviews"
+msgstr "باز کردن بازبینی‌های کیفیت"
+
+msgid "Open Sales Analytics"
+msgstr "باز کردن تحلیل فروش"
+
+msgid "Open Sales Taxes and Charges Template"
+msgstr "باز کردن قالب مالیات و عوارض فروش"
+
+msgid "Open Selling"
+msgstr "باز کردن فروش"
+
+msgid "Open Stock"
+msgstr "باز کردن موجودی"
+
+msgid "Open Stock Balance"
+msgstr "باز کردن مانده موجودی"
+
+msgid "Open Stock Ledger"
+msgstr "باز کردن دفتر موجودی"
+
+msgid "Open Warehouse"
+msgstr "باز کردن انبار"
+
+msgid "Open Work Order Summary"
+msgstr "باز کردن خلاصهٔ دستور کار"
+
+msgid "Opening Entries"
+msgstr "ثبت‌های افتتاحیه"
+
+msgid "Opening Stock can only be set for stock items."
+msgstr "موجودی افتتاحیه فقط برای کالاهای موجودی قابل تعیین است."
+
+msgid "Opening Stock cannot be created as stock transactions already exist for item {0}."
+msgstr "موجودی افتتاحیه قابل ایجاد نیست، چون برای کالای {0} تراکنش موجودی وجود دارد."
+
+msgid "Opening Stock for serialised or batch items must be set via the Stock Reconciliation form."
+msgstr "موجودی افتتاحیهٔ کالاهای سریال‌دار یا دسته‌ای باید از طریق فرم انبارگردانی تعیین شود."
+
+msgid "Opening Stock reconciliation created with zero valuation rate: {0}"
+msgstr "انبارگردانی موجودی افتتاحیه با نرخ ارزش‌گذاری صفر ایجاد شد: {0}"
+
+msgid "Opening Stock reconciliation created: {0}"
+msgstr "انبارگردانی موجودی افتتاحیه ایجاد شد: {0}"
+
+msgid "Opening and Closing balance is not supported for dimension grouped cash flow statement"
+msgstr "مانده افتتاحیه و پایانی برای صورت جریان نقدی گروه‌بندی‌شده بر اساس بعد پشتیبانی نمی‌شود"
+
+msgid "Opening stock creation has been queued and will be created in the background. Please check the Stock Reconciliation after some time."
+msgstr "ایجاد موجودی افتتاحیه در صف قرار گرفت و در پس‌زمینه ایجاد می‌شود. لطفاً کمی بعد انبارگردانی را بررسی کنید."
+
+msgid "Opens a POS shift with the cash in the drawer."
+msgstr "شیفت POS را با وجه نقد داخل کشو باز می‌کند."
+
+msgid "Opportunity Pipeline"
+msgstr "خط لولهٔ فرصت‌ها"
+
+msgid "Optional group warehouse. Raw material availability is checked across its child warehouses; material is still received into For Warehouse."
+msgstr "انبار گروهی اختیاری. موجودی مواد خام در انبارهای زیرمجموعهٔ آن بررسی می‌شود؛ مواد همچنان در «برای انبار» دریافت می‌شوند."
+
+msgid "Order Status Reports"
+msgstr "گزارش‌های وضعیت سفارش"
+
+msgid "Order from the supplier. When the goods arrive, receive them and record the bill from the order itself. See [Purchase Order](https://docs.frappe.io/erpnext/user/manual/en/purchase-order)."
+msgstr "از تأمین‌کننده سفارش دهید. وقتی کالا رسید، آن را دریافت کنید و فاکتور را از خود سفارش ثبت کنید. ببینید: [سفارش خرید](https://docs.frappe.io/erpnext/user/manual/en/purchase-order)."
+
+msgid "Order from your suppliers"
+msgstr "سفارش از تأمین‌کنندگان"
+
+msgid "Outgoing Bills (Sales Invoice)"
+msgstr "صورت‌حساب‌های ارسالی (فاکتور فروش)"
+
+msgid "Overdue Issues"
+msgstr "درخواست‌های سررسیدگذشته"
+
+msgid "Parent Cost Center must belong to the same Company"
+msgstr "مرکز هزینهٔ والد باید متعلق به همان شرکت باشد"
+
+msgid "Pay your supplier"
+msgstr "پرداخت به تأمین‌کننده"
+
+msgid "Pending Repost"
+msgstr "ثبت مجدد در انتظار"
+
+msgid "Pending qty"
+msgstr "مقدار در انتظار"
+
+msgid "Picks the right tax template for a customer, supplier or address."
+msgstr "قالب مالیات مناسب را برای مشتری، تأمین‌کننده یا نشانی انتخاب می‌کند."
+
+msgid "Place a purchase order"
+msgstr "ثبت سفارش خرید"
+
+msgid "Plan a work order"
+msgstr "برنامه‌ریزی دستور کار"
+
+msgid "Plan and deliver projects"
+msgstr "برنامه‌ریزی و تحویل پروژه‌ها"
+
+msgid "Plan and run production"
+msgstr "برنامه‌ریزی و اجرای تولید"
+
+msgid "Plan maintenance visits"
+msgstr "برنامه‌ریزی بازدیدهای نگهداری"
+
+msgid "Plan production from your orders"
+msgstr "برنامه‌ریزی تولید از روی سفارش‌ها"
+
+msgid "Planned visits to service what a customer bought."
+msgstr "بازدیدهای برنامه‌ریزی‌شده برای سرویس آنچه مشتری خریده است."
+
+msgid "Planning Reports"
+msgstr "گزارش‌های برنامه‌ریزی"
+
+msgid "Plans the work orders and materials needed for your demand."
+msgstr "دستورهای کار و مواد مورد نیاز برای تقاضای شما را برنامه‌ریزی می‌کند."
+
+msgid "Please add at least one row in Item Defaults with a Company before setting opening stock."
+msgstr "پیش از تعیین موجودی افتتاحیه، حداقل یک ردیف با شرکت در پیش‌فرض‌های کالا اضافه کنید."
+
+msgid "Please enter a valid date for when your financial year begins."
+msgstr "لطفاً تاریخ معتبری برای شروع سال مالی خود وارد کنید."
+
+msgid "Please pick a company name other than Company."
+msgstr "لطفاً نامی غیر از «Company» برای شرکت انتخاب کنید."
+
+msgid "Please select Sample Retention Warehouse in Company first"
+msgstr "لطفاً ابتدا انبار نگهداری نمونه را در شرکت انتخاب کنید"
+
+msgid "Please set a Temporary Opening account for company {0} to create an Opening Stock reconciliation."
+msgstr "برای ایجاد انبارگردانی موجودی افتتاحیه، حساب افتتاحیهٔ موقت را برای شرکت {0} تعیین کنید."
+
+msgid "Please set {0} in Company {1} to retain samples."
+msgstr "برای نگهداری نمونه‌ها، {0} را در شرکت {1} تعیین کنید."
+
+msgid "Points a customer earned or spent under a loyalty program."
+msgstr "امتیازهایی که مشتری در برنامهٔ وفاداری کسب یا خرج کرده است."
+
+msgid "Post a journal entry"
+msgstr "ثبت یک سند در دفتر روزنامه"
+
+msgid "Price List {0} cannot be used in {1}"
+msgstr "لیست قیمت {0} در {1} قابل استفاده نیست"
+
+msgid "Prices a supplier offered you."
+msgstr "قیمت‌هایی که تأمین‌کننده به شما پیشنهاد داده است."
+
+msgid "Prices you offer a customer or lead."
+msgstr "قیمت‌هایی که به مشتری یا سرنخ پیشنهاد می‌دهید."
+
+msgid "Process Loss qty"
+msgstr "مقدار ضایعات فرایند"
+
+msgid "Production Reports"
+msgstr "گزارش‌های تولید"
+
+msgid "Progress, hours and costs for every project."
+msgstr "پیشرفت، ساعت و هزینهٔ هر پروژه."
+
+msgid "Project Reports"
+msgstr "گزارش‌های پروژه"
+
+msgid "Pull in open sales orders and work out what to make, and what to buy, to fill them."
+msgstr "سفارش‌های فروش باز را وارد کنید و محاسبه کنید برای تأمین آن‌ها چه چیزی تولید و چه چیزی خریداری شود."
+
+msgid "Purchase Reports"
+msgstr "گزارش‌های خرید"
+
+msgid "Qty to Manufacture"
+msgstr "مقدار قابل تولید"
+
+msgid "Quality Reports"
+msgstr "گزارش‌های کیفیت"
+
+msgid "Quantity must be greater than zero."
+msgstr "مقدار باید بزرگ‌تر از صفر باشد."
+
+msgid "Quote a price"
+msgstr "اعلام قیمت"
+
+msgid "Raise money against unpaid sales invoices."
+msgstr "تأمین مالی در برابر فاکتورهای فروش پرداخت‌نشده."
+
+msgid "Rates a supplier over time on criteria you choose."
+msgstr "تأمین‌کننده را طی زمان بر اساس معیارهای انتخابی شما امتیازدهی می‌کند."
+
+msgid "Rates and thresholds for tax withheld on payments, like TDS."
+msgstr "نرخ‌ها و آستانه‌های مالیات کسرشده از پرداخت‌ها، مانند TDS."
+
+msgid "Raw Material Group Warehouse"
+msgstr "انبار گروهی مواد خام"
+
+msgid "Raw materials come out of stock and the finished products go in. From the work order, **Finish** fills this in for you. See [Stock Entry](https://docs.frappe.io/erpnext/user/manual/en/stock-entry)."
+msgstr "مواد خام از موجودی خارج و محصولات نهایی وارد می‌شوند. از دستور کار، **تکمیل** این را برایتان پر می‌کند. ببینید: [ثبت موجودی](https://docs.frappe.io/erpnext/user/manual/en/stock-entry)."
+
+msgid "Rebuilds the ledger entries of transactions that were posted wrongly."
+msgstr "ثبت‌های دفتر تراکنش‌هایی را که اشتباه ثبت شده‌اند بازسازی می‌کند."
+
+msgid "Rebuilds the payment ledger so outstanding amounts are right again."
+msgstr "دفتر پرداخت را بازسازی می‌کند تا مبالغ معوقه دوباره درست شوند."
+
+msgid "Recalculates stock values after a backdated change."
+msgstr "ارزش موجودی را پس از تغییر با تاریخ گذشته دوباره محاسبه می‌کند."
+
+msgid "Receivables & Payables"
+msgstr "دریافتنی‌ها و پرداختنی‌ها"
+
+msgid "Receive goods from a supplier"
+msgstr "دریافت کالا از تأمین‌کننده"
+
+msgid "Reconciliation"
+msgstr "تطبیق"
+
+msgid "Record a supplier's quote"
+msgstr "ثبت قیمت پیشنهادی تأمین‌کننده"
+
+msgid "Record an asset and see what it's worth year by year."
+msgstr "دارایی‌ای را ثبت کنید و ارزش آن را سال‌به‌سال ببینید."
+
+msgid "Record an asset you already own"
+msgstr "ثبت دارایی‌ای که از قبل دارید"
+
+msgid "Record the hours spent on tasks. Bill them to the customer or use them to cost the project. See [Timesheet](https://docs.frappe.io/erpnext/user/manual/en/timesheets)."
+msgstr "ساعت‌های صرف‌شده روی تسک‌ها را ثبت کنید. آن‌ها را به مشتری فاکتور کنید یا برای هزینه‌یابی پروژه استفاده کنید. ببینید: [جدول زمانی](https://docs.frappe.io/erpnext/user/manual/en/timesheets)."
+
+msgid "Record the results against a receipt or a delivery, and accept or reject the goods. See [Quality Inspection](https://docs.frappe.io/erpnext/user/manual/en/quality-inspection)."
+msgstr "نتایج را روی یک رسید یا تحویل ثبت کنید و کالا را بپذیرید یا رد کنید. ببینید: [بازرسی کیفیت](https://docs.frappe.io/erpnext/user/manual/en/quality-inspection)."
+
+msgid "Record who has it and where it is, so you always know. See [Asset Movement](https://docs.frappe.io/erpnext/user/manual/en/asset-movement)."
+msgstr "ثبت کنید چه کسی آن را دارد و کجاست تا همیشه بدانید. ببینید: [جابه‌جایی دارایی](https://docs.frappe.io/erpnext/user/manual/en/asset-movement)."
+
+msgid "Registers & Profitability"
+msgstr "دفترها و سودآوری"
+
+msgid "Regular service visits for equipment you sold, planned ahead for the whole contract. See [Maintenance Schedule](https://docs.frappe.io/erpnext/user/manual/en/maintenance-schedule)."
+msgstr "بازدیدهای منظم سرویس برای تجهیزاتی که فروخته‌اید، از قبل برای کل قرارداد برنامه‌ریزی می‌شود. ببینید: [زمان‌بندی نگهداری](https://docs.frappe.io/erpnext/user/manual/en/maintenance-schedule)."
+
+msgid "Replace a BOM everywhere it is used, or update the cost of all BOMs."
+msgstr "فهرست مواد را در همهٔ جاهایی که استفاده شده جایگزین کنید یا هزینهٔ همهٔ فهرست‌های مواد را به‌روزرسانی کنید."
+
+msgid "Repost Item Valuation will be made for:"
+msgstr "ثبت مجدد ارزش‌گذاری کالا برای این موارد انجام می‌شود:"
+
+msgid "Repost {0} is already pending."
+msgstr "ثبت مجدد {0} از قبل در انتظار است."
+
+msgid "Reposting could not be queued for:"
+msgstr "ثبت مجدد برای این موارد در صف قرار نگرفت:"
+
+msgid "Reposting has been queued for:"
+msgstr "ثبت مجدد برای این موارد در صف قرار گرفت:"
+
+msgid "Required in 7 Days"
+msgstr "مورد نیاز در ۷ روز"
+
+msgid "Requires approval for transactions above a limit."
+msgstr "برای تراکنش‌های بالاتر از یک سقف نیاز به تأیید دارد."
+
+msgid "Resolved Issues"
+msgstr "درخواست‌های حل‌شده"
+
+msgid "Restates foreign currency balances at today's exchange rate."
+msgstr "مانده‌های ارز خارجی را با نرخ امروز دوباره ارزیابی می‌کند."
+
+msgid "Reuse it as a template"
+msgstr "استفاده مجدد به‌عنوان قالب"
+
+msgid "Review how a goal is going"
+msgstr "بررسی پیشرفت یک هدف"
+
+msgid "Review your chart of accounts"
+msgstr "بررسی سرفصل حساب‌های شما"
+
+msgid "Review your taxes"
+msgstr "بررسی مالیات‌های شما"
+
+msgid "Review your warehouses"
+msgstr "بررسی انبارهای شما"
+
+msgid "Rewards customers with points they can spend on later purchases."
+msgstr "به مشتریان امتیازی می‌دهد که می‌توانند در خریدهای بعدی خرج کنند."
+
+msgid "Routing Required"
+msgstr "مسیریابی الزامی است"
+
+msgid "Row #{0}: Cannot return {1} of Batch {2}, only {3} was delivered and not returned yet."
+msgstr "ردیف #{0}: برگشت {1} از دستهٔ {2} ممکن نیست، فقط {3} تحویل شده و هنوز برگشت نخورده است."
+
+msgid "Row #{0}: Item {1} has Operation {2}. Set a Routing to create BOMs with operations."
+msgstr "ردیف #{0}: کالای {1} عملیات {2} دارد. برای ایجاد فهرست مواد با عملیات، یک مسیریابی تعیین کنید."
+
+msgid "Row #{0}: Stock cannot be reserved for the Item {1} as its delivery is ensured based on the produced Serial Nos. The Work Order will reserve them on manufacture."
+msgstr "ردیف #{0}: موجودی کالای {1} قابل رزرو نیست، چون تحویل آن بر اساس شماره‌های سریال تولیدشده تضمین می‌شود. دستور کار هنگام تولید آن‌ها را رزرو می‌کند."
+
+msgid "SLA Failed"
+msgstr "SLA ناموفق"
+
+msgid "Sales Order Item {0} does not belong to {1}"
+msgstr "کالای سفارش فروش {0} متعلق به {1} نیست"
+
+msgid "Sales Order Qty Exceeded"
+msgstr "مقدار سفارش فروش فراتر رفت"
+
+msgid "Sales Reports"
+msgstr "گزارش‌های فروش"
+
+msgid "Sales Team Reports"
+msgstr "گزارش‌های تیم فروش"
+
+msgid "Sales by customer, item or territory, over any period."
+msgstr "فروش به‌تفکیک مشتری، کالا یا منطقه، در هر دوره."
+
+msgid "Sales by customer, item or territory, over any period. See [Sales Analytics](https://docs.frappe.io/erpnext/user/manual/en/sales-analytics)."
+msgstr "فروش به‌تفکیک مشتری، کالا یا منطقه، در هر دوره. ببینید: [تحلیل فروش](https://docs.frappe.io/erpnext/user/manual/en/sales-analytics)."
+
+msgid "Sample Retention Warehouse Missing"
+msgstr "انبار نگهداری نمونه وجود ندارد"
+
+msgid "Save the Work Order to view linked documents."
+msgstr "برای دیدن اسناد مرتبط، دستور کار را ذخیره کنید."
+
+msgid "Save the tasks you repeat on every job, and start the next project from them."
+msgstr "تسک‌هایی را که در هر کار تکرار می‌کنید ذخیره کنید و پروژهٔ بعدی را از روی آن‌ها شروع کنید."
+
+msgid "Schedule its upkeep"
+msgstr "زمان‌بندی نگهداری آن"
+
+msgid "Scheduling & Costing"
+msgstr "زمان‌بندی و هزینه‌یابی"
+
+msgid "See everything you own"
+msgstr "همهٔ دارایی‌هایتان را ببینید"
+
+msgid "See how production is going"
+msgstr "ببینید تولید چطور پیش می‌رود"
+
+msgid "Select the differences to fix."
+msgstr "اختلاف‌هایی را که باید رفع شوند انتخاب کنید."
+
+msgid "Sells several items together as one item."
+msgstr "چند کالا را با هم به‌صورت یک کالا می‌فروشد."
+
+msgid "Send your first invoice"
+msgstr "اولین فاکتور خود را ارسال کنید"
+
+msgid "Serial & Batch"
+msgstr "سریال و دسته"
+
+msgid "Serial & Batch Reports"
+msgstr "گزارش‌های سریال و دسته"
+
+msgid "Serialized"
+msgstr "سریال‌دار"
+
+msgid "Servicing, inspections and calibration, with reminders to the team doing it. See [Asset Maintenance](https://docs.frappe.io/erpnext/user/manual/en/asset-maintenance)."
+msgstr "سرویس، بازرسی و کالیبراسیون، همراه با یادآوری برای تیم مسئول. ببینید: [نگهداری دارایی](https://docs.frappe.io/erpnext/user/manual/en/asset-maintenance)."
+
+msgid "Set Opening Stock"
+msgstr "تعیین موجودی افتتاحیه"
+
+msgid "Set a quality goal"
+msgstr "تعیین هدف کیفیت"
+
+msgid "Set up an asset category"
+msgstr "راه‌اندازی دستهٔ دارایی"
+
+msgid "Set up an inspection and record your first check."
+msgstr "یک بازرسی راه‌اندازی کنید و اولین بررسی خود را ثبت کنید."
+
+msgid "Set up your company"
+msgstr "راه‌اندازی شرکت شما"
+
+msgid "Set up your warehouses and enter the stock you have today."
+msgstr "انبارهای خود را راه‌اندازی کنید و موجودی امروز را وارد کنید."
+
+msgid "Sets stock quantities and values to what is actually in your warehouses."
+msgstr "مقدار و ارزش موجودی را مطابق آنچه واقعاً در انبارهاست تعیین می‌کند."
+
+msgid "Setting up the basics"
+msgstr "در حال راه‌اندازی موارد پایه"
+
+msgid "Settings for a point of sale, like its warehouse, price list and payment methods."
+msgstr "تنظیمات یک صندوق فروش، مانند انبار، لیست قیمت و روش‌های پرداخت."
+
+msgid "Ship to a customer"
+msgstr "ارسال به مشتری"
+
+msgid "Show Differences Settled by Adjustment Entries"
+msgstr "نمایش اختلاف‌های تسویه‌شده با ثبت‌های تعدیل"
+
+msgid "Shows which POS invoices were merged into a sales invoice."
+msgstr "نشان می‌دهد کدام فاکتورهای POS در یک فاکتور فروش ادغام شده‌اند."
+
+msgid "Since you are reposting transactions from the previous fiscal year {0}, the closing balances of that fiscal year can change. The reposting might also take time to complete."
+msgstr "چون تراکنش‌های سال مالی قبل {0} را دوباره ثبت می‌کنید، مانده‌های پایانی آن سال مالی ممکن است تغییر کنند. ثبت مجدد ممکن است زمان‌بر هم باشد."
+
+msgid "Some of its serial nos or batches should be short of stock on this date."
+msgstr "برخی از شماره‌های سریال یا دسته‌های آن باید در این تاریخ کسری موجودی داشته باشند."
+
+msgid "Someone who might buy from you."
+msgstr "کسی که ممکن است از شما بخرد."
+
+msgid "Someone who sells for you, with targets and commission."
+msgstr "کسی که برای شما می‌فروشد، با هدف و کمیسیون."
+
+msgid "Something a supplier is scored on, like on-time delivery."
+msgstr "چیزی که تأمین‌کننده بر اساس آن امتیاز می‌گیرد، مانند تحویل به‌موقع."
+
+msgid "Something an item is checked for, like weight or colour."
+msgstr "چیزی که کالا برای آن بررسی می‌شود، مانند وزن یا رنگ."
+
+msgid "Something that did not meet your quality standard."
+msgstr "چیزی که استاندارد کیفیت شما را برآورده نکرد."
+
+msgid "Something you bought before using ERPNext, with what you paid, where it is, and how much has already depreciated. See [Asset](https://docs.frappe.io/erpnext/user/manual/en/asset)."
+msgstr "چیزی که پیش از استفاده از ERPNext خریده‌اید، با مبلغ پرداختی، محل آن و میزان استهلاک تا امروز. ببینید: [دارایی](https://docs.frappe.io/erpnext/user/manual/en/asset)."
+
+msgid "Something you measure and improve on a schedule, like on-time delivery."
+msgstr "چیزی که طبق زمان‌بندی اندازه می‌گیرید و بهبود می‌دهید، مانند تحویل به‌موقع."
+
+msgid "Something you use to make your products, kept in the Raw Material group. See [Item](https://docs.frappe.io/erpnext/user/manual/en/item)."
+msgstr "چیزی که برای ساخت محصولاتتان استفاده می‌کنید و در گروه مواد خام نگهداری می‌شود. ببینید: [کالا](https://docs.frappe.io/erpnext/user/manual/en/item)."
+
+msgid "Something you want to measure and improve, like on-time delivery or returns, reviewed on a schedule you choose. See [Quality Management](https://docs.frappe.io/erpnext/user/manual/en/quality-management)."
+msgstr "چیزی که می‌خواهید اندازه بگیرید و بهبود دهید، مانند تحویل به‌موقع یا برگشتی‌ها، با بازبینی طبق زمان‌بندی انتخابی شما. ببینید: [مدیریت کیفیت](https://docs.frappe.io/erpnext/user/manual/en/quality-management)."
+
+msgid "Something your business owns and uses over time, like a machine or a laptop."
+msgstr "چیزی که کسب‌وکار شما دارد و طی زمان استفاده می‌کند، مانند ماشین‌آلات یا لپ‌تاپ."
+
+msgid "Source Warehouse is required for item {0}"
+msgstr "برای کالای {0}، انبار مبدأ الزامی است"
+
+msgid "Splits one cost center's amounts across others by percentage."
+msgstr "مبالغ یک مرکز هزینه را بر اساس درصد بین مراکز دیگر تقسیم می‌کند."
+
+msgid "Spot delayed tasks"
+msgstr "شناسایی تسک‌های معوق"
+
+msgid "Spot your best sellers"
+msgstr "شناسایی پرفروش‌ترین‌ها"
+
+msgid "Spreads a yearly budget or target across months for seasonal businesses."
+msgstr "بودجه یا هدف سالانه را برای کسب‌وکارهای فصلی بین ماه‌ها پخش می‌کند."
+
+msgid "Standard Cost"
+msgstr "بهای استاندارد"
+
+msgid "Standard terms to add to quotes, orders and invoices."
+msgstr "شرایط استاندارد برای افزودن به پیش‌فاکتورها، سفارش‌ها و فاکتورها."
+
+msgid "Start a project"
+msgstr "شروع پروژه"
+
+msgid "Stock Entries"
+msgstr "ثبت‌های موجودی"
+
+msgid "Stock Ledger Entries of Cancelled Vouchers"
+msgstr "ثبت‌های دفتر موجودی اسناد لغوشده"
+
+msgid "Stock Ledger Entries of the selected vouchers have been cancelled and reposting has been queued."
+msgstr "ثبت‌های دفتر موجودی اسناد انتخاب‌شده لغو شدند و ثبت مجدد در صف قرار گرفت."
+
+msgid "Stock Reposting"
+msgstr "ثبت مجدد موجودی"
+
+msgid "Stock Valuation Comparison"
+msgstr "مقایسهٔ ارزش‌گذاری موجودی"
+
+msgid "Stock Value Difference"
+msgstr "اختلاف ارزش موجودی"
+
+msgid "Stock goes down as the goods leave, and the invoice can be made from the delivery. See [Delivery Note](https://docs.frappe.io/erpnext/user/manual/en/delivery-note)."
+msgstr "با خروج کالا موجودی کم می‌شود و فاکتور را می‌توان از روی تحویل ساخت. ببینید: [یادداشت تحویل](https://docs.frappe.io/erpnext/user/manual/en/delivery-note)."
+
+msgid "Stock goes up in the warehouse you receive into, and the bill can be made from the receipt. See [Purchase Receipt](https://docs.frappe.io/erpnext/user/manual/en/purchase-receipt)."
+msgstr "موجودی در انباری که دریافت می‌کنید افزایش می‌یابد و فاکتور را می‌توان از روی رسید ساخت. ببینید: [رسید خرید](https://docs.frappe.io/erpnext/user/manual/en/purchase-receipt)."
+
+msgid "Stock set aside for a sales order or production."
+msgstr "موجودی کنار گذاشته‌شده برای سفارش فروش یا تولید."
+
+msgid "Subcontracted"
+msgstr "پیمانکاری فرعی‌شده"
+
+msgid "Subcontracting Reports"
+msgstr "گزارش‌های پیمانکاری فرعی"
+
+msgid "Supplier Reports"
+msgstr "گزارش‌های تأمین‌کننده"
+
+msgid "Target Warehouse is required for item {0}"
+msgstr "برای کالای {0}، انبار مقصد الزامی است"
+
+msgid "Task Status"
+msgstr "وضعیت تسک"
+
+msgid "Tasks past their due date, and how late each one is."
+msgstr "تسک‌هایی که از سررسید گذشته‌اند و میزان تأخیر هر کدام."
+
+msgid "Tax & Compliance"
+msgstr "مالیات و انطباق"
+
+msgid "Tax rates for items that are taxed differently from the rest."
+msgstr "نرخ مالیات کالاهایی که با بقیه متفاوت مالیات می‌گیرند."
+
+msgid "The VAT accounts to report in the South Africa VAT audit report."
+msgstr "حساب‌های مالیات بر ارزش افزوده برای گزارش در گزارش حسابرسی VAT آفریقای جنوبی."
+
+msgid "The account your customers pay into and you pay from, linked to its account in your chart of accounts. See [Bank Account](https://docs.frappe.io/erpnext/user/manual/en/bank-account)."
+msgstr "حسابی که مشتریان به آن پرداخت می‌کنند و شما از آن پرداخت می‌کنید، پیوندشده به حسابش در سرفصل حساب‌ها. ببینید: [حساب بانکی](https://docs.frappe.io/erpnext/user/manual/en/bank-account)."
+
+msgid "The bill your supplier sent, so you know what you owe and when it is due. See [Purchase Invoice](https://docs.frappe.io/erpnext/user/manual/en/purchase-invoice)."
+msgstr "فاکتوری که تأمین‌کننده فرستاده تا بدانید چه بدهکارید و چه زمانی سررسید است. ببینید: [فاکتور خرید](https://docs.frappe.io/erpnext/user/manual/en/purchase-invoice)."
+
+msgid "The closing balance {0} of the Stock Asset accounts differs from the closing value {1} of the Stock Balance report by {2}, which is within the allowed {3}% tolerance. Submit the Period Closing Voucher with this difference?"
+msgstr "مانده پایانی {0} حساب‌های دارایی موجودی به اندازهٔ {2} با ارزش پایانی {1} گزارش مانده موجودی اختلاف دارد که در حد تلورانس مجاز {3}٪ است. سند پایان دوره با این اختلاف ثبت شود؟"
+
+msgid "The contents and weight of each package in a delivery."
+msgstr "محتویات و وزن هر بسته در یک تحویل."
+
+msgid "The finished good rows receive {0}, which is more than the Finished Good Quantity {1}. Set Finished Good Quantity to {0} and get the items again, or reduce the finished good rows."
+msgstr "ردیف‌های محصول نهایی {0} دریافت می‌کنند که از مقدار محصول نهایی {1} بیشتر است. مقدار محصول نهایی را روی {0} بگذارید و کالاها را دوباره دریافت کنید یا ردیف‌های محصول نهایی را کم کنید."
+
+msgid "The holidays and weekly offs of a company or employee."
+msgstr "تعطیلات و روزهای استراحت هفتگی شرکت یا کارمند."
+
+msgid "The items and quantities to pick from the warehouse."
+msgstr "کالاها و مقدارهایی که باید از انبار برداشته شوند."
+
+msgid "The kind of thing you own, marked as a fixed asset. See [Item](https://docs.frappe.io/erpnext/user/manual/en/item)."
+msgstr "نوع چیزی که دارید و به‌عنوان دارایی ثابت علامت‌گذاری شده است. ببینید: [کالا](https://docs.frappe.io/erpnext/user/manual/en/item)."
+
+msgid "The materials a subcontractor uses to make an item for you."
+msgstr "موادی که پیمانکار برای ساخت کالا برای شما استفاده می‌کند."
+
+msgid "The materials and operations it takes to make an item."
+msgstr "مواد و عملیات لازم برای ساخت کالا."
+
+msgid "The order of operations to make an item."
+msgstr "ترتیب عملیات برای ساخت کالا."
+
+msgid "The parameters to check an item for."
+msgstr "پارامترهایی که کالا برای آن‌ها بررسی می‌شود."
+
+msgid "The parameters to inspect and what counts as a pass, reused on every inspection. See [Quality Inspection Template](https://docs.frappe.io/erpnext/user/manual/en/quality-inspection-template)."
+msgstr "پارامترهای بازرسی و معیار قبولی، که در هر بازرسی دوباره استفاده می‌شود. ببینید: [قالب بازرسی کیفیت](https://docs.frappe.io/erpnext/user/manual/en/quality-inspection-template)."
+
+msgid "The people responsible for maintaining assets."
+msgstr "افراد مسئول نگهداری دارایی‌ها."
+
+msgid "The price of an item in a price list."
+msgstr "قیمت کالا در یک لیست قیمت."
+
+msgid "The progress of a BOM replacement or cost update."
+msgstr "پیشرفت جایگزینی فهرست مواد یا به‌روزرسانی هزینه."
+
+msgid "The questions to ask when collecting quality feedback."
+msgstr "پرسش‌هایی که هنگام جمع‌آوری بازخورد کیفیت پرسیده می‌شود."
+
+msgid "The rate to convert one currency into another."
+msgstr "نرخ تبدیل یک ارز به ارز دیگر."
+
+msgid "The raw materials, and how much of each, that go into one unit of your product. Submit it to use it in production. See [BOM](https://docs.frappe.io/erpnext/user/manual/en/bill-of-materials).\n\nSending some of the work to a supplier? See [Subcontracting](https://docs.frappe.io/erpnext/user/manual/en/subcontracting)."
+msgstr "مواد خام و مقدار هر کدام که در یک واحد از محصول شما مصرف می‌شود. برای استفاده در تولید آن را ثبت کنید. ببینید: [فهرست مواد](https://docs.frappe.io/erpnext/user/manual/en/bill-of-materials).\n\nبخشی از کار را به تأمین‌کننده می‌سپارید؟ ببینید: [پیمانکاری فرعی](https://docs.frappe.io/erpnext/user/manual/en/subcontracting)."
+
+msgid "The result of creating or submitting many documents at once."
+msgstr "نتیجهٔ ایجاد یا ثبت هم‌زمان چند سند."
+
+msgid "The rows and formulas of a custom financial statement."
+msgstr "ردیف‌ها و فرمول‌های یک صورت مالی سفارشی."
+
+msgid "The rows of Item {0} in Warehouse {1} are not the stock it should hold on this date. Make the Adjustment Entry again from the Stock Valuation Comparison report."
+msgstr "ردیف‌های کالای {0} در انبار {1} موجودی‌ای نیستند که باید در این تاریخ داشته باشد. ثبت تعدیل را دوباره از گزارش مقایسهٔ ارزش‌گذاری موجودی ایجاد کنید."
+
+msgid "The serial numbers and batches moved in a transaction."
+msgstr "شماره‌های سریال و دسته‌هایی که در یک تراکنش جابه‌جا شده‌اند."
+
+msgid "The standard chart for your country works for most businesses."
+msgstr "سرفصل حساب‌های استاندارد کشور شما برای بیشتر کسب‌وکارها مناسب است."
+
+msgid "The steps of a process you follow to keep quality in check."
+msgstr "مراحل فرایندی که برای کنترل کیفیت دنبال می‌کنید."
+
+msgid "The steps your team follows, so it is done the same way every time. See [Quality Management](https://docs.frappe.io/erpnext/user/manual/en/quality-management)."
+msgstr "مراحلی که تیم شما دنبال می‌کند تا هر بار به یک شکل انجام شود. ببینید: [مدیریت کیفیت](https://docs.frappe.io/erpnext/user/manual/en/quality-management)."
+
+msgid "The stock qty and value of the selected items are set right on this date, without reposting. Stock and accounting reports before it keep the old values, and no stock transaction can be posted before it for these items afterwards."
+msgstr "مقدار و ارزش موجودی کالاهای انتخاب‌شده در این تاریخ بدون ثبت مجدد درست می‌شود. گزارش‌های موجودی و حسابداری پیش از آن مقدارهای قدیمی را نگه می‌دارند و پس از آن هیچ تراکنش موجودی با تاریخ قبل از آن برای این کالاها قابل ثبت نیست."
+
+msgid "The tariff code an item is declared under at customs."
+msgstr "کد تعرفه‌ای که کالا در گمرک تحت آن اظهار می‌شود."
+
+msgid "The taxes and charges, like shipping or insurance, to add to purchases."
+msgstr "مالیات‌ها و هزینه‌ها، مانند حمل یا بیمه، که به خریدها اضافه می‌شوند."
+
+msgid "The taxes and charges, like shipping or insurance, to add to sales."
+msgstr "مالیات‌ها و هزینه‌ها، مانند حمل یا بیمه، که به فروش‌ها اضافه می‌شوند."
+
+msgid "The taxes that fill in on every invoice. We added your country's where we had them; check the rates match what you charge. Purchase taxes live in [Purchase Taxes and Charges Template](/desk/purchase-taxes-and-charges-template). See [Setting Up Taxes](https://docs.frappe.io/erpnext/user/manual/en/setting-up-taxes)."
+msgstr "مالیات‌هایی که روی هر فاکتور پر می‌شوند. مالیات کشور شما را در صورت موجود بودن اضافه کرده‌ایم؛ بررسی کنید نرخ‌ها با آنچه می‌گیرید یکی باشد. مالیات‌های خرید در [قالب مالیات و عوارض خرید](/desk/purchase-taxes-and-charges-template) هستند. ببینید: [راه‌اندازی مالیات‌ها](https://docs.frappe.io/erpnext/user/manual/en/setting-up-taxes)."
+
+msgid "The upkeep tasks an asset needs, and who does them."
+msgstr "تسک‌های نگهداری مورد نیاز دارایی و افراد انجام‌دهندهٔ آن‌ها."
+
+msgid "The wording and fee for a kind of payment reminder."
+msgstr "متن و کارمزد یک نوع یادآوری پرداخت."
+
+msgid "The work done for one operation of a work order."
+msgstr "کار انجام‌شده برای یک عملیات از دستور کار."
+
+msgid "The year your books are kept and closed for."
+msgstr "سالی که دفاتر شما برای آن نگهداری و بسته می‌شود."
+
+msgid "There are no differences to fix."
+msgstr "اختلافی برای رفع وجود ندارد."
+
+msgid "These already have a pending repost and are left out:"
+msgstr "این‌ها از قبل ثبت مجدد در انتظار دارند و کنار گذاشته شدند:"
+
+msgid "These cannot be settled by an Adjustment Entry and need a repost:"
+msgstr "این‌ها با ثبت تعدیل قابل تسویه نیستند و به ثبت مجدد نیاز دارند:"
+
+msgid "Time a workstation stood idle, and why."
+msgstr "زمانی که ایستگاه کار بیکار بود و دلیل آن."
+
+msgid "Time logs"
+msgstr "لاگ‌های زمان"
+
+msgid "Time spent on tasks and activities, to bill or cost."
+msgstr "زمان صرف‌شده روی تسک‌ها و فعالیت‌ها، برای فاکتور یا هزینه‌یابی."
+
+msgid "Timesheet Working Hours"
+msgstr "ساعات کاری جدول زمانی"
+
+msgid "To Manufacture"
+msgstr "برای تولید"
+
+msgid "To Order"
+msgstr "برای سفارش"
+
+msgid "To Time must be after From Time"
+msgstr "«تا زمان» باید بعد از «از زمان» باشد"
+
+msgid "To Transfer"
+msgstr "برای انتقال"
+
+msgid "Top Customers"
+msgstr "مشتریان برتر"
+
+msgid "Total Assets"
+msgstr "جمع دارایی‌ها"
+
+msgid "Total Completed qty"
+msgstr "جمع مقدار تکمیل‌شده"
+
+msgid "Total Incoming Bills"
+msgstr "جمع صورت‌حساب‌های دریافتی"
+
+msgid "Total Incoming Payment"
+msgstr "جمع پرداخت دریافتی"
+
+msgid "Total Outgoing Bills"
+msgstr "جمع صورت‌حساب‌های ارسالی"
+
+msgid "Total Outgoing Payment"
+msgstr "جمع پرداخت ارسالی"
+
+msgid "Trace every posting"
+msgstr "ردیابی هر ثبت"
+
+msgid "Track progress and costs"
+msgstr "پیگیری پیشرفت و هزینه‌ها"
+
+msgid "Track what your business owns"
+msgstr "پیگیری دارایی‌های کسب‌وکار شما"
+
+msgid "Track your orders"
+msgstr "پیگیری سفارش‌های شما"
+
+msgid "Transfers"
+msgstr "انتقال‌ها"
+
+msgid "Turns stock items or services into an asset, or one asset into another."
+msgstr "کالاهای موجودی یا خدمات را به دارایی تبدیل می‌کند، یا یک دارایی را به دارایی دیگر."
+
+msgid "Unassigned"
+msgstr "تخصیص‌نیافته"
+
+msgid "Uncancelled Serial and Batch Bundle"
+msgstr "بستهٔ سریال و دستهٔ لغو‌نشده"
+
+msgid "Undo a payment's match against invoices."
+msgstr "تطبیق یک پرداخت با فاکتورها را برگردانید."
+
+msgid "Valuation Rate cannot be negative."
+msgstr "نرخ ارزش‌گذاری نمی‌تواند منفی باشد."
+
+msgid "Value Changes"
+msgstr "تغییرات ارزش"
+
+msgid "Visual Plant Floor"
+msgstr "نمای بصری سالن تولید"
+
+msgid "Waiting on Customer"
+msgstr "در انتظار مشتری"
+
+msgid "Warranty Claim Status"
+msgstr "وضعیت درخواست گارانتی"
+
+msgid "Warranty Expiring"
+msgstr "گارانتی در حال انقضا"
+
+msgid "We couldn't add the demo data"
+msgstr "نتوانستیم داده‌های نمایشی را اضافه کنیم"
+
+msgid "We couldn't apply the recommended settings"
+msgstr "نتوانستیم تنظیمات پیشنهادی را اعمال کنیم"
+
+msgid "We couldn't create your company"
+msgstr "نتوانستیم شرکت شما را ایجاد کنیم"
+
+msgid "We couldn't personalize your setup"
+msgstr "نتوانستیم راه‌اندازی شما را شخصی‌سازی کنیم"
+
+msgid "We couldn't set up the basics"
+msgstr "نتوانستیم موارد پایه را راه‌اندازی کنیم"
+
+msgid "We created a few to start with. Rename them, or add the places you actually keep stock. See [Warehouse](https://docs.frappe.io/erpnext/user/manual/en/warehouse)."
+msgstr "برای شروع چند مورد ساخته‌ایم. نام آن‌ها را تغییر دهید یا مکان‌هایی را که واقعاً موجودی نگه می‌دارید اضافه کنید. ببینید: [انبار](https://docs.frappe.io/erpnext/user/manual/en/warehouse)."
+
+msgid "We set up a standard chart of accounts for your country. See how your accounts are grouped, and rename or add any to match how you report. See [Chart of Accounts](https://docs.frappe.io/erpnext/user/manual/en/chart-of-accounts)."
+msgstr "سرفصل حساب‌های استاندارد کشور شما را راه‌اندازی کردیم. ببینید حساب‌ها چگونه گروه‌بندی شده‌اند و برای تطابق با روش گزارش‌دهی خود نامشان را تغییر دهید یا حساب اضافه کنید. ببینید: [سرفصل حساب‌ها](https://docs.frappe.io/erpnext/user/manual/en/chart-of-accounts)."
+
+msgid "We'll use these to create your company and its accounts."
+msgstr "از این‌ها برای ایجاد شرکت و حساب‌های آن استفاده می‌کنیم."
+
+msgid "What a subscription bills for, and at what price."
+msgstr "اشتراک برای چه چیزی و با چه قیمتی فاکتور می‌شود."
+
+msgid "What an employee costs and bills per hour for an activity."
+msgstr "هزینه و نرخ فاکتور ساعتی یک کارمند برای یک فعالیت."
+
+msgid "What comes out at the end of production, kept in the Products group. See [Item](https://docs.frappe.io/erpnext/user/manual/en/item)."
+msgstr "آنچه در پایان تولید خارج می‌شود و در گروه محصولات نگهداری می‌شود. ببینید: [کالا](https://docs.frappe.io/erpnext/user/manual/en/item)."
+
+msgid "What you did to fix or prevent a quality problem."
+msgstr "کاری که برای رفع یا پیشگیری از مشکل کیفیت انجام دادید."
+
+msgid "What you have in each warehouse, and what it is worth."
+msgstr "آنچه در هر انبار دارید و ارزشش."
+
+msgid "What you ordered, what arrived and what is still to come."
+msgstr "آنچه سفارش دادید، آنچه رسید و آنچه هنوز باید برسد."
+
+msgid "What you ordered, what has arrived, and what is still to come."
+msgstr "آنچه سفارش دادید، آنچه رسیده و آنچه هنوز باید برسد."
+
+msgid "What you own, where it is, and what it is worth today."
+msgstr "آنچه دارید، کجاست و امروز ارزشش چقدر است."
+
+msgid "When an asset depreciates, and by how much."
+msgstr "دارایی چه زمانی و چقدر مستهلک می‌شود."
+
+msgid "When part of an invoice is due, like 50% in 30 days."
+msgstr "چه زمانی بخشی از فاکتور سررسید می‌شود، مثلاً ۵۰٪ در ۳۰ روز."
+
+msgid "When something falls short of the procedure, note what happened, the cause, and what you will do about it. See [Non Conformance](https://docs.frappe.io/erpnext/user/manual/en/non-conformance)."
+msgstr "وقتی چیزی با رویه مطابقت نداشت، بنویسید چه اتفاقی افتاد، علت چه بود و چه اقدامی می‌کنید. ببینید: [عدم انطباق](https://docs.frappe.io/erpnext/user/manual/en/non-conformance)."
+
+msgid "When your customer pays, record it here. It is matched against their invoice, so you can see what is still owed. See [Payment Entry](https://docs.frappe.io/erpnext/user/manual/en/payment-entry)."
+msgstr "وقتی مشتری پرداخت کرد، اینجا ثبت کنید. با فاکتورش تطبیق داده می‌شود تا ببینید چه مبلغی هنوز باقی است. ببینید: [ثبت پرداخت](https://docs.frappe.io/erpnext/user/manual/en/payment-entry)."
+
+msgid "Where each detail goes when you print on your bank's cheque."
+msgstr "هر جزئیات هنگام چاپ روی چک بانک شما کجا قرار می‌گیرد."
+
+msgid "Which warehouse received items go to."
+msgstr "کالاهای دریافتی به کدام انبار می‌روند."
+
+msgid "While making a Purchase Receipt or Purchase Invoice from a Purchase Order, use the exchange rate on its posting date rather than inheriting it from the Purchase Order."
+msgstr "هنگام ایجاد رسید خرید یا فاکتور خرید از سفارش خرید، از نرخ تبدیل در تاریخ ثبت آن استفاده کن، نه اینکه از سفارش خرید به ارث برسد."
+
+msgid "Who answers incoming calls, and when."
+msgstr "چه کسی و چه زمانی به تماس‌های ورودی پاسخ می‌دهد."
+
+msgid "Who does what, by when. Tasks roll up into the project's progress. See [Task](https://docs.frappe.io/erpnext/user/manual/en/task)."
+msgstr "چه کسی چه کاری را تا چه زمانی انجام می‌دهد. تسک‌ها در پیشرفت پروژه جمع می‌شوند. ببینید: [تسک](https://docs.frappe.io/erpnext/user/manual/en/task)."
+
+msgid "Who owes you, how much, and for how long."
+msgstr "چه کسی به شما بدهکار است، چقدر و از چه مدتی."
+
+msgid "Who owes you, how much, and for how long. See [Accounts Receivable](https://docs.frappe.io/erpnext/user/manual/en/accounts-receivable)."
+msgstr "چه کسی به شما بدهکار است، چقدر و از چه مدتی. ببینید: [حساب‌های دریافتنی](https://docs.frappe.io/erpnext/user/manual/en/accounts-receivable)."
+
+msgid "Who you owe, how much, and when each bill is due."
+msgstr "به چه کسی بدهکارید، چقدر و سررسید هر فاکتور چه زمانی است."
+
+msgid "Who you owe, how much, and when it is due."
+msgstr "به چه کسی بدهکارید، چقدر و چه زمانی سررسید است."
+
+msgid "Works out the shipping charge on a sale or purchase."
+msgstr "هزینهٔ حمل یک فروش یا خرید را محاسبه می‌کند."
+
+msgid "Write down how the work is done"
+msgstr "بنویسید کار چگونه انجام می‌شود"
+
+msgid "Write down what goes into a product and make it with a work order."
+msgstr "بنویسید در یک محصول چه چیزی مصرف می‌شود و آن را با دستور کار تولید کنید."
+
+msgid "Write its bill of materials"
+msgstr "فهرست مواد آن را بنویسید"
+
+msgid "You are not permitted to access Company {0}"
+msgstr "اجازهٔ دسترسی به شرکت {0} را ندارید"
+
+msgid "You are not permitted to repair the Stock Ledger Entries of {0} {1}"
+msgstr "اجازهٔ اصلاح ثبت‌های دفتر موجودی {0} {1} را ندارید"
+
+msgid "You can delete it anytime."
+msgstr "هر زمان می‌توانید آن را حذف کنید."
+
+msgid "Your calling preferences, like when you take calls."
+msgstr "ترجیحات تماس شما، مانند زمان پاسخ‌گویی به تماس‌ها."
+
+msgid "from {0}"
+msgstr "از {0}"
+
+msgid "{0} converted"
+msgstr "{0} تبدیل شد"
+
+msgid "{0} in {1}"
+msgstr "{0} در {1}"
+
+msgid "{0} is not a child table of {1}"
+msgstr "{0} جدول فرزند {1} نیست"
+
+msgid "{0} is required to get raw materials when {1} is set."
+msgstr "وقتی {1} تعیین شده، برای دریافت مواد خام {0} الزامی است."
+
+msgid "{0} is set from the lead's linked documents"
+msgstr "{0} از اسناد پیوندشدهٔ سرنخ تعیین می‌شود"
+
+msgid "{0} is set from the opportunity's quotations"
+msgstr "{0} از پیش‌فاکتورهای فرصت تعیین می‌شود"
+
+msgid "{0} must be a group warehouse of company {1}."
+msgstr "{0} باید انبار گروهی شرکت {1} باشد."
+
+msgid "{0} view is currently unsupported in Custom Financial Report"
+msgstr "نمای {0} در گزارش مالی سفارشی فعلاً پشتیبانی نمی‌شود"
+
+msgid "{0} {1} does not belong to company {2}"
+msgstr "{0} {1} متعلق به شرکت {2} نیست"
+
+# Strings added to the source after the shipped Persian file was made (erpnext)
+
+msgid "<h5 class=\"text-muted uppercase\">Or</h5>"
+msgstr "<h5 class=\"text-muted uppercase\">یا</h5>"
+
+msgid "Add Template"
+msgstr "افزودن قالب"
+
+msgid "Export Errored Rows"
+msgstr "برون‌بری ردیف‌های دارای خطا"
+
+msgid "No failed logs"
+msgstr "لاگ ناموفقی نیست"
+
+msgid "Show Traceback"
+msgstr "نمایش ردیابی خطا"
