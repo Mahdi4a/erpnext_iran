@@ -12257,3 +12257,225 @@ msgstr "{0} {1} قبلاً تا حدی پرداخت شده است. لطفاً ا
 #: erpnext/controllers/website_list_for_contact.py:209
 msgid "{0}% Billed"
 msgstr "{0}% فاکتور شده"
+
+# Screens of erpnext_iran
+
+msgid "16 digits"
+msgstr "۱۶ رقم"
+
+msgid "A cheque that is {0} cannot be cancelled. Post the next step instead."
+msgstr "چکی که {0} است قابل لغو نیست. به‌جای آن مرحلهٔ بعدی را ثبت کنید."
+
+msgid "A received cheque comes from a Customer and an issued cheque goes to a Supplier"
+msgstr "چک دریافتی از مشتری است و چک صادره برای تأمین‌کننده"
+
+msgid "A {0} cheque that is {1} cannot be {2}"
+msgstr "چک {0} که {1} است را نمی‌توان {2} کرد"
+
+msgid "Amount must be greater than zero"
+msgstr "مبلغ باید بزرگ‌تر از صفر باشد"
+
+msgid "An account is missing for the step {0}"
+msgstr "برای مرحلهٔ {0} حساب تعیین نشده است"
+
+msgid "Bank Account Missing"
+msgstr "حساب بانکی وجود ندارد"
+
+msgid "Buyer economic code, national ID or legal ID (Customer)"
+msgstr "کد اقتصادی، شناسهٔ ملی یا شناسهٔ حقوقی خریدار (مشتری)"
+
+msgid "Cheque Accounts"
+msgstr "حساب‌های چک"
+
+msgid "Cheque Accounts Missing"
+msgstr "حساب‌های چک تعیین نشده‌اند"
+
+msgid "Cheque Number (شماره چک)"
+msgstr "شمارهٔ چک"
+
+msgid "Cheque {0}: {1}"
+msgstr "چک {0}: {1}"
+
+msgid "Choose the Bank Account the cheque is cleared in"
+msgstr "حساب بانکی را که چک در آن وصول می‌شود انتخاب کنید"
+
+msgid "Choose the Supplier the cheque is endorsed to"
+msgstr "تأمین‌کننده‌ای را که چک به او خرج می‌شود انتخاب کنید"
+
+msgid "Could not create the Jalali fiscal year {0}"
+msgstr "سال مالی شمسی {0} ایجاد نشد"
+
+msgid "Create Jalali Fiscal Year"
+msgstr "ایجاد سال مالی شمسی"
+
+msgid "Default: account 110401"
+msgstr "پیش‌فرض: حساب ۱۱۰۴۰۱"
+
+msgid "Default: account 110402 of the Iran chart"
+msgstr "پیش‌فرض: حساب ۱۱۰۴۰۲ از سرفصل حساب‌های ایران"
+
+msgid "Default: account 210201"
+msgstr "پیش‌فرض: حساب ۲۱۰۲۰۱"
+
+msgid "Deposited"
+msgstr "واگذارشده به بانک"
+
+msgid "Due Date (تاریخ سررسید)"
+msgstr "تاریخ سررسید"
+
+msgid "Due Date cannot be before Issue Date"
+msgstr "تاریخ سررسید نمی‌تواند قبل از تاریخ صدور باشد"
+
+msgid "ERPNext Iran Settings"
+msgstr "تنظیمات ERPNext ایران"
+
+msgid "Economic Code must be 12 or 14 digits"
+msgstr "کد اقتصادی باید ۱۲ یا ۱۴ رقم باشد"
+
+msgid "Empty values fall back to the same key in site_config.json."
+msgstr "مقدارهای خالی از همان کلید در site_config.json خوانده می‌شوند."
+
+msgid "Endorse to Supplier"
+msgstr "خرج به تأمین‌کننده"
+
+msgid "Endorsed"
+msgstr "خرج‌شده"
+
+msgid "Endorsed To (خرج چک)"
+msgstr "خرج شده به"
+
+msgid "Fiscal Year {0} is ready"
+msgstr "سال مالی {0} آماده است"
+
+msgid "Goods or service ID of item {0}"
+msgstr "شناسهٔ کالا یا خدمت برای کالای {0}"
+
+msgid "In Hand"
+msgstr "نزد صندوق"
+
+msgid "Invalid Address"
+msgstr "نشانی نامعتبر"
+
+msgid "Invalid Cheque"
+msgstr "چک نامعتبر"
+
+msgid "Invalid Iran Tax Identifier"
+msgstr "شناسهٔ مالیاتی ایران نامعتبر"
+
+msgid "Iran Cheque"
+msgstr "چک ایران"
+
+msgid "Iran Cheque Account"
+msgstr "حساب چک ایران"
+
+msgid "Iran Cheque Posting"
+msgstr "ثبت چک ایران"
+
+msgid "Issue Date (تاریخ صدور)"
+msgstr "تاریخ صدور"
+
+msgid "Issued Cheques Payable"
+msgstr "چک‌های صادره (اسناد پرداختنی)"
+
+msgid "Issued: the account the cheque is drawn on. Received: the account it is collected into."
+msgstr "صادره: حسابی که چک روی آن کشیده شده است. دریافتی: حسابی که چک در آن وصول می‌شود."
+
+msgid "Jalali Year"
+msgstr "سال شمسی"
+
+msgid "Legal ID is not valid"
+msgstr "شناسهٔ حقوقی معتبر نیست"
+
+msgid "Mark Bounced"
+msgstr "علامت‌گذاری به‌عنوان برگشتی"
+
+msgid "Mark Cleared"
+msgstr "علامت‌گذاری به‌عنوان وصول‌شده"
+
+msgid "Moadian unit code of UOM {0}"
+msgstr "کد واحد مودیان برای واحد اندازه‌گیری {0}"
+
+msgid "National ID is not valid"
+msgstr "شناسهٔ ملی معتبر نیست"
+
+msgid "Needed when it overlaps an existing Fiscal Year"
+msgstr "هنگام همپوشانی با سال مالی موجود لازم است"
+
+msgid "No account for {0} in {1}. Set it in ERPNext Iran Settings, Cheque Accounts."
+msgstr "برای {0} در {1} حسابی تعیین نشده است. آن را در تنظیمات ERPNext ایران، بخش حساب‌های چک تعیین کنید."
+
+msgid "Notes and Postings"
+msgstr "یادداشت‌ها و ثبت‌ها"
+
+msgid "Party and Bank"
+msgstr "طرف حساب و بانک"
+
+msgid "Per company. Empty accounts fall back to the account numbers of the Iran chart of accounts (110402, 110401, 210201)."
+msgstr "به‌ازای هر شرکت. حساب‌های خالی از شمارهٔ حساب‌های سرفصل حساب‌های ایران (۱۱۰۴۰۲، ۱۱۰۴۰۱، ۲۱۰۲۰۱) خوانده می‌شوند."
+
+msgid "Postal Code is not valid"
+msgstr "کد پستی معتبر نیست"
+
+msgid "Postings"
+msgstr "ثبت‌ها"
+
+msgid "Received Cheques in Collection"
+msgstr "چک‌های دریافتی در جریان وصول"
+
+msgid "Received Cheques in Hand"
+msgstr "چک‌های دریافتی نزد صندوق"
+
+msgid "Received cheques come from a Customer, issued cheques go to a Supplier"
+msgstr "چک‌های دریافتی از مشتری هستند و چک‌های صادره برای تأمین‌کننده"
+
+msgid "Received: چک دریافتنی. Issued: چک پرداختنی"
+msgstr "دریافتی: چک دریافتنی. صادره: چک پرداختنی"
+
+msgid "Runs from 1 Farvardin to the end of Esfand"
+msgstr "از ۱ فروردین تا پایان اسفند"
+
+msgid "Sayad ID (شناسه صیاد)"
+msgstr "شناسهٔ صیاد"
+
+msgid "Sayad ID must be 16 digits"
+msgstr "شناسهٔ صیاد باید ۱۶ رقم باشد"
+
+msgid "Seller economic code (Company, Tax ID)"
+msgstr "کد اقتصادی فروشنده (شرکت، شناسهٔ مالیاتی)"
+
+msgid "Seller tax memory ID (Company)"
+msgstr "شمارهٔ حافظهٔ مالیاتی فروشنده (شرکت)"
+
+msgid "Sheba (IBAN) is not valid"
+msgstr "شبا (IBAN) معتبر نیست"
+
+msgid "Shows numbers in lists, reports and read-only values with Persian digits. Inputs and stored values stay 0-9. For print formats use the persian_digits filter."
+msgstr "اعداد را در فهرست‌ها، گزارش‌ها و مقدارهای فقط‌خواندنی با ارقام فارسی نمایش می‌دهد. ورودی‌ها و مقدارهای ذخیره‌شده 0-9 می‌مانند. برای قالب‌های چاپ از فیلتر persian_digits استفاده کنید."
+
+msgid "Submit the cheque first"
+msgstr "ابتدا چک را ثبت کنید"
+
+msgid "Supplier Missing"
+msgstr "تأمین‌کننده وجود ندارد"
+
+msgid "Use Persian Digits (۰۱۲۳)"
+msgstr "استفاده از ارقام فارسی (۰۱۲۳)"
+
+msgid "Used by the Iran VAT tax templates. Check the current legal rate; existing templates are not changed."
+msgstr "توسط قالب‌های مالیات بر ارزش افزودهٔ ایران استفاده می‌شود. نرخ قانونی جاری را بررسی کنید؛ قالب‌های موجود تغییر نمی‌کنند."
+
+msgid "VAT Rate (%)"
+msgstr "نرخ مالیات بر ارزش افزوده (٪)"
+
+msgid "Cleared"
+msgstr "وصول‌شده"
+
+msgid "Issued"
+msgstr "صادرشده"
+
+msgid "Bounced"
+msgstr "برگشتی"
+
+msgctxt "Iran Cheque"
+msgid "Deposit"
+msgstr "واگذاری به بانک"

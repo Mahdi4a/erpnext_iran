@@ -5,7 +5,7 @@ const CHEQUE_ACTIONS = {
 };
 
 const CHEQUE_LABELS = {
-	deposit: __('Deposit'),
+	deposit: __('Deposit', null, 'Iran Cheque'),
 	endorse: __('Endorse to Supplier'),
 	clear: __('Mark Cleared'),
 	bounce: __('Mark Bounced'),
