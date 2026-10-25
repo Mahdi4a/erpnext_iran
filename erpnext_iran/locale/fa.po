@@ -12479,3 +12479,124 @@ msgstr "برگشتی"
 msgctxt "Iran Cheque"
 msgid "Deposit"
 msgstr "واگذاری به بانک"
+
+# Custom fields created in code, and strings missing from the ERPNext catalog
+
+msgid "Iran Tax Identifiers"
+msgstr "شناسه‌های مالیاتی ایران"
+
+msgid "National ID (کد ملی)"
+msgstr "کد ملی"
+
+msgid "10 digits, for an individual"
+msgstr "۱۰ رقم، برای شخص حقیقی"
+
+msgid "Legal ID (شناسه ملی)"
+msgstr "شناسه ملی"
+
+msgid "11 digits, for a company"
+msgstr "۱۱ رقم، برای شخص حقوقی"
+
+msgid "Economic Code (کد اقتصادی)"
+msgstr "کد اقتصادی"
+
+msgid "12 or 14 digits"
+msgstr "۱۲ یا ۱۴ رقم"
+
+msgid "Moadian (سامانه مؤدیان)"
+msgstr "سامانه مؤدیان"
+
+msgid "Unverified against the official Moadian documentation."
+msgstr "با مستندات رسمی سامانه مؤدیان تطبیق داده نشده است."
+
+msgid "Invoice Type (inty)"
+msgstr "نوع فاکتور (inty)"
+
+msgid "1: type one, 2: type two, 3: type three. Unverified against the official Moadian documentation."
+msgstr "۱: نوع اول، ۲: نوع دوم، ۳: نوع سوم. با مستندات رسمی سامانه مؤدیان تطبیق داده نشده است."
+
+msgid "Invoice Pattern (inp)"
+msgstr "الگوی فاکتور (inp)"
+
+msgid "1: sale. Unverified against the official Moadian documentation."
+msgstr "۱: فروش. با مستندات رسمی سامانه مؤدیان تطبیق داده نشده است."
+
+msgid "Invoice Subject (ins)"
+msgstr "موضوع فاکتور (ins)"
+
+msgid "1: original, 2: correction, 3: cancellation, 4: sales return. Unverified against the official Moadian documentation."
+msgstr "۱: اصلی، ۲: اصلاحی، ۳: ابطال، ۴: برگشت از فروش. با مستندات رسمی سامانه مؤدیان تطبیق داده نشده است."
+
+msgid "Buyer Type (tob)"
+msgstr "نوع خریدار (tob)"
+
+msgid "1: individual, 2: company, 3: civil partnership, 4: foreign national, 5: final consumer. Unverified against the official Moadian documentation."
+msgstr "۱: شخص حقیقی، ۲: شرکت، ۳: مشارکت مدنی، ۴: تبعهٔ خارجی، ۵: مصرف‌کنندهٔ نهایی. با مستندات رسمی سامانه مؤدیان تطبیق داده نشده است."
+
+msgid "Settlement Method (setm)"
+msgstr "روش تسویه (setm)"
+
+msgid "1: cash, 2: credit, 3: cash and credit. Unverified against the official Moadian documentation."
+msgstr "۱: نقدی، ۲: نسیه، ۳: نقدی و نسیه. با مستندات رسمی سامانه مؤدیان تطبیق داده نشده است."
+
+msgid "Tax ID (taxid)"
+msgstr "شناسه مالیاتی (taxid)"
+
+msgid "Filled by the integration, which does not exist yet."
+msgstr "توسط یکپارچه‌سازی پر می‌شود که هنوز وجود ندارد."
+
+msgid "Reference Number"
+msgstr "شمارهٔ مرجع"
+
+msgid "Moadian Status"
+msgstr "وضعیت مؤدیان"
+
+msgid "Not Sent"
+msgstr "ارسال نشده"
+
+msgid "Sent"
+msgstr "ارسال شده"
+
+msgid "Accepted"
+msgstr "پذیرفته‌شده"
+
+msgid "Rejected"
+msgstr "ردشده"
+
+msgid "Goods or Service ID (شناسه کالا یا خدمت)"
+msgstr "شناسه کالا یا خدمت"
+
+msgid "13 digits from the official goods and services list. Unverified against the official Moadian documentation."
+msgstr "۱۳ رقم از فهرست رسمی کالاها و خدمات. با مستندات رسمی سامانه مؤدیان تطبیق داده نشده است."
+
+msgid "Moadian Unit Code (mu)"
+msgstr "کد واحد مؤدیان (mu)"
+
+msgid "The code of the official unit list. Unverified against the official Moadian documentation."
+msgstr "کد فهرست رسمی واحدها. با مستندات رسمی سامانه مؤدیان تطبیق داده نشده است."
+
+msgid "Tax Memory ID (شناسه یکتای حافظه مالیاتی)"
+msgstr "شناسه یکتای حافظه مالیاتی"
+
+msgid "6 characters. Unverified against the official Moadian documentation."
+msgstr "۶ نویسه. با مستندات رسمی سامانه مؤدیان تطبیق داده نشده است."
+
+msgid "Edit Posting Date and Time"
+msgstr "ویرایش تاریخ و زمان ثبت"
+
+msgid "Item"
+msgstr "کالا"
+
+msgid "Items"
+msgstr "کالاها"
+
+msgid "Is customer exempted from sales tax?"
+msgstr "آیا مشتری از مالیات فروش معاف است؟"
+
+# Module name
+
+msgid "Erpnext Iran"
+msgstr "ERPNext ایران"
+
+msgid "ERPNext Iran"
+msgstr "ERPNext ایران"
