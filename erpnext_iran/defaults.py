@@ -34,13 +34,13 @@ def ensure_currency(code: str):
 
 
 def apply_system_defaults():
-	settings = frappe.get_single("System Settings")
+	"""Writes the fields one by one. A site that has not run the setup wizard has no language yet,
+	and saving the whole System Settings document would fail on that."""
 	for fieldname, (value, stock_values) in SYSTEM_DEFAULTS.items():
-		current = str(settings.get(fieldname) or "")
+		current = str(frappe.db.get_single_value("System Settings", fieldname) or "")
 		if current in stock_values:
-			settings.set(fieldname, value)
-	settings.flags.ignore_permissions = True
-	settings.save()
+			frappe.db.set_single_value("System Settings", fieldname, value)
+	frappe.clear_cache()
 
 
 def apply_defaults():
