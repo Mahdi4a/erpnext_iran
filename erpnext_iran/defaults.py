@@ -61,7 +61,6 @@ def extend_bootinfo(bootinfo):
 
 	bootinfo.erpnext_iran = {
 		"persian_digits": 1 if get_setting("use_persian_digits", "ERPNext Iran Settings") else 0,
-		"show_jalali_dates": 1 if get_setting("show_jalali_dates", "ERPNext Iran Settings") else 0,
 	}
 
 

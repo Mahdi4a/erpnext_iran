@@ -22,13 +22,6 @@
    "description": "Shows numbers in lists, reports and read-only values with Persian digits. Inputs and stored values stay 0-9. For print formats use the persian_digits filter."
   },
   {
-   "fieldname": "show_jalali_dates",
-   "label": "Show Jalali Dates",
-   "fieldtype": "Check",
-   "default": "0",
-   "description": "Lists, reports and read-only dates are shown as Jalali (Shamsi). Dates are still stored and entered as Gregorian. For print formats use the jalali_date filter."
-  },
-  {
    "fieldname": "cheque_accounts",
    "label": "Cheque Accounts",
    "fieldtype": "Table",
