@@ -13,6 +13,8 @@ SYSTEM_DEFAULTS = {
 	"currency_precision": ("0", {"", "2", "3"}),
 	"first_day_of_the_week": ("Saturday", {"", "Sunday", "Monday"}),
 	"time_zone": ("Asia/Tehran", {"", "Asia/Kolkata", "Asia/Tehran"}),
+	# Users with no language of their own read the site in Persian
+	"language": ("fa", {"", "en"}),
 }
 
 
@@ -40,7 +42,22 @@ def apply_system_defaults():
 		current = str(frappe.db.get_single_value("System Settings", fieldname) or "")
 		if current in stock_values:
 			frappe.db.set_single_value("System Settings", fieldname, value)
+	sync_default_values()
 	frappe.clear_cache()
+
+
+def sync_default_values():
+	"""The desk boots with the defaults table, which System Settings fills in when it is saved. Writing
+	the fields directly skips that, so the number format and precision of the desk stayed stock."""
+	from frappe.translate import set_default_language
+
+	for fieldname in SYSTEM_DEFAULTS:
+		value = frappe.db.get_single_value("System Settings", fieldname)
+		if value:
+			frappe.db.set_default(fieldname, value)
+	language = frappe.db.get_single_value("System Settings", "language")
+	if language:
+		set_default_language(language)
 
 
 def apply_defaults():

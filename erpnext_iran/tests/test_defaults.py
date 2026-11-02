@@ -1,4 +1,5 @@
 import unittest
+import unittest.mock
 from unittest.mock import patch
 
 from erpnext_iran import defaults
@@ -7,16 +8,6 @@ from erpnext_iran import defaults
 class FakeDoc(dict):
 	def set(self, key, value):
 		self[key] = value
-
-
-class FakeSettings(FakeDoc):
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-		self.flags = type("Flags", (), {})()
-		self.saved = False
-
-	def save(self):
-		self.saved = True
 
 
 class TestDefaults(unittest.TestCase):
@@ -39,17 +30,29 @@ class TestDefaults(unittest.TestCase):
 		self.assertEqual(doc.get("default_currency"), None)
 
 	def test_stock_system_settings_are_changed_but_chosen_ones_are_kept(self):
-		settings = FakeSettings(
-			number_format="#,###.##",
-			currency_precision="2",
-			first_day_of_the_week="Monday",
-			time_zone="Europe/Berlin",
-		)
-		with patch.object(defaults.frappe, "get_single", return_value=settings):
+		settings = {
+			"number_format": "#,###.##",
+			"currency_precision": "2",
+			"first_day_of_the_week": "Monday",
+			"time_zone": "Europe/Berlin",
+			"language": "en",
+		}
+		db = unittest.mock.MagicMock()
+		db.get_single_value.side_effect = lambda doctype, fieldname: settings.get(fieldname)
+		db.set_single_value.side_effect = lambda doctype, fieldname, value: settings.update({fieldname: value})
+
+		with (
+			patch.object(defaults.frappe, "db", db),
+			patch.object(defaults.frappe, "clear_cache"),
+			patch("frappe.translate.set_default_language") as set_language,
+		):
 			defaults.apply_system_defaults()
 
-		self.assertTrue(settings.saved)
+		db.set_default.assert_any_call("number_format", "#,###")
+		db.set_default.assert_any_call("currency_precision", "0")
+		set_language.assert_called_once_with("fa")
 		self.assertEqual(settings["number_format"], "#,###")
 		self.assertEqual(settings["currency_precision"], "0")
 		self.assertEqual(settings["first_day_of_the_week"], "Saturday")
 		self.assertEqual(settings["time_zone"], "Europe/Berlin")
+		self.assertEqual(settings["language"], "fa")
