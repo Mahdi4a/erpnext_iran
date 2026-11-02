@@ -23,6 +23,7 @@ jinja = {
 }
 
 doc_events = {
+	"*": {"validate": "erpnext_iran.in_words.set_in_words"},
 	"Company": {
 		"before_validate": [
 			"erpnext_iran.defaults.set_company_currency",
