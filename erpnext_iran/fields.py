@@ -43,7 +43,26 @@ BANK_FIELDS = [
 	},
 ]
 
-CUSTOM_FIELDS = {"Customer": PARTY_FIELDS, "Supplier": PARTY_FIELDS, "Bank": BANK_FIELDS}
+PROVINCES = [
+	"آذربایجان شرقی", "آذربایجان غربی", "اردبیل", "اصفهان", "البرز", "ایلام", "بوشهر", "تهران",
+	"چهارمحال و بختیاری", "خراسان جنوبی", "خراسان رضوی", "خراسان شمالی", "خوزستان", "زنجان",
+	"سمنان", "سیستان و بلوچستان", "فارس", "قزوین", "قم", "کردستان", "کرمان", "کرمانشاه",
+	"کهگیلویه و بویراحمد", "گلستان", "گیلان", "لرستان", "مازندران", "مرکزی", "هرمزگان", "همدان", "یزد",
+]  # fmt: skip
+
+ADDRESS_FIELDS = [
+	{
+		"fieldname": "iran_province",
+		"label": "Province (استان)",
+		"fieldtype": "Select",
+		"options": "\n" + "\n".join(PROVINCES),
+		"insert_after": "state",
+		"depends_on": "eval:doc.country=='Iran'",
+		"description": "Copied to State/Province when the country is Iran",
+	},
+]
+
+CUSTOM_FIELDS = {"Customer": PARTY_FIELDS, "Supplier": PARTY_FIELDS, "Bank": BANK_FIELDS, "Address": ADDRESS_FIELDS}
 
 # Moadian (سامانه مؤدیان) fields. Every label says "unverified": the names and codes follow the
 # public Moadian invoice description as remembered, not an official document the project holds.

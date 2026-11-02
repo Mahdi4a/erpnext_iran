@@ -38,3 +38,26 @@ class TestValidations(unittest.TestCase):
 
 		with self.assertRaises(frappe.ValidationError):
 			validations.validate_address(FakeDoc(country="Iran", pincode="12345"))
+
+
+class TestProvince(unittest.TestCase):
+	def test_the_chosen_province_becomes_the_state(self):
+		doc = FakeDoc(country="Iran", iran_province="گیلان", state="")
+		validations.validate_address(doc)
+		self.assertEqual(doc["state"], "گیلان")
+
+	def test_a_state_that_is_a_province_fills_the_province(self):
+		doc = FakeDoc(country="Iran", state="یزد")
+		validations.validate_address(doc)
+		self.assertEqual(doc["iran_province"], "یزد")
+
+	def test_another_country_is_left_alone(self):
+		doc = FakeDoc(country="Germany", iran_province="گیلان", state="Bavaria")
+		validations.validate_address(doc)
+		self.assertEqual(doc["state"], "Bavaria")
+
+	def test_there_are_31_provinces(self):
+		from erpnext_iran.fields import PROVINCES
+
+		self.assertEqual(len(PROVINCES), 31)
+		self.assertEqual(len(set(PROVINCES)), 31)

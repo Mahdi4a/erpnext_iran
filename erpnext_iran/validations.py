@@ -30,9 +30,21 @@ def validate_party(doc, method=None):
 def validate_address(doc, method=None):
 	if doc.get("country") != "Iran":
 		return
+	_sync_province(doc)
 	value = _clean(doc, "pincode")
 	if value and not validators.is_valid_postal_code(value):
 		frappe.throw(_("Postal Code is not valid"), title=_("Invalid Address"))
+
+
+def _sync_province(doc):
+	"""The province is chosen from a list and written to State/Province, which the address print and
+	every report already read. An address typed with a state only gets the province when it is one."""
+	from erpnext_iran.fields import PROVINCES
+
+	if doc.get("iran_province"):
+		doc.set("state", doc.get("iran_province"))
+	elif doc.get("state") in PROVINCES:
+		doc.set("iran_province", doc.get("state"))
 
 
 def iran_sheba_check_digits_ok(iban: str) -> bool:
