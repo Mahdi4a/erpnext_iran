@@ -65,3 +65,23 @@ def validate_bank_account(doc, method=None):
 		if not is_valid_sheba(value):
 			frappe.throw(_("Sheba (IBAN) is not valid"), title=_("Invalid Bank Account"))
 		doc.set("iban", value)
+		_match_bank(doc, value)
+
+
+def _match_bank(doc, sheba: str):
+	"""A Sheba says which bank holds the account: fill the bank in when it is empty, warn when it differs."""
+	from erpnext_iran.banks import bank_for_sheba, sheba_bank_code
+
+	bank = bank_for_sheba(sheba)
+	if not bank:
+		return
+	if not doc.get("bank"):
+		doc.set("bank", bank)
+	elif doc.get("bank") != bank:
+		frappe.msgprint(
+			_("The bank code {0} of this Sheba belongs to {1}, not {2}").format(
+				sheba_bank_code(sheba), bank, doc.get("bank")
+			),
+			indicator="orange",
+			alert=True,
+		)

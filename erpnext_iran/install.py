@@ -3,6 +3,7 @@ from __future__ import annotations
 import frappe
 from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
+from erpnext_iran.banks import ensure_banks
 from erpnext_iran.defaults import apply_defaults
 from erpnext_iran.fields import CUSTOM_FIELDS
 from erpnext_iran.jalali import ensure_current_and_next_fiscal_years
@@ -15,11 +16,13 @@ def after_install():
 	apply_defaults()
 	ensure_current_and_next_fiscal_years()
 	ensure_print_formats()
+	ensure_banks()
 	for company in frappe.get_all("Company", pluck="name"):
 		ensure_vat_templates(company)
 
 
 def after_migrate():
-	"""Keeps the custom fields and the print formats in step with this app after an update."""
+	"""Keeps the custom fields, print formats and banks in step with this app after an update."""
 	create_custom_fields(CUSTOM_FIELDS, update=True)
 	ensure_print_formats()
+	ensure_banks()

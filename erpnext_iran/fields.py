@@ -31,7 +31,19 @@ PARTY_FIELDS = [
 	},
 ]
 
-CUSTOM_FIELDS = {"Customer": PARTY_FIELDS, "Supplier": PARTY_FIELDS}
+BANK_FIELDS = [
+	{
+		"fieldname": "sheba_code",
+		"label": "Sheba Bank Code (کد بانک در شبا)",
+		"fieldtype": "Data",
+		"insert_after": "bank_name",
+		"length": 3,
+		"unique": 1,
+		"description": "The three digits after IR and the two check digits of a Sheba",
+	},
+]
+
+CUSTOM_FIELDS = {"Customer": PARTY_FIELDS, "Supplier": PARTY_FIELDS, "Bank": BANK_FIELDS}
 
 # Moadian (سامانه مؤدیان) fields. Every label says "unverified": the names and codes follow the
 # public Moadian invoice description as remembered, not an official document the project holds.
