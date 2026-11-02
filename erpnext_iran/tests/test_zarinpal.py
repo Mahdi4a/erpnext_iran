@@ -99,6 +99,23 @@ class TestZarinpal(unittest.TestCase):
 		log.db_set.assert_called_with("status", "Completed")
 		reference.run_method.assert_called_once_with("on_payment_authorized", "Completed")
 
+	def test_a_payment_request_without_on_payment_authorized_is_set_as_paid_by_the_system(self):
+		class PaymentRequest:
+			doctype = "Payment Request"
+			set_as_paid = MagicMock()
+
+		document = PaymentRequest()
+		users = []
+		document.set_as_paid.side_effect = lambda: users.append(zarinpal.frappe.set_user.call_args.args[0])
+		with (
+			patch.object(zarinpal.frappe, "set_user") as set_user,
+			patch.object(zarinpal.frappe, "session", frappe._dict(user="Guest")),
+		):
+			zarinpal.apply_payment(document)
+
+		self.assertEqual(users, ["Administrator"])
+		self.assertEqual(set_user.call_args.args[0], "Guest")  # the customer is a guest again
+
 	def test_a_payment_zarinpal_does_not_verify_is_failed(self):
 		result, log, reference, _verify = self.confirm("OK", False)
 

@@ -148,10 +148,26 @@ def confirm_payment(authority: str, status: str) -> tuple[str, str | None, str |
 	if all(reference):
 		try:
 			frappe.flags.data = data
-			frappe.get_doc(*reference).run_method("on_payment_authorized", "Completed")
+			apply_payment(frappe.get_doc(*reference))
 		except Exception:
 			frappe.log_error(frappe.get_traceback(), "Zarinpal payment not applied")
 	return ("success", *reference)
+
+
+def apply_payment(document):
+	"""The gateways of the payments app call on_payment_authorized on the document. ERPNext 16 has no
+	such method on a Payment Request any more, only set_as_paid, which makes the Payment Entry."""
+	if hasattr(document, "on_payment_authorized"):
+		return document.run_method("on_payment_authorized", "Completed")
+	if document.doctype == "Payment Request":
+		# The customer who comes back from the bank is a guest and may not create a Payment Entry. The
+		# payment has been verified with Zarinpal, so the system makes it.
+		user = frappe.session.user
+		frappe.set_user("Administrator")
+		try:
+			document.set_as_paid()
+		finally:
+			frappe.set_user(user)
 
 
 @frappe.whitelist(allow_guest=True)
