@@ -41,6 +41,11 @@ override_whitelisted_methods = {
 	"erpnext.accounts.doctype.account.chart_of_accounts.chart_of_accounts.get_charts_for_country": "erpnext_iran.chart_of_accounts.get_charts_for_country",
 }
 
+# Jalali parts for naming series, e.g. ACC-SINV-.JY.-.#####
+naming_series_variables_list = ["JY", "JYY", "JM", "JD"]
+naming_series_variables = {
+	variable: "erpnext_iran.naming.parse_variable" for variable in ("JY", "JYY", "JM", "JD")
+}
 scheduler_events = {"daily": ["erpnext_iran.jalali.ensure_current_and_next_fiscal_years"]}
 
 doctype_list_js = {"Fiscal Year": "public/js/fiscal_year_list.js"}
