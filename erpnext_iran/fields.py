@@ -60,6 +60,14 @@ ADDRESS_FIELDS = [
 		"depends_on": "eval:doc.country=='Iran'",
 		"description": "Copied to State/Province when the country is Iran",
 	},
+	{
+		"fieldname": "iran_city",
+		"label": "City (شهر)",
+		"fieldtype": "Autocomplete",
+		"insert_after": "iran_province",
+		"depends_on": "eval:doc.country=='Iran'",
+		"description": "The cities of the province are suggested. Copied to City when the country is Iran",
+	},
 ]
 
 CUSTOM_FIELDS = {"Customer": PARTY_FIELDS, "Supplier": PARTY_FIELDS, "Bank": BANK_FIELDS, "Address": ADDRESS_FIELDS}

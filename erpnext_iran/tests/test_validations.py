@@ -61,3 +61,12 @@ class TestProvince(unittest.TestCase):
 
 		self.assertEqual(len(PROVINCES), 31)
 		self.assertEqual(len(set(PROVINCES)), 31)
+
+
+	def test_the_chosen_city_becomes_the_city_and_a_typed_city_fills_the_choice(self):
+		doc = FakeDoc(country="Iran", iran_city="رشت", city="")
+		validations.validate_address(doc)
+		self.assertEqual(doc["city"], "رشت")
+		doc = FakeDoc(country="Iran", city="لاهیجان")
+		validations.validate_address(doc)
+		self.assertEqual(doc["iran_city"], "لاهیجان")

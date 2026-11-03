@@ -45,3 +45,28 @@ def ensure_fixed_rates():
 		doc.for_selling = 1
 		doc.flags.ignore_permissions = True
 		doc.insert()
+
+
+def save_dollar_rate(rial_per_dollar: float):
+	"""The Dollar rate of today as Currency Exchange, to the Rial and to the Toman. A rate that is already
+	there for today is changed, so entering it again in the same day corrects it."""
+	today = frappe.utils.today()
+	for to_currency, rate in (("IRR", rial_per_dollar), ("IRT", rial_per_dollar / 10)):
+		if not frappe.db.exists("Currency", to_currency):
+			continue
+		name = frappe.db.get_value(
+			"Currency Exchange", {"date": today, "from_currency": "USD", "to_currency": to_currency}
+		)
+		doc = frappe.get_doc("Currency Exchange", name) if name else frappe.new_doc("Currency Exchange")
+		doc.update(
+			{
+				"date": today,
+				"from_currency": "USD",
+				"to_currency": to_currency,
+				"exchange_rate": rate,
+				"for_buying": 1,
+				"for_selling": 1,
+			}
+		)
+		doc.flags.ignore_permissions = True
+		doc.save()

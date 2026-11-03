@@ -27,6 +27,28 @@
    "fieldtype": "Table",
    "options": "Iran Cheque Account",
    "description": "Per company. Empty accounts fall back to the account numbers of the Iran chart of accounts (110402, 110401, 210201)."
+  },
+  {
+   "fieldname": "rates_section",
+   "label": "Exchange Rate",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "usd_rate_irr",
+   "label": "Dollar Rate (Rial per 1 USD)",
+   "fieldtype": "Float",
+   "precision": "0",
+   "description": "Saved as the Currency Exchange rate of today, USD to IRR and USD to IRT. There is no automatic source: enter the rate you use, and again when it changes."
+  },
+  {
+   "fieldname": "naming_section",
+   "label": "Document Numbers",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "naming_help",
+   "fieldtype": "HTML",
+   "options": "<p>Adds a series with the Jalali year (ACC-SINV-1405-00001) to the sales, purchase and payment documents and makes it the default. Existing series and documents are not changed; the new series counts from 1.</p>"
   }
  ],
  "permissions": [

@@ -49,3 +49,4 @@ naming_series_variables = {
 scheduler_events = {"daily": ["erpnext_iran.jalali.ensure_current_and_next_fiscal_years"]}
 
 doctype_list_js = {"Fiscal Year": "public/js/fiscal_year_list.js"}
+doctype_js = {"Address": "public/js/address.js"}

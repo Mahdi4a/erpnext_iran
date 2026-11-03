@@ -45,6 +45,10 @@ def _sync_province(doc):
 		doc.set("state", doc.get("iran_province"))
 	elif doc.get("state") in PROVINCES:
 		doc.set("iran_province", doc.get("state"))
+	if doc.get("iran_city"):
+		doc.set("city", doc.get("iran_city"))
+	elif doc.get("city"):
+		doc.set("iran_city", doc.get("city"))
 
 
 def iran_sheba_check_digits_ok(iban: str) -> bool:

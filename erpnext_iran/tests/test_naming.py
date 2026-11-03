@@ -24,3 +24,38 @@ class TestNaming(unittest.TestCase):
 	def test_without_a_date_it_is_today(self):
 		self.assertEqual(naming.document_date(FakeDoc()), datetime.date.today())
 		self.assertEqual(naming.document_date(None), datetime.date.today())
+
+
+class TestJalaliSeries(unittest.TestCase):
+	def run_add(self, options):
+		from unittest.mock import MagicMock, patch
+
+		meta = MagicMock()
+		meta.get_field.return_value.options = options
+		calls = []
+		with (
+			patch.object(naming.frappe, "only_for"),
+			patch.object(naming.frappe, "get_meta", return_value=meta),
+			patch.object(naming.frappe, "db", new=MagicMock()),
+			patch.object(naming, "_set_series_property", side_effect=lambda d, prop, value: calls.append({"property": prop, "value": value})),
+			patch.object(naming, "SERIES_DOCTYPES", ("Sales Invoice",)),
+		):
+			changed = naming.add_jalali_series()
+		return changed, calls
+
+	def test_a_jalali_series_is_added_before_each_gregorian_one_and_made_the_default(self):
+		changed, calls = self.run_add("ACC-SINV-.YYYY.-\nACC-SINV-RET-.YYYY.-")
+
+		self.assertEqual(changed, ["Sales Invoice"])
+		by_property = {c["property"]: c["value"] for c in calls}
+		self.assertEqual(
+			by_property["options"],
+			"ACC-SINV-.JY.-\nACC-SINV-RET-.JY.-\nACC-SINV-.YYYY.-\nACC-SINV-RET-.YYYY.-",
+		)
+		self.assertEqual(by_property["default"], "ACC-SINV-.JY.-")
+
+	def test_a_document_that_already_has_the_jalali_series_is_left_alone(self):
+		changed, calls = self.run_add("ACC-SINV-.JY.-\nACC-SINV-.YYYY.-")
+
+		self.assertEqual(changed, [])
+		self.assertEqual(calls, [])
