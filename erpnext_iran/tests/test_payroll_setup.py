@@ -45,3 +45,11 @@ class TestPayrollSetup(unittest.TestCase):
 		self.assertEqual(doc.docstatus, 1)
 		abbrs = {row.abbr for row in [*doc.earnings, *doc.deductions]}
 		self.assertEqual(abbrs, set(payroll_setup.IN_STRUCTURE))
+
+	def test_shop_shifts_exist_once(self):
+		payroll_setup.ensure_payroll()
+		before = frappe.db.count("Shift Type")
+		payroll_setup.ensure_payroll()
+		self.assertEqual(before, frappe.db.count("Shift Type"))
+		for name, start, end in payroll_setup.SHIFTS:
+			self.assertTrue(frappe.db.exists("Shift Type", name), name)

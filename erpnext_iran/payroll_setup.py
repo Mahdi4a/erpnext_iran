@@ -77,6 +77,23 @@ def ensure_structure(company: str):
 	return structure.name
 
 
+# name, start, end. Shop hours differ from shop to shop: these are the usual three, to be edited.
+SHIFTS = [("شیفت صبح", "08:00:00", "16:00:00"), ("شیفت عصر", "14:00:00", "22:00:00"), ("شیفت تمام‌وقت", "09:00:00", "21:00:00")]
+
+
+def ensure_shifts():
+	"""Shift types for shop staff. Automatic attendance is left off: it needs check-in devices first."""
+	if not frappe.db.exists("DocType", "Shift Type"):
+		return
+	for name, start, end in SHIFTS:
+		if frappe.db.exists("Shift Type", name):
+			continue
+		doc = frappe.new_doc("Shift Type")
+		doc.update({"__newname": name, "name": name, "start_time": start, "end_time": end, "enable_auto_attendance": 0, "begin_check_in_before_shift_start_time": 60, "allow_check_out_after_shift_end_time": 60})
+		doc.flags.ignore_permissions = True
+		doc.insert()
+
+
 def ensure_payroll():
 	"""Components for every site with HRMS, and a structure for every company."""
 	if not (frappe.db.exists("DocType", "Salary Component") and frappe.db.exists("DocType", "Iran Payroll Settings")):
@@ -85,3 +102,4 @@ def ensure_payroll():
 		ensure_component(*spec)
 	for company in frappe.get_all("Company", pluck="name"):
 		ensure_structure(company)
+	ensure_shifts()
