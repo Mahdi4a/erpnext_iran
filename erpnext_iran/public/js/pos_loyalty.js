@@ -43,21 +43,35 @@
 			frappe.show_alert({ message: __('Not enough points to redeem'), indicator: 'orange' });
 			return;
 		}
+		// the cash row follows through rebalance(), which runs whenever the loyalty amount changes
 		control.set_value(whole);
-		// ERPNext reduces what is left to pay; make the first cash row match so nothing is overpaid.
-		setTimeout(() => {
-			const rows = doc.payments || [];
-			let left = due - whole;
-			rows.forEach((row) => {
-				const keep = Math.max(0, Math.min(flt(row.amount), left));
-				if (keep !== flt(row.amount)) frappe.model.set_value(row.doctype, row.name, 'amount', keep);
-				// the tile keeps its old number unless it is told
-				const mode = payment.sanitize_mode_of_payment(row.mode_of_payment);
-				const shown = keep > 0 ? format_currency(keep, doc.currency) : '';
-				payment.$payment_modes.find(`.${mode}-amount`).html(shown);
-				left -= keep;
-			});
-		}, 600);
+	}
+
+	// Whatever changes the loyalty amount (button, numpad, a refused number that resets it to 0),
+	// the payment rows must add up to total - loyalty, or the sale is overpaid / left open.
+	function rebalance(payment) {
+		const doc = payment.events.get_frm().doc;
+		const rows = doc.payments || [];
+		if (!rows.length) return;
+		const due = flt(doc.rounded_total || doc.grand_total);
+		const target = Math.max(0, due - flt(doc.loyalty_amount));
+		const paid = rows.reduce((sum, row) => sum + flt(row.amount), 0);
+		const show = () => rows.forEach((row) => {
+			const mode = payment.sanitize_mode_of_payment(row.mode_of_payment);
+			payment.$payment_modes.find(`.${mode}-amount`).html(flt(row.amount) > 0 ? format_currency(row.amount, doc.currency) : '');
+		});
+		if (Math.abs(paid - target) < 0.005) return show();
+		let left = target;
+		const amounts = rows.map((row) => {
+			const keep = Math.max(0, Math.min(flt(row.amount), left));
+			left -= keep;
+			return keep;
+		});
+		amounts[0] += left; // a shortfall goes back to the first (default) mode, as the stock POS does
+		rows.forEach((row, i) => {
+			if (amounts[i] !== flt(row.amount)) frappe.model.set_value(row.doctype, row.name, 'amount', amounts[i]);
+		});
+		show();
 	}
 
 	function patch_payment() {
@@ -65,6 +79,29 @@
 		if (!pos || !pos.Payment) return false;
 		if (pos.Payment.prototype._iran_loyalty) return true;
 		pos.Payment.prototype._iran_loyalty = true;
+
+		// The stock numpad is a calculator: digits enter from the right and the last
+		// `currency_precision` digits are decimals, so 5 0 0 0 becomes 50.00. Rials have no
+		// decimals, so while a key is handled the precision falls back to the number format's.
+		const clicked = pos.Payment.prototype.on_numpad_clicked;
+		pos.Payment.prototype.on_numpad_clicked = function () {
+			const info = get_number_format_info(frappe.sys_defaults.number_format);
+			if (info.precision !== 0) return clicked.apply(this, arguments);
+			const saved = frappe.sys_defaults.currency_precision;
+			frappe.sys_defaults.currency_precision = 0;
+			try {
+				return clicked.apply(this, arguments);
+			} finally {
+				frappe.sys_defaults.currency_precision = saved;
+			}
+		};
+
+		const changed = pos.Payment.prototype.bind_loyalty_amount_event;
+		pos.Payment.prototype.bind_loyalty_amount_event = function () {
+			const result = changed.apply(this, arguments);
+			setTimeout(() => rebalance(this), 400);
+			return result;
+		};
 
 		const render = pos.Payment.prototype.render_loyalty_points_payment_mode;
 		pos.Payment.prototype.render_loyalty_points_payment_mode = function () {
