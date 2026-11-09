@@ -191,3 +191,25 @@ class TestMoadianTypes(unittest.TestCase):
 		line = payload["body"][0]
 		self.assertEqual([type(line[c]) for c in ("consfee", "spro", "bros", "tcpbs")], [int] * 4)
 		self.assertEqual(line["cfee"], 1.5)
+
+
+class TestMoadianSettlement(unittest.TestCase):
+	def test_a_cash_or_credit_sale_sends_neither_cash_nor_credit_amount(self):
+		for method in ("1 - Cash", "2 - Credit"):
+			header = moadian.build_payload(invoice(moadian_settlement_method=method), SELLER, BUYER, ITEMS, UNITS)["header"]
+			self.assertNotIn("cap", header)
+			self.assertNotIn("insp", header)
+
+	def test_cash_and_credit_split_the_bill_without_taxes_by_what_was_paid(self):
+		payload = moadian.build_payload(
+			invoice(moadian_settlement_method="3 - Cash and credit", paid_amount=1000000), SELLER, BUYER, ITEMS, UNITS
+		)
+		header = payload["header"]
+		self.assertEqual((header["cap"], header["insp"]), (1000000, 3500000))
+		self.assertEqual(header["cap"] + header["insp"], header["tbill"] - header["tvam"] - header["todam"])
+
+	def test_cash_and_credit_with_nothing_paid_still_sends_a_positive_cash_amount(self):
+		header = moadian.build_payload(
+			invoice(moadian_settlement_method="3 - Cash and credit", paid_amount=0), SELLER, BUYER, ITEMS, UNITS
+		)["header"]
+		self.assertEqual((header["cap"], header["insp"]), (1, 4499999))

@@ -202,9 +202,7 @@ def _body_row(row, factor, sign, default_rate, items, units) -> dict:
 def _header(invoice, seller, buyer, body, factor) -> dict:
 	total = {code: sum(line[code] for line in body) for code in ("prdis", "dis", "adis", "vam")}
 	bill = total["adis"] + total["vam"]
-	paid = min(_amount(invoice.get("paid_amount"), factor), bill)
 	method = code_of(invoice.get("moadian_settlement_method"), 1)
-	cash, credit = {1: (bill, 0), 2: (0, bill)}.get(method, (paid, bill - paid))
 	buyer_id = to_latin_digits(buyer.get("national_id") or buyer.get("legal_id") or "")
 	header = {
 		"taxid": invoice.get("moadian_tax_id") or "",
@@ -224,14 +222,22 @@ def _header(invoice, seller, buyer, body, factor) -> dict:
 		"tvam": total["vam"],
 		"todam": 0,
 		"tbill": bill,
-		"cap": cash,
-		"insp": credit,
 		"irtaxid": invoice.get("moadian_reference_tax_id") or "",
 	}
 	for code in HEADER_CODES:
 		if invoice.get(f"moadian_{code}") not in (None, "", 0):
 			header[code] = typed(code, invoice.get(f"moadian_{code}"))
+	if method == 3:
+		header.update(_cash_and_credit(invoice, header, factor))
 	return _add_totals(header, body)
+
+
+def _cash_and_credit(invoice, header, factor) -> dict:
+	"""Only a cash and credit sale carries both amounts, and together they are the bill without
+	its taxes (v7.9 8-23, 8-24): cash is what was paid, credit is the rest."""
+	net = header["tbill"] - header["tvam"] - header["todam"]
+	cash = min(max(_amount(invoice.get("paid_amount"), factor), 1), net - 1)
+	return {"cap": cash, "insp": net - cash}
 
 
 def _add_totals(header: dict, body: list[dict]) -> dict:
