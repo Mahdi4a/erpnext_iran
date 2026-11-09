@@ -68,6 +68,21 @@ def ensure_vat_templates(company: str):
 		).insert(ignore_permissions=True)
 
 
+DOMESTIC_SALES_ACCOUNT_NUMBER = "410101"
+
+
+def ensure_default_income_account(company: str):
+	"""Domestic sales (410101) as the default income account. ERPNext leaves it empty for a chart it does not
+	know, and then no sale of an item without its own income account, the POS included, can be saved."""
+	if frappe.db.get_value("Company", company, "default_income_account"):
+		return
+	account = frappe.db.get_value(
+		"Account", {"company": company, "account_number": DOMESTIC_SALES_ACCOUNT_NUMBER, "is_group": 0}
+	)
+	if account:
+		frappe.db.set_value("Company", company, "default_income_account", account)
+
+
 def on_company_update(doc, method=None):
 	"""A company made after this app was installed gets the VAT templates as well.
 
@@ -75,3 +90,4 @@ def on_company_update(doc, method=None):
 	does nothing when there is no tax account to hang the template on yet.
 	"""
 	ensure_vat_templates(doc.name)
+	ensure_default_income_account(doc.name)
