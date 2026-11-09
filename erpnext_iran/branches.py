@@ -9,6 +9,7 @@ from frappe import _
 
 STORES_GROUP_NAMES = ("Stores", "مغازه‌ها")
 POS_MODES = ("Cash", "کارت‌خوان")
+DEFAULT_MODE = "کارت‌خوان"  # most customers pay by card reader, so the total is already on it when the cashier presses Enter
 WALK_IN_CUSTOMER = "مشتری حضوری"
 
 # Settings for a till where a line is waiting: a scan goes straight into the cart, the receipt prints when
@@ -185,8 +186,8 @@ def ensure_pos_profile(branch) -> str:
 			"write_off_limit": 0,
 			**FAST_TILL,
 			"payments": [
-				{"mode_of_payment": mode, "default": 1 if index == 0 else 0}
-				for index, mode in enumerate(modes)
+				{"mode_of_payment": mode, "default": 1 if mode == DEFAULT_MODE else 0}
+				for mode in modes
 			],
 		}
 	)

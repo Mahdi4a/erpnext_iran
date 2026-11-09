@@ -2,6 +2,8 @@
 //   F9     go to payment               F2 / F3 / F4   pay the whole amount with the 1st / 2nd / 3rd payment mode
 //   Enter  complete a paid sale, and then start the next one          F8   new invoice (an unfinished one stays a draft)
 //   F7     search a customer by name or phone
+// The customer is asked for last: the payment screen opens with a mobile number box that has the cursor.
+//   11 digits  find the customer (or make one) and show the club points     Enter  done with the box, Enter again completes
 // A sale is also submitted without the "Permanently Submit?" question when the POS Profile says so.
 (function () {
 	const pos = () => window.cur_pos;
@@ -71,6 +73,80 @@
 		pos().payment.$component.find('.submit-order-btn').click();
 	}
 
+	// ---- the mobile number box on the payment screen ----
+	const digits = (value) =>
+		String(value || '')
+			.replace(/[۰-۹]/g, (d) => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+			.replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+			.trim();
+	const isMobile = (value) => /^(\+?98|0098|0)?9\d{9}$/.test(digits(value).replace(/[\s-]/g, ''));
+
+	async function useMobile($box, $note) {
+		const mobile = digits($box.val());
+		$note.css('color', '').text(__('Looking up…'));
+		try {
+			const result = await frappe.xcall('erpnext_iran.pos_customer.customer_for_mobile', { mobile });
+			await pos().cart.customer_field.set_value(result.customer);
+			const deadline = Date.now() + 3000;
+			while (Date.now() < deadline && !(pos().customer_details && pos().customer_details.customer === result.customer)) {
+				await new Promise((resolve) => setTimeout(resolve, 50));
+			}
+			$box.data('done', result.customer);
+			$note
+				.css('color', 'var(--green-600, #278f5e)')
+				.text(result.created ? __('New customer {0}', [result.customer]) : __('Customer {0}', [result.customer]));
+		} catch (error) {
+			$box.data('done', '');
+			$note.css('color', 'var(--red-500, #e24c4c)').text(__('Mobile number not accepted'));
+		}
+	}
+
+	function addMobileBox(payment) {
+		const $left = payment.$component.find('.payment-container-left');
+		$left.find('.iran-pos-phone-wrap').remove();
+		const $wrap = $(`<div class="iran-pos-phone-wrap" style="margin: 0 0 12px">
+			<input type="text" inputmode="numeric" autocomplete="off" class="form-control iran-pos-phone"
+				style="font-size: 18px; direction: ltr; text-align: center"
+				placeholder="${__('Customer mobile number')} (09…)">
+			<div class="iran-pos-phone-note small text-muted" style="margin-top: 4px; min-height: 18px">
+				${__('Enter with no number keeps the walk-in customer')}
+			</div>
+		</div>`);
+		$left.find('.payment-section').first().after($wrap);
+		const $box = $wrap.find('input');
+		const $note = $wrap.find('.iran-pos-phone-note');
+		let running = Promise.resolve();
+
+		$box.on('input', () => {
+			$box.data('done', '');
+			if (isMobile($box.val())) running = useMobile($box, $note);
+		});
+		$box.on('keydown', async (event) => {
+			// the stock POS types every key into the selected payment amount; this box keeps its keys
+			event.stopPropagation();
+			if (event.key !== 'Enter') return;
+			event.preventDefault();
+			if (digits($box.val()) && isMobile($box.val()) && !$box.data('done')) await running;
+			$box.blur();
+		});
+		setTimeout(() => $box.trigger('focus'), 150);
+	}
+
+	function installMobileBox() {
+		const Payment = window.erpnext && erpnext.PointOfSale && erpnext.PointOfSale.Payment;
+		if (!Payment) return false;
+		if (Payment.prototype._iran_mobile) return true;
+		Payment.prototype._iran_mobile = true;
+		const checkout = Payment.prototype.checkout;
+		Payment.prototype.checkout = function () {
+			const result = checkout.apply(this, arguments);
+			setTimeout(() => addMobileBox(this), 50);
+			return result;
+		};
+		return true;
+	}
+	const mobileTimer = setInterval(() => installMobileBox() && clearInterval(mobileTimer), 1000);
+
 	const keys = {
 		F9: () => onItems() && pos().cart.$component.find('.checkout-btn').first().click(),
 		F2: () => onPayment() && payAllWith(0),
@@ -86,6 +162,8 @@
 		(event) => {
 			const action = keys[event.key];
 			if (!action || event.ctrlKey || event.altKey || event.metaKey || !onPosPage()) return;
+			// Enter in the mobile number box is handled by the box itself
+			if (event.key === 'Enter' && $(event.target).is('.iran-pos-phone')) return;
 			// Enter inside a text box belongs to that box, except in the amount boxes of the payment screen
 			if (event.key === 'Enter' && $(event.target).is('textarea, [data-fieldname="remark"] input')) return;
 			if (event.key === 'Enter' && (!(onPayment() || onSummary()) || $('.modal.show').length)) return;

@@ -6,3 +6,4 @@ erpnext_iran.patches.fix_moadian_number_fields
 
 [post_model_sync]
 erpnext_iran.patches.fast_till_for_branches
+erpnext_iran.patches.card_reader_default_for_branches
