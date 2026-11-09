@@ -21,7 +21,9 @@
 		const plu = code.substr(start, s.plu_digits);
 		const value = parseInt(code.slice(start + s.plu_digits, 12), 10);
 		const body = s.prefix + plu + '0'.repeat(s.value_digits);
-		return { barcode: body + checkDigit(body), value };
+		const barcode = body + checkDigit(body);
+		if (!(s.items || []).includes(barcode)) return null;
+		return { barcode, value };
 	}
 
 	function quantity(value, rate) {

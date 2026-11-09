@@ -77,3 +77,14 @@ class TestItemValidation(unittest.TestCase):
 
 	def test_an_item_without_a_plu_is_left_alone(self):
 		self.run_it("").append.assert_not_called()
+
+
+class TestBootRegistry(unittest.TestCase):
+	def test_only_items_with_a_plu_of_the_right_length_are_listed_as_barcodes(self):
+		boot = SimpleNamespace(erpnext_iran={})
+		with (
+			patch.object(scale, "get_scale_settings", return_value=dict(SETTINGS)),
+			patch.object(scale, "registered_barcodes", return_value=["000123", "12"]) if False else patch.object(scale.frappe, "get_all", return_value=["000123", "12", "000123"]),
+		):
+			scale.extend_bootinfo(boot)
+		self.assertEqual(boot.erpnext_iran["scale"]["items"], [scale.item_barcode("000123", SETTINGS)])

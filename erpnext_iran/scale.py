@@ -92,5 +92,13 @@ def validate_item(doc, method=None):
 		doc.append("barcodes", {"barcode": barcode, "barcode_type": "EAN"})
 
 
+def registered_barcodes() -> list[str]:
+	"""The barcodes made from the PLU of every item. A scanned code is read as a scale label only when it
+	points to one of these, so a shop's own labels that also start with 2 are not taken for a weight."""
+	return sorted(set(frappe.get_all("Item", filters={"scale_plu": ["is", "set"]}, pluck="scale_plu")))
+
+
 def extend_bootinfo(bootinfo):
-	bootinfo.erpnext_iran["scale"] = get_scale_settings()
+	settings = get_scale_settings()
+	settings["items"] = [item_barcode(plu, settings) for plu in registered_barcodes() if len(plu) == settings["plu_digits"]]
+	bootinfo.erpnext_iran["scale"] = settings
