@@ -96,7 +96,8 @@ def refuse(woo_id: str, reason: str) -> dict:
 	frappe.get_doc(
 		{
 			"doctype": "ToDo",
-			"description": _("WooCommerce order {0} was not entered: {1}").format(woo_id, reason),
+			# the reason can carry text the store sent (an SKU): a to-do is shown as HTML
+			"description": _("WooCommerce order {0} was not entered: {1}").format(frappe.utils.escape_html(woo_id), frappe.utils.escape_html(reason)),
 			"priority": "High",
 			"allocated_to": settings().woo_run_as or "Administrator",
 		}
@@ -305,7 +306,7 @@ def push_after_sale(doc, method=None):
 		frappe.enqueue("erpnext_iran.woocommerce.push_items", item_codes=online, enqueue_after_commit=True, queue="short")
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def sync_now() -> dict:
 	frappe.only_for("System Manager")
 	return push_items(None)

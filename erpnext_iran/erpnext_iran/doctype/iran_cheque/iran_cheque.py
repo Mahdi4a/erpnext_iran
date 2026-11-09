@@ -79,7 +79,7 @@ class IranCheque(Document):
 		return journal_entry
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def make_action(name: str, action: str, posting_date=None, bank_account=None, endorsed_to=None):
 	cheque = frappe.get_doc("Iran Cheque", name)
 	cheque.check_permission("submit")

@@ -80,7 +80,7 @@ def _party_box(config: dict, heading: str, party_side: bool) -> str:
 			"{% if doc.contact_mobile %} &nbsp;|&nbsp; تلفن: {{ doc.contact_mobile | iran_digits }}{% endif %}"
 		)
 		address = "{% if doc.address_display %}<div>نشانی: {{ doc.address_display }}</div>{% endif %}"
-		who = "{{ doc." + name + " or doc." + party + " }}"
+		who = "{{ (doc." + name + " or doc." + party + ") | e }}"
 	else:
 		ids = (
 			"{% if company.tax_id %} &nbsp;|&nbsp; شماره اقتصادی: {{ company.tax_id | iran_digits }}{% endif %}"
@@ -90,7 +90,7 @@ def _party_box(config: dict, heading: str, party_side: bool) -> str:
 			"{% set company_address = doc.company_address_display or doc.billing_address_display %}"
 			"{% if company_address %}<div>نشانی: {{ company_address }}</div>{% endif %}"
 		)
-		who = "{{ doc.company }}"
+		who = "{{ doc.company | e }}"
 	return (
 		f'<div class="box"><h4>{heading}</h4><div class="row">'
 		f"نام شخص حقیقی / حقوقی: <b>{who}</b>{ids}{address}</div></div>"
@@ -133,9 +133,9 @@ def build_document_html(doctype: str) -> str:
 			{{% for row in doc.items %}}
 			<tr>
 				<td class="center">{{{{ loop.index | iran_digits }}}}</td>
-				<td>{{{{ row.item_name }}}}{{% if row.description and row.description != row.item_name %}}<div class="muted">{{{{ row.description }}}}</div>{{% endif %}}</td>
+				<td>{{{{ row.item_name | e }}}}{{% if row.description and row.description != row.item_name %}}<div class="muted">{{{{ row.description }}}}</div>{{% endif %}}</td>
 				<td class="center">{{{{ row.get_formatted("qty", doc) | iran_digits }}}}</td>
-				<td class="center">{{{{ row.uom }}}}</td>
+				<td class="center">{{{{ row.uom | e }}}}</td>
 				<td class="num">{{{{ money(row.rate) }}}}</td>
 				<td class="num">{{{{ money(row.discount_amount * row.qty if row.discount_amount else 0) }}}}</td>
 				<td class="num">{{{{ money(row.amount) }}}}</td>
@@ -147,7 +147,7 @@ def build_document_html(doctype: str) -> str:
 		<tr><td>جمع کل</td><td class="num">{{{{ money(doc.net_total) }}}}</td></tr>
 		{{% if doc.discount_amount %}}<tr><td>تخفیف کل</td><td class="num">{{{{ money(doc.discount_amount) }}}}</td></tr>{{% endif %}}
 		{{% for tax in doc.taxes %}}
-		<tr><td>{{{{ "مالیات بر ارزش افزوده" if tax.description == "VAT" else (tax.description or tax.account_head) }}}}{{% if tax.rate %}} ({{{{ tax.rate | iran_digits }}}}٪){{% endif %}}</td><td class="num">{{{{ money(tax.tax_amount) }}}}</td></tr>
+		<tr><td>{{{{ "مالیات بر ارزش افزوده" if tax.description == "VAT" else (tax.description or tax.account_head) | e }}}}{{% if tax.rate %}} ({{{{ tax.rate | iran_digits }}}}٪){{% endif %}}</td><td class="num">{{{{ money(tax.tax_amount) }}}}</td></tr>
 		{{% endfor %}}
 		<tr><th>مبلغ قابل پرداخت ({{{{ doc.currency }}}})</th><th class="num">{{{{ money(doc.rounded_total or doc.grand_total) }}}}</th></tr>
 	</table>
@@ -171,9 +171,9 @@ def build_payment_entry_html() -> str:
 		<td style="width: 30%"><div>شماره سند: <b dir="ltr">{{{{ doc.name | iran_digits }}}}</b></div><div>تاریخ: <b dir="ltr">{{{{ doc.posting_date | jalali_date | iran_digits }}}}</b></div></td>
 	</tr></table>
 	<table>
-		<tr><th style="width: 22%">شرکت</th><td>{{{{ doc.company }}}}</td></tr>
-		{{% if doc.party %}}<tr><th>{{{{ "پرداخت‌کننده" if receive else "دریافت‌کننده" }}}}</th><td>{{{{ doc.party_name or doc.party }}}}</td></tr>{{% endif %}}
-		<tr><th>روش پرداخت</th><td>{{{{ doc.mode_of_payment or "" }}}}</td></tr>
+		<tr><th style="width: 22%">شرکت</th><td>{{{{ doc.company | e }}}}</td></tr>
+		{{% if doc.party %}}<tr><th>{{{{ "پرداخت‌کننده" if receive else "دریافت‌کننده" }}}}</th><td>{{{{ (doc.party_name or doc.party) | e }}}}</td></tr>{{% endif %}}
+		<tr><th>روش پرداخت</th><td>{{{{ (doc.mode_of_payment or "") | e }}}}</td></tr>
 		{{% if doc.reference_no %}}<tr><th>شماره مرجع / چک</th><td dir="ltr" style="text-align: right">{{{{ doc.reference_no | iran_digits }}}}{{% if doc.reference_date %}} &nbsp;|&nbsp; {{{{ doc.reference_date | jalali_date | iran_digits }}}}{{% endif %}}</td></tr>{{% endif %}}
 		<tr><th>مبلغ ({{{{ currency }}}})</th><td class="num"><b>{{{{ money(amount) }}}}</b></td></tr>
 		{{% if doc.in_words %}}<tr><th>مبلغ به حروف</th><td>{{{{ doc.in_words | iran_digits }}}}</td></tr>{{% endif %}}

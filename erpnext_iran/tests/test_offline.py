@@ -168,3 +168,20 @@ class TestListRate(unittest.TestCase):
 
 	def test_a_rate_above_the_list_price_is_no_discount(self):
 		self.assertEqual(offline.effective_list_rate(100, {"rate": 120, "list_rate": 100}), 120)
+
+
+class TestSnapshotPermissions(unittest.TestCase):
+	def test_a_cashier_needs_only_what_a_cashier_has(self):
+		"""Sales User can read Item and Customer but not Item Price: asking for more would lock every cashier out."""
+		asked = []
+
+		def has_permission(doctype, ptype="read", doc=None, throw=False, **kwargs):
+			asked.append(doctype)
+			return True
+
+		with patch.object(offline.frappe, "has_permission", side_effect=has_permission), patch.object(
+			offline.frappe, "get_cached_doc", side_effect=RuntimeError("stop after the permission checks")
+		):
+			with self.assertRaises(RuntimeError):
+				offline.snapshot("P")
+		self.assertEqual(asked, ["POS Profile", "Item", "Customer"])

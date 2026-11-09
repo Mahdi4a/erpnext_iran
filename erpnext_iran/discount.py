@@ -49,9 +49,10 @@ def check_discount(doc, method=None):
 	percent = discount_percent(doc)
 	if percent <= limit + 0.0001 or is_manager(frappe.session.user):
 		return
-	approver = doc.get("discount_approval_token") and frappe.cache.get_value(token_key(doc.discount_approval_token))
-	if approver:
-		doc.discount_approved_by = approver
+	grant = doc.get("discount_approval_token") and frappe.cache.get_value(token_key(doc.discount_approval_token))
+	# the approval is the cashier's own: a token handed on to another till or another cashier is no approval
+	if isinstance(grant, dict) and grant.get("cashier") == frappe.session.user:
+		doc.discount_approved_by = grant["manager"]
 		return
 	frappe.throw(
 		_("The discount is {0}%, more than the {1}% a cashier may give. A manager must approve it.").format(
@@ -61,22 +62,36 @@ def check_discount(doc, method=None):
 	)
 
 
-@frappe.whitelist()
+def consume_token(doc, method=None):
+	"""Sales Invoice on_submit: an approval pays for one sale, so the token is spent with it."""
+	if doc.get("discount_approval_token"):
+		frappe.cache.delete_value(token_key(doc.discount_approval_token))
+
+
+@frappe.whitelist(methods=["POST"])
 @rate_limit(limit=10, seconds=300)
 def approve_discount(manager: str, password: str) -> dict:
-	"""A manager's user and password on the till. Nothing is returned that outlives half an hour."""
+	"""A manager's user and password on the till. The token it returns is for this cashier, for one sale, and
+	lives half an hour. Guessing the manager's password is limited per manager, not only per address."""
+	from frappe.auth import LoginAttemptTracker
 	from frappe.utils.password import check_password
 
 	# A wrong password must not be a 401: the desk reads that as an expired session and logs the cashier out.
 	manager = (manager or "").strip()
+	tracker = LoginAttemptTracker(f"discount_approval:{manager.lower()}", max_consecutive_login_attempts=5, lock_interval=300)
+	if not tracker.is_user_allowed():
+		frappe.throw(_("Too many wrong attempts. Try again in a few minutes."))
 	if not manager or not frappe.db.get_value("User", {"name": manager, "enabled": 1}):
+		tracker.add_failure_attempt()
 		frappe.throw(_("User or password is wrong"))
 	try:
 		check_password(manager, password)
 	except frappe.AuthenticationError:
+		tracker.add_failure_attempt()
 		frappe.throw(_("User or password is wrong"))
 	if not is_manager(manager):
 		frappe.throw(_("{0} is not a manager and cannot approve a discount").format(manager))
+	tracker.add_success_attempt()
 	token = frappe.generate_hash(length=24)
-	frappe.cache.set_value(token_key(token), manager, expires_in_sec=TOKEN_SECONDS)
+	frappe.cache.set_value(token_key(token), {"manager": manager, "cashier": frappe.session.user}, expires_in_sec=TOKEN_SECONDS)
 	return {"token": token, "user": manager}

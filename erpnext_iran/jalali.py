@@ -26,7 +26,7 @@ def current_jalali_year(today: datetime.date | None = None) -> int:
 	return to_jalali(today or datetime.date.today())[0]
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def create_fiscal_year(jalali_year: int | str, company: str | None = None) -> str:
 	"""A Fiscal Year named after the Jalali year, e.g. 1404. Does nothing if it already exists.
 

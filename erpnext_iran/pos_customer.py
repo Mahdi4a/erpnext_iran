@@ -12,8 +12,9 @@ def find_customer(number: str) -> str | None:
 	)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def customer_for_mobile(mobile: str) -> dict:
+	frappe.has_permission("Customer", "read", throw=True)  # finding a customer by mobile shows whether they exist
 	number = try_normalize_mobile(mobile)
 	if not number:
 		frappe.throw(_("{0} is not a valid mobile number").format(frappe.bold(mobile)))

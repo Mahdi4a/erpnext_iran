@@ -56,8 +56,24 @@ class TestCheckDiscount(unittest.TestCase):
 
 	def test_a_valid_approval_token_lets_it_through_and_is_recorded(self):
 		doc = self.invoice(discount_approval_token="abc")
-		self.run_check(doc, 10, cached="boss@example.com")
+		self.run_check(doc, 10, cached={"manager": "boss@example.com", "cashier": frappe.session.user})
 		self.assertEqual(doc.discount_approved_by, "boss@example.com")
+
+	def test_a_token_made_for_another_cashier_is_no_approval(self):
+		doc = self.invoice(discount_approval_token="abc")
+		with self.assertRaises(frappe.ValidationError):
+			self.run_check(doc, 10, cached={"manager": "boss@example.com", "cashier": "someone.else@example.com"})
+
+	def test_an_old_style_token_without_a_cashier_is_refused(self):
+		with self.assertRaises(frappe.ValidationError):
+			self.run_check(self.invoice(discount_approval_token="abc"), 10, cached="boss@example.com")
+
+	def test_the_token_is_spent_with_the_sale(self):
+		doc = self.invoice(discount_approval_token="abc")
+		with patch.object(discount.frappe.cache, "delete_value") as delete:
+			discount.consume_token(doc)
+			discount.consume_token(self.invoice())  # a sale without a token spends nothing
+		delete.assert_called_once_with(discount.token_key("abc"))
 
 	def test_an_expired_token_does_not(self):
 		with self.assertRaises(frappe.ValidationError):
@@ -91,3 +107,25 @@ class TestApproveDiscount(unittest.TestCase):
 			with self.assertRaises(frappe.ValidationError) as wrong:
 				discount.approve_discount("manager1", "bad")
 		self.assertNotIsInstance(wrong.exception, frappe.AuthenticationError)
+
+
+class TestApprovalLockout(unittest.TestCase):
+	def test_five_wrong_passwords_lock_the_manager_for_a_while(self):
+		from frappe.auth import LoginAttemptTracker
+
+		key = "discount_approval:lockout-test@example.com"
+		tracker = LoginAttemptTracker(key, max_consecutive_login_attempts=5, lock_interval=300)
+		tracker.add_success_attempt()
+		try:
+			with patch.object(discount.frappe.db, "get_value", return_value="lockout-test@example.com"), patch(
+				"frappe.utils.password.check_password", side_effect=frappe.AuthenticationError
+			):
+				for _attempt in range(6):
+					with self.assertRaises(frappe.ValidationError):
+						discount.approve_discount("lockout-test@example.com", "bad")
+			self.assertFalse(tracker.is_user_allowed())
+			with self.assertRaises(frappe.ValidationError) as locked:
+				discount.approve_discount("lockout-test@example.com", "even-the-right-one")
+			self.assertIn("Too many", str(locked.exception))
+		finally:
+			tracker.add_success_attempt()

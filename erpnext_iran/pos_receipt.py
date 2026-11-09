@@ -19,21 +19,21 @@ MONEY = '{%- macro money(value) -%}{{ "{:,.0f}".format(value or 0) | iran_digits
 
 BODY = """
 <div class="iran-receipt">
-	<div class="c big">{{ doc.company }}</div>
-	{% if doc.pos_profile %}<div class="c">{{ doc.pos_profile }}</div>{% endif %}
+	<div class="c big">{{ doc.company | e }}</div>
+	{% if doc.pos_profile %}<div class="c">{{ doc.pos_profile | e }}</div>{% endif %}
 	<div class="line"></div>
 	<table>
 		<tr><td>شماره فیش</td><td class="n">{{ doc.name | iran_digits }}</td></tr>
 		<tr><td>تاریخ</td><td class="n">{{ doc.posting_date | jalali_date }} {{ (doc.get_formatted("posting_time") or "")[:5] | iran_digits }}</td></tr>
-		<tr><td>صندوقدار</td><td>{{ frappe.db.get_value("User", doc.owner, "full_name") or doc.owner }}</td></tr>
-		{% if doc.customer_name and doc.customer_name != doc.customer %}<tr><td>مشتری</td><td>{{ doc.customer_name }}</td></tr>{% endif %}
+		<tr><td>صندوقدار</td><td>{{ (frappe.db.get_value("User", doc.owner, "full_name") or doc.owner) | e }}</td></tr>
+		{% if doc.customer_name and doc.customer_name != doc.customer %}<tr><td>مشتری</td><td>{{ doc.customer_name | e }}</td></tr>{% endif %}
 	</table>
 	<div class="line"></div>
 	<table>
 		<tr><th>کالا</th><th>تعداد</th><th>مبلغ</th></tr>
 		{% for row in doc.items %}
 		<tr>
-			<td>{{ row.item_name }}<br><span class="n">{{ money(row.rate) }}</span></td>
+			<td>{{ row.item_name | e }}<br><span class="n">{{ money(row.rate) }}</span></td>
 			<td class="c">{{ ("%g" | format(row.qty)) | iran_digits }}</td>
 			<td class="n">{{ money(row.amount) }}</td>
 		</tr>
@@ -42,13 +42,13 @@ BODY = """
 	<div class="line"></div>
 	<table>
 		{% if doc.discount_amount %}<tr><td>تخفیف</td><td class="n">{{ money(doc.discount_amount) }}</td></tr>{% endif %}
-		{% for tax in doc.taxes %}<tr><td>{{ tax.description }}</td><td class="n">{{ money(tax.tax_amount) }}</td></tr>{% endfor %}
+		{% for tax in doc.taxes %}<tr><td>{{ tax.description | e }}</td><td class="n">{{ money(tax.tax_amount) }}</td></tr>{% endfor %}
 		<tr class="total"><td>مبلغ قابل پرداخت</td><td class="n">{{ money(doc.rounded_total or doc.grand_total) }}</td></tr>
 	</table>
 	{% if doc.payments %}
 	<div class="line"></div>
 	<table>
-		{% for pay in doc.payments %}{% if pay.amount %}<tr><td>{{ pay.mode_of_payment }}</td><td class="n">{{ money(pay.amount) }}</td></tr>{% endif %}{% endfor %}
+		{% for pay in doc.payments %}{% if pay.amount %}<tr><td>{{ pay.mode_of_payment | e }}</td><td class="n">{{ money(pay.amount) }}</td></tr>{% endif %}{% endfor %}
 		{% if doc.change_amount %}<tr><td>باقی‌مانده به مشتری</td><td class="n">{{ money(doc.change_amount) }}</td></tr>{% endif %}
 	</table>
 	{% endif %}

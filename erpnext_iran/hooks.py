@@ -45,7 +45,7 @@ doc_events = {
 		"before_validate": "erpnext_iran.moadian.set_defaults_from_company",
 		"validate": ["erpnext_iran.loyalty.validate_redeem_limit", "erpnext_iran.channels.default_channel"],
 		"before_submit": "erpnext_iran.discount.check_discount",
-		"on_submit": ["erpnext_iran.moadian_send.auto_send_on_submit", "erpnext_iran.woocommerce.push_after_sale"],
+		"on_submit": ["erpnext_iran.moadian_send.auto_send_on_submit", "erpnext_iran.woocommerce.push_after_sale", "erpnext_iran.discount.consume_token"],
 		"on_cancel": ["erpnext_iran.moadian_send.cancel_after_erp_cancel", "erpnext_iran.woocommerce.push_after_sale"],
 	},
 	"Item": {"validate": "erpnext_iran.scale.validate_item"},

@@ -71,7 +71,7 @@ def _series_options(doctype: str) -> list[str]:
 	return [o for o in (frappe.get_meta(doctype).get_field("naming_series").options or "").split("\n") if o]
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def add_jalali_series() -> list[str]:
 	"""For every document above, adds a series with the Jalali year next to each one that has the
 	Gregorian year (ACC-SINV-.YYYY.-.#####, ACC-SINV-.JY.-.#####) and makes the first of them the
@@ -92,7 +92,7 @@ def add_jalali_series() -> list[str]:
 	return changed
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def remove_jalali_series() -> list[str]:
 	"""Takes the Jalali series away again. Documents already numbered with them keep their names."""
 	frappe.only_for("System Manager")

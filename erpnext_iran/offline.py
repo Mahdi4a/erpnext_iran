@@ -27,6 +27,9 @@ TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 @frappe.whitelist()
 def snapshot(pos_profile: str) -> dict:
 	frappe.has_permission("POS Profile", "read", doc=pos_profile, throw=True)
+	# the copy carries every customer's mobile and points (prices reach the POS through Item for any cashier)
+	for doctype in ("Item", "Customer"):
+		frappe.has_permission(doctype, "read", throw=True)
 	profile = frappe.get_cached_doc("POS Profile", pos_profile)
 
 	from erpnext_iran.scale import get_scale_settings, registered_barcodes, item_barcode
@@ -203,7 +206,7 @@ def existing_invoice(sale_id: str) -> str | None:
 	return frappe.db.get_value("Sales Invoice", {"offline_sale_id": sale_id}, "name")
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def submit_sales(sales) -> list[dict]:
 	sales = frappe.parse_json(sales)
 	if not isinstance(sales, list) or len(sales) > MAX_SALES_PER_CALL:

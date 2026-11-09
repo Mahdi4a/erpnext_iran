@@ -59,7 +59,7 @@
 				const approval = await askManager();
 				if (!approval) return;
 				await frappe.model.set_value(doc.doctype, doc.name, 'discount_approval_token', approval.token);
-				frappe.show_alert({ message: __('Approved by {0}', [approval.user]), indicator: 'green' });
+				frappe.show_alert({ message: __('Approved by {0}', [frappe.utils.escape_html(approval.user)]), indicator: 'green' });
 			}
 			return checkout.apply(this, arguments);
 		};

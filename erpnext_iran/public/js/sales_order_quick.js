@@ -12,7 +12,7 @@ frappe.ui.form.on('Sales Order', {
 				if (!r.message) return;
 				frm.set_value('customer', r.message.customer);
 				frappe.show_alert({
-					message: r.message.created ? __('New customer {0}', [r.message.customer]) : __('Customer {0}', [r.message.customer]),
+					message: r.message.created ? __('New customer {0}', [frappe.utils.escape_html(r.message.customer)]) : __('Customer {0}', [frappe.utils.escape_html(r.message.customer)]),
 					indicator: 'green',
 				});
 			},

@@ -132,12 +132,14 @@ def seniority_amount(employee: str, on=None) -> dict:
 @frappe.whitelist()
 def eidi(employee: str, jalali_year: int | str) -> dict:
 	frappe.has_permission("Employee", "read", employee, throw=True)
+	frappe.has_permission("Salary Structure Assignment", "read", throw=True)  # the answer is made from the salary
 	return eidi_amount(employee, cint(jalali_year))
 
 
 @frappe.whitelist()
 def seniority(employee: str, on: str | None = None) -> dict:
 	frappe.has_permission("Employee", "read", employee, throw=True)
+	frappe.has_permission("Salary Structure Assignment", "read", throw=True)
 	return seniority_amount(employee, on)
 
 

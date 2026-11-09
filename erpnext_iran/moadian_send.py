@@ -25,7 +25,7 @@ def error_text(result: dict) -> str:
 	return "\n".join(messages)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def send_invoice(invoice_name: str) -> str:
 	invoice = frappe.get_doc("Sales Invoice", invoice_name)
 	invoice.check_permission("write")
@@ -71,7 +71,7 @@ def cancellation_payload(invoice, serial: int) -> dict:
 	return {"header": header, "body": [], "payments": []}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def cancel_in_moadian(invoice_name: str) -> str:
 	"""Tell Moadian that an invoice it accepted is void. Run it after the invoice is cancelled."""
 	invoice = frappe.get_doc("Sales Invoice", invoice_name)
@@ -94,7 +94,7 @@ def cancel_after_erp_cancel(doc, event=None):
 		frappe.enqueue(cancel_in_moadian, invoice_name=doc.name, enqueue_after_commit=True)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def check_status(invoice_name: str) -> str:
 	invoice = frappe.get_doc("Sales Invoice", invoice_name)
 	invoice.check_permission("read")

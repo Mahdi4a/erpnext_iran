@@ -27,7 +27,30 @@ class TestPrintFormats(unittest.TestCase):
 		seller = html.index("مشخصات فروشنده")
 		buyer = html.index("مشخصات خریدار")
 		self.assertLess(html.index("doc.supplier_name", seller), buyer)
-		self.assertLess(buyer, html.index("{{ doc.company }}", buyer))
+		self.assertLess(buyer, html.index("{{ doc.company | e }}", buyer))
+
+	def test_free_text_of_the_document_is_escaped(self):
+		"""Names typed by people (items, parties, tax and payment rows) go through |e; the Text Editor fields (terms,
+		remarks, item description) are HTML by design and are sanitised when saved."""
+		import re
+
+		for doctype in print_formats.DOCUMENTS:
+			html = print_formats.build_document_html(doctype)
+			for expression in re.findall(r"\{\{[^}]*\}\}", html):
+				if re.search(r"row\.item_name|doc\.company\b(?!_)|row\.uom|\bparty_name", expression):
+					self.assertIn("| e", expression, expression)
+
+	def test_the_pos_receipt_escapes_names_too(self):
+		import re
+
+		from erpnext_iran import pos_receipt
+
+		html = pos_receipt.build_receipt_html()
+		for needle in ("row.item_name", "doc.customer_name", "tax.description", "pay.mode_of_payment", "doc.company", "doc.pos_profile"):
+			matches = re.findall(r"\{\{[^}]*" + re.escape(needle) + r"[^}]*\}\}", html)
+			self.assertTrue(matches, needle)
+			for match in matches:
+				self.assertIn("| e", match, match)
 
 	def test_a_quotation_takes_its_customer_from_the_party_name_field(self):
 		html = print_formats.build_document_html("Quotation")
