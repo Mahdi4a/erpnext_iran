@@ -5,6 +5,7 @@ from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
 from erpnext_iran.banks import ensure_banks
 from erpnext_iran.dashboard import ensure_dashboard
+from erpnext_iran.payroll_setup import ensure_payroll
 from erpnext_iran.defaults import apply_defaults
 from erpnext_iran.fields import CUSTOM_FIELDS
 from erpnext_iran.holidays import ensure_holiday_lists
@@ -37,6 +38,7 @@ def after_migrate():
 	"""Keeps the custom fields, print formats and banks in step with this app after an update."""
 	create_custom_fields(CUSTOM_FIELDS, update=True)
 	ensure_dashboard()
+	ensure_payroll()
 	ensure_print_formats()
 	ensure_banks()
 	ensure_holiday_lists()

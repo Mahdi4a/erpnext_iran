@@ -1,0 +1,34 @@
+{
+ "doctype": "DocType",
+ "name": "Iran Payroll Settings",
+ "module": "Erpnext Iran",
+ "issingle": 1,
+ "engine": "InnoDB",
+ "description": "The legal rates of payroll, one row per Jalali year. Nothing is filled in for you: the accountant enters the figures of the year, and a payslip of a year with no row is refused.",
+ "fields": [
+  {
+   "fieldname": "years",
+   "label": "Rates by Year",
+   "fieldtype": "Table",
+   "options": "Iran Payroll Year"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1
+  },
+  {
+   "role": "HR Manager",
+   "read": 1,
+   "write": 1
+  }
+ ]
+}

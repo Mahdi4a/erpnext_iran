@@ -371,6 +371,18 @@ ITEM_ONLINE_FIELDS = [
 ]
 
 
+EMPLOYEE_PAYROLL_FIELDS = [
+	{"fieldname": "iran_payroll_section", "label": "Iran Payroll", "fieldtype": "Section Break", "insert_after": "salary_mode", "collapsible": 1},
+	{"fieldname": "iran_national_id", "label": "National ID", "fieldtype": "Data", "insert_after": "iran_payroll_section"},
+	{"fieldname": "iran_insurance_number", "label": "Insurance Number", "fieldtype": "Data", "insert_after": "iran_national_id"},
+	{"fieldname": "iran_insurance_applies", "label": "Insurance Applies", "fieldtype": "Check", "default": "1", "insert_after": "iran_insurance_number"},
+	{"fieldname": "iran_payroll_column", "fieldtype": "Column Break", "insert_after": "iran_insurance_applies"},
+	{"fieldname": "iran_children", "label": "Number of Children", "fieldtype": "Int", "default": "0", "insert_after": "iran_payroll_column"},
+	{"fieldname": "iran_housing", "label": "Housing Allowance (monthly)", "fieldtype": "Currency", "insert_after": "iran_children"},
+	{"fieldname": "iran_food", "label": "Food Allowance (monthly)", "fieldtype": "Currency", "insert_after": "iran_housing"},
+]
+
+
 def _pricing_rule_time_fields():
 	from erpnext_iran.pricing_time import DAYS
 
@@ -428,6 +440,7 @@ SALES_INVOICE_OFFLINE_FIELDS = [
 CUSTOM_FIELDS.update(
 	{
 		"Pricing Rule": _pricing_rule_time_fields(),
+		"Employee": EMPLOYEE_PAYROLL_FIELDS,
 		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors") + SALES_INVOICE_DISCOUNT_FIELDS + SALES_INVOICE_OFFLINE_FIELDS + CHANNEL_FIELDS,
 		"Sales Order": SALES_ORDER_CHANNEL_FIELDS,
 		"Sales Invoice Item": custom_fields(ITEM_EXTRAS, "description"),

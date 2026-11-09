@@ -9,8 +9,8 @@ required_apps = ["iran_base", "erpnext"]
 
 after_install = "erpnext_iran.install.after_install"
 after_migrate = "erpnext_iran.install.after_migrate"
-before_request = "erpnext_iran.pricing_time.install"
-before_job = "erpnext_iran.pricing_time.install"
+before_request = ["erpnext_iran.pricing_time.install", "erpnext_iran.iran_payroll.install"]
+before_job = ["erpnext_iran.pricing_time.install", "erpnext_iran.iran_payroll.install"]
 
 app_include_js = [
 	"/assets/erpnext_iran/js/erpnext_iran.js",

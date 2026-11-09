@@ -1,0 +1,69 @@
+{
+ "doctype": "DocType",
+ "name": "Iran Payroll Year",
+ "module": "Erpnext Iran",
+ "istable": 1,
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "jalali_year",
+   "label": "Jalali Year",
+   "fieldtype": "Int",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "For example 1405. The slip uses the row of the year its period ends in."
+  },
+  {
+   "fieldname": "min_daily_wage",
+   "label": "Minimum Daily Wage",
+   "fieldtype": "Currency",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "employee_insurance_pct",
+   "label": "Employee Insurance Share (%)",
+   "fieldtype": "Percent",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "employer_insurance_pct",
+   "label": "Employer Insurance Share (%)",
+   "fieldtype": "Percent",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "unemployment_pct",
+   "label": "Unemployment Insurance (%)",
+   "fieldtype": "Percent",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "insurance_ceiling",
+   "label": "Insurance Ceiling (monthly)",
+   "fieldtype": "Currency",
+   "description": "The most of a month's pay that insurance is taken on. Empty means no ceiling."
+  },
+  {
+   "fieldname": "child_allowance",
+   "label": "Allowance per Child (monthly)",
+   "fieldtype": "Currency"
+  },
+  {
+   "fieldname": "eidi_days",
+   "label": "Eidi (days of wage)",
+   "fieldtype": "Float"
+  },
+  {
+   "fieldname": "eidi_cap_days",
+   "label": "Eidi Cap (days of minimum wage)",
+   "fieldtype": "Float"
+  },
+  {
+   "fieldname": "sanavat_days",
+   "label": "Seniority Pay (days per year of service)",
+   "fieldtype": "Float"
+  }
+ ],
+ "permissions": []
+}

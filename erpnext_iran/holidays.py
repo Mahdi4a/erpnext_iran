@@ -97,6 +97,36 @@ def ensure_holiday_lists():
 	year = current_jalali_year()
 	names = [ensure_holiday_list(y) for y in (year, year + 1)]
 	set_company_holiday_list(next((n for n in names if n), None))
+	ensure_company_assignments([n for n in names if n])
+
+
+def ensure_company_assignments(names: list[str]):
+	"""Frappe HR (payroll, attendance) does not read the Company's default holiday list: it wants a Holiday List
+	Assignment. Each Iranian company gets one per list, starting when the list starts."""
+	if not names or not frappe.db.exists("DocType", "Holiday List Assignment"):
+		return
+	companies = frappe.get_all("Company", filters={"country": "Iran"}, pluck="name")
+	for company in companies:
+		for name in names:
+			existing = frappe.db.get_value(
+				"Holiday List Assignment", {"applicable_for": "Company", "assigned_to": company, "holiday_list": name, "docstatus": ["<", 2]}, ["name", "docstatus"], as_dict=True
+			)
+			if existing:
+				if existing.docstatus == 0:  # only a submitted assignment counts
+					frappe.get_doc("Holiday List Assignment", existing.name).submit()
+				continue
+			doc = frappe.new_doc("Holiday List Assignment")
+			doc.update(
+				{
+					"applicable_for": "Company",
+					"assigned_to": company,
+					"holiday_list": name,
+					"from_date": frappe.db.get_value("Holiday List", name, "from_date"),
+				}
+			)
+			doc.flags.ignore_permissions = True
+			doc.insert()
+			doc.submit()
 
 
 def set_company_holiday_list(name: str | None):
