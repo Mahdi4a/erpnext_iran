@@ -51,6 +51,7 @@ class TestMoadianCrypto(unittest.TestCase):
 			(decoded_header["alg"], decoded_header["sigT"], decoded_header["crit"]),
 			("RS256", "2024-03-06T13:05:50Z", ["sigT"]),
 		)
+		self.assertEqual((decoded_header["typ"], decoded_header["cty"]), ("jose", "text/plain"))
 
 	def test_jwe_opens_with_the_server_private_key_and_returns_the_signed_invoice(self):
 		server_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)

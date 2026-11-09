@@ -30,6 +30,14 @@ RIAL_PER_TOMAN = 10
 UNVERIFIED = True
 
 
+# Fields the tax authority reads as whole numbers (Integer, Byte or Long in its SDK)
+INTEGER_CODES = {"ft", "cdcd", "asd", "lt", "insr", "consfee", "spro", "bros", "tcpbs", "ssrv", "sovat"}
+
+
+def typed(code, value):
+	return int(round(float(value))) if code in INTEGER_CODES else value
+
+
 PATTERN_FILE = os.path.join(os.path.dirname(__file__), "data", "moadian_patterns.json")
 
 
@@ -82,6 +90,7 @@ def pattern_gaps(payload: dict) -> list[str]:
 		raise ValueError(f"Pattern {header['inp']} is not valid for invoice type {header['inty']}")
 	present = set(header) | {code for row in payload["body"] for code in row}
 	present |= {code for row in payload["payments"] for code in row}
+	present |= {code for goods in header.get("sg", []) for code in goods}
 	return [code for code, status in spec.items() if status == "mandatory" and code not in present]
 
 
@@ -186,7 +195,7 @@ def _body_row(row, factor, sign, default_rate, items, units) -> dict:
 	}
 	for code in ITEM_CODES:
 		if row.get(f"moadian_{code}") not in (None, "", 0):
-			line[code] = row.get(f"moadian_{code}")
+			line[code] = typed(code, row.get(f"moadian_{code}"))
 	return line
 
 
@@ -201,7 +210,7 @@ def _header(invoice, seller, buyer, body, factor) -> dict:
 		"taxid": invoice.get("moadian_tax_id") or "",
 		"indatim": to_millis(invoice.posting_date, invoice.get("posting_time")),
 		"inty": code_of(invoice.get("moadian_invoice_type"), 1),
-		"inno": invoice.get("moadian_serial") or 0,
+		"inno": str(invoice.get("moadian_serial") or 0),
 		"inp": code_of(invoice.get("moadian_pattern"), 1),
 		"ins": 4 if invoice.get("is_return") else code_of(invoice.get("moadian_subject"), 1),
 		"tins": to_latin_digits(seller.get("economic_code") or ""),
@@ -221,12 +230,16 @@ def _header(invoice, seller, buyer, body, factor) -> dict:
 	}
 	for code in HEADER_CODES:
 		if invoice.get(f"moadian_{code}") not in (None, "", 0):
-			header[code] = invoice.get(f"moadian_{code}")
+			header[code] = typed(code, invoice.get(f"moadian_{code}"))
 	return _add_totals(header, body)
 
 
 def _add_totals(header: dict, body: list[dict]) -> dict:
-	"""Header totals that are plain sums of a body field, for the patterns that ask for them."""
+	"""Header totals that are plain sums of a body field, for the patterns that ask for them, and the
+	carried goods list (sg), which the tax authority wants in the header, not in the rows."""
+	carried = [{code: line.pop(code) for code in ("sgid", "sgt") if code in line} for line in body]
+	if any(carried):
+		header["sg"] = [goods for goods in carried if goods]
 	for total, field in (("tonw", "nw"), ("torv", "ssrv"), ("tocv", "sscv")):
 		if any(field in line for line in body):
 			header[total] = sum(line.get(field, 0) for line in body)

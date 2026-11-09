@@ -171,3 +171,23 @@ class TestMoadianOptionCodes(unittest.TestCase):
 			invoice(moadian_pattern="6 - Air ticket", moadian_settlement_method="2 - Credit"), SELLER, BUYER, ITEMS, UNITS
 		)
 		self.assertEqual((payload["header"]["inp"], payload["header"]["setm"]), (6, 2))
+
+
+class TestMoadianTypes(unittest.TestCase):
+	def test_invoice_number_is_sent_as_text_like_the_sdk_and_the_spec_sample_do(self):
+		payload = moadian.build_payload(invoice(moadian_serial=49321217), SELLER, BUYER, ITEMS, UNITS)
+		self.assertEqual(payload["header"]["inno"], "49321217")
+
+	def test_carried_goods_go_to_the_header_list_not_to_the_rows(self):
+		row = {"moadian_sgid": "G1", "moadian_sgt": "Steel"}
+		payload = moadian.build_payload(pattern_invoice(8, row=row), SELLER, BUYER, ITEMS, UNITS)
+		self.assertEqual(payload["header"]["sg"], [{"sgid": "G1", "sgt": "Steel"}])
+		self.assertNotIn("sgid", payload["body"][0])
+		self.assertNotIn("sgid", moadian.pattern_gaps(payload))
+
+	def test_fields_the_tax_authority_reads_as_whole_numbers_are_sent_as_integers(self):
+		row = {"moadian_consfee": 10.0, "moadian_spro": 20.0, "moadian_bros": 5.0, "moadian_tcpbs": 35.0, "moadian_cfee": 1.5}
+		payload = moadian.build_payload(pattern_invoice(3, row=row), SELLER, BUYER, ITEMS, UNITS)
+		line = payload["body"][0]
+		self.assertEqual([type(line[c]) for c in ("consfee", "spro", "bros", "tcpbs")], [int] * 4)
+		self.assertEqual(line["cfee"], 1.5)

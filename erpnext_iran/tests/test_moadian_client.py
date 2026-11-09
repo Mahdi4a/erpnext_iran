@@ -28,13 +28,20 @@ class TestMoadianHelpers(unittest.TestCase):
 		result = {"data": {"error": [{"code": "012802", "message": "bad"}, {"code": "011107", "message": "long"}]}}
 		self.assertEqual(error_text(result), "012802: bad\n011107: long")
 
-	def test_tax_id_stops_until_the_control_digit_is_written(self):
-		with self.assertRaisesRegex(NotImplementedError, "control digit is not implemented"):
-			moadian_taxid.tax_id("A11216", 1683997837988, 49321217)
+	def test_tax_id_matches_the_six_samples_of_the_official_documents(self):
+		samples = [
+			"A111220E1B9155CB1F18C7", "A1112K04D1271489087018", "A111DW04E8300003CC4EA5",
+			"A111DW04E8300004349008", "A111H104EA6001D0B32AC6", "A1121604C220002F095011",
+		]
+		for sample in samples:
+			days, serial = int(sample[6:11], 16), int(sample[11:21], 16)
+			millis = (days * 86400 + 3600) * 1000
+			self.assertEqual(moadian_taxid.tax_id(sample[:6], millis, serial), sample)
 
-	def test_tax_id_body_matches_the_spec_sample_before_the_control_digit(self):
-		with patch.object(moadian_taxid, "control_digit", return_value="1"):
-			self.assertEqual(moadian_taxid.tax_id("A11216", 1683997837988, 49321217), "A1121604C220002F095011")
+	def test_tax_id_day_comes_from_utc_seconds_so_an_invoice_just_after_midnight_in_tehran_keeps_the_utc_day(self):
+		# 2025-03-21 00:30 Tehran is 2025-03-20 21:00 UTC: day 20167
+		millis = 1742504400000
+		self.assertTrue(moadian_taxid.tax_id("A11216", millis, 1).startswith("A1121604EC7"))
 
 
 class TestMoadianClient(unittest.TestCase):
@@ -85,7 +92,7 @@ class TestMoadianCancellation(unittest.TestCase):
 
 		self.assertEqual(
 			(payload["header"]["ins"], payload["header"]["irtaxid"], payload["header"]["inno"], payload["header"]["inp"]),
-			(3, "A1121604C220002F095011", 7, 3),
+			(3, "A1121604C220002F095011", "7", 3),
 		)
 		self.assertEqual((payload["body"], payload["payments"]), ([], []))
 

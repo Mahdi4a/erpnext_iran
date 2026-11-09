@@ -1,5 +1,6 @@
 """Signing and encryption the Moadian (Iranian tax) API asks for: JWS with RS256, JWE with
-RSA-OAEP-256 and A256GCM. Spec: RC_TICS.IS_v1.6, sections 5 and 7."""
+RSA-OAEP-256 and A256GCM. Spec: RC_TICS.IS_v1.6, sections 5 and 7. The headers also carry typ and cty
+like the official Java SDK (tax-collect-data-sdk 2.0.33) sends them."""
 
 from __future__ import annotations
 
@@ -49,6 +50,8 @@ def sign_jws(payload: dict, private_key, certificate: x509.Certificate, signed_a
 		"alg": "RS256",
 		"x5c": [base64.b64encode(certificate.public_bytes(serialization.Encoding.DER)).decode()],
 		"sigT": signed_at or signature_time(),
+		"typ": "jose",
+		"cty": "text/plain",
 		"crit": ["sigT"],
 	}
 	signing_input = f"{encode_base64url(_compact_json(header))}.{encode_base64url(_compact_json(payload))}"
