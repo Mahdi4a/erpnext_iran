@@ -43,10 +43,10 @@ doc_events = {
 	},
 	"Sales Invoice": {
 		"before_validate": "erpnext_iran.moadian.set_defaults_from_company",
-		"validate": "erpnext_iran.loyalty.validate_redeem_limit",
+		"validate": ["erpnext_iran.loyalty.validate_redeem_limit", "erpnext_iran.channels.default_channel"],
 		"before_submit": "erpnext_iran.discount.check_discount",
-		"on_submit": "erpnext_iran.moadian_send.auto_send_on_submit",
-		"on_cancel": "erpnext_iran.moadian_send.cancel_after_erp_cancel",
+		"on_submit": ["erpnext_iran.moadian_send.auto_send_on_submit", "erpnext_iran.woocommerce.push_after_sale"],
+		"on_cancel": ["erpnext_iran.moadian_send.cancel_after_erp_cancel", "erpnext_iran.woocommerce.push_after_sale"],
 	},
 	"Item": {"validate": "erpnext_iran.scale.validate_item"},
 	"Pricing Rule": {"validate": "erpnext_iran.pricing_time.validate_pricing_rule"},
@@ -70,12 +70,14 @@ naming_series_variables = {
 }
 scheduler_events = {
 	"daily": ["erpnext_iran.jalali.ensure_current_and_next_fiscal_years"],
-	"hourly": ["erpnext_iran.moadian_send.check_sent_invoices"],
+	"hourly": ["erpnext_iran.moadian_send.check_sent_invoices", "erpnext_iran.woocommerce.scheduled_push"],
 }
 
 doctype_list_js = {"Fiscal Year": "public/js/fiscal_year_list.js"}
 doctype_js = {
 	"Address": "public/js/address.js",
 	"Sales Invoice": "public/js/moadian_sales_invoice.js",
+	"Sales Order": "public/js/sales_order_quick.js",
+	"Online Channel Settings": "public/js/online_channel_settings.js",
 	"Company": "public/js/moadian_company.js",
 }

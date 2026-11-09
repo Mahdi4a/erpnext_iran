@@ -1,0 +1,146 @@
+{
+ "doctype": "DocType",
+ "name": "Online Channel Settings",
+ "module": "Erpnext Iran",
+ "issingle": 1,
+ "engine": "InnoDB",
+ "description": "Instagram catalog and WooCommerce store connection.",
+ "fields": [
+  {
+   "fieldname": "catalog_section",
+   "label": "Instagram / Meta Catalog",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "catalog_token",
+   "label": "Catalog Feed Token",
+   "fieldtype": "Password",
+   "description": "Made automatically. The feed address is shown below; give it to Meta Commerce Manager as a scheduled data feed."
+  },
+  {
+   "fieldname": "catalog_url",
+   "label": "Catalog Feed Address",
+   "fieldtype": "Small Text",
+   "read_only": 1
+  },
+  {
+   "fieldname": "catalog_price_list",
+   "label": "Price List",
+   "fieldtype": "Link",
+   "options": "Price List"
+  },
+  {
+   "fieldname": "catalog_warehouse",
+   "label": "Warehouse for Availability",
+   "fieldtype": "Link",
+   "options": "Warehouse",
+   "description": "Empty adds up all warehouses."
+  },
+  {
+   "fieldname": "shop_url",
+   "label": "Shop Address",
+   "fieldtype": "Data",
+   "description": "The web address a catalog item links to when it has no WooCommerce page, for example https://shop.example.ir"
+  },
+  {
+   "fieldname": "woo_section",
+   "label": "WooCommerce",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "woo_enabled",
+   "label": "WooCommerce Enabled",
+   "fieldtype": "Check",
+   "default": "0"
+  },
+  {
+   "fieldname": "woo_url",
+   "label": "Store Address",
+   "fieldtype": "Data",
+   "description": "https://shop.example.ir (no trailing slash)"
+  },
+  {
+   "fieldname": "woo_consumer_key",
+   "label": "Consumer Key",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "woo_consumer_secret",
+   "label": "Consumer Secret",
+   "fieldtype": "Password"
+  },
+  {
+   "fieldname": "woo_webhook_secret",
+   "label": "Webhook Secret",
+   "fieldtype": "Password",
+   "description": "The secret typed in the WooCommerce webhook. Orders that are not signed with it are refused."
+  },
+  {
+   "fieldname": "woo_webhook_url",
+   "label": "Webhook Address",
+   "fieldtype": "Small Text",
+   "read_only": 1,
+   "description": "WooCommerce > Settings > Advanced > Webhooks: topic Order created and Order updated, delivery URL this address."
+  },
+  {
+   "fieldname": "woo_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "woo_company",
+   "label": "Company",
+   "fieldtype": "Link",
+   "options": "Company"
+  },
+  {
+   "fieldname": "woo_warehouse",
+   "label": "Online Warehouse",
+   "fieldtype": "Link",
+   "options": "Warehouse",
+   "description": "Stock sent to the store and taken by its orders."
+  },
+  {
+   "fieldname": "woo_price_list",
+   "label": "Online Price List",
+   "fieldtype": "Link",
+   "options": "Price List"
+  },
+  {
+   "fieldname": "woo_price_factor",
+   "label": "Price Factor",
+   "fieldtype": "Float",
+   "default": "1",
+   "description": "Rials = store price x factor. 1 when the store is in rials, 10 when it is in tomans."
+  },
+  {
+   "fieldname": "woo_shipping_account",
+   "label": "Shipping Income Account",
+   "fieldtype": "Link",
+   "options": "Account",
+   "description": "Empty leaves the shipping charge out of the order total (it is kept in the order note)."
+  },
+  {
+   "fieldname": "woo_run_as",
+   "label": "Run Orders As",
+   "fieldtype": "Link",
+   "options": "User",
+   "description": "The user that creates the orders. Empty uses Administrator."
+  },
+  {
+   "fieldname": "woo_last_sync",
+   "label": "Last Stock and Price Push",
+   "fieldtype": "Datetime",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

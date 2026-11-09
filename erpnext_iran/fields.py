@@ -354,6 +354,23 @@ POS_PROFILE_FIELDS = [
 	},
 ]
 
+SALES_CHANNELS = "\nStore\nWebsite\nInstagram\nTelegram\nWhatsApp\nPhone"
+
+CHANNEL_FIELDS = [
+	{"fieldname": "sales_channel", "label": "Sales Channel", "fieldtype": "Select", "options": SALES_CHANNELS, "insert_after": "order_type", "in_standard_filter": 1, "allow_on_submit": 1},
+]
+SALES_ORDER_CHANNEL_FIELDS = CHANNEL_FIELDS + [
+	{"fieldname": "quick_mobile", "label": "Customer Mobile", "fieldtype": "Data", "insert_after": "sales_channel", "description": "Type the mobile number: the customer is found, or made, on the spot."},
+	{"fieldname": "delivery_address_text", "label": "Delivery Address", "fieldtype": "Small Text", "insert_after": "customer_name"},
+	{"fieldname": "customer_note", "label": "Customer Note", "fieldtype": "Small Text", "insert_after": "delivery_address_text"},
+	{"fieldname": "woo_order_id", "label": "WooCommerce Order", "fieldtype": "Data", "read_only": 1, "no_copy": 1, "insert_after": "po_no", "search_index": 1},
+]
+ITEM_ONLINE_FIELDS = [
+	{"fieldname": "sell_online", "label": "Sell Online", "fieldtype": "Check", "insert_after": "item_group", "description": "Sent to the WooCommerce store and listed in the Instagram catalog."},
+	{"fieldname": "woo_product_id", "label": "WooCommerce Product ID", "fieldtype": "Data", "read_only": 1, "no_copy": 1, "insert_after": "sell_online"},
+]
+
+
 def _pricing_rule_time_fields():
 	from erpnext_iran.pricing_time import DAYS
 
@@ -411,9 +428,10 @@ SALES_INVOICE_OFFLINE_FIELDS = [
 CUSTOM_FIELDS.update(
 	{
 		"Pricing Rule": _pricing_rule_time_fields(),
-		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors") + SALES_INVOICE_DISCOUNT_FIELDS + SALES_INVOICE_OFFLINE_FIELDS,
+		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors") + SALES_INVOICE_DISCOUNT_FIELDS + SALES_INVOICE_OFFLINE_FIELDS + CHANNEL_FIELDS,
+		"Sales Order": SALES_ORDER_CHANNEL_FIELDS,
 		"Sales Invoice Item": custom_fields(ITEM_EXTRAS, "description"),
-		"Item": ITEM_MOADIAN_FIELDS + ITEM_SCALE_FIELDS,
+		"Item": ITEM_MOADIAN_FIELDS + ITEM_SCALE_FIELDS + ITEM_ONLINE_FIELDS,
 		"POS Profile": POS_PROFILE_FIELDS + POS_DISCOUNT_FIELDS,
 		"UOM": UOM_MOADIAN_FIELDS,
 		"Company": COMPANY_MOADIAN_FIELDS,
