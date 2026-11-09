@@ -59,6 +59,18 @@
 	}
 	const walkInTimer = setInterval(() => installWalkInFallback() && clearInterval(walkInTimer), 1000);
 
+	// A scan on the payment screen (the customer remembered one more thing) goes back to the items and adds it.
+	// onScan only listens on the items screen; it announces every scan as a 'scan' event on the document.
+	document.addEventListener('scan', async (event) => {
+		if (!onPayment()) return;
+		const code = event.detail && event.detail.scanCode;
+		if (!code) return;
+		$('.iran-pos-phone').val('').data('done', ''); // the digits of the scan went into the mobile box if it had the cursor
+		pos().payment.edit_cart();
+		await new Promise((resolve) => setTimeout(resolve, 500));
+		if (window.onScan && onItems()) onScan.simulate(document, code);
+	});
+
 	let completing = 0;
 
 	function complete() {

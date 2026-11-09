@@ -29,3 +29,28 @@ def validate_redeem_limit(doc, method=None):
 			),
 			title=_("Club Points Limit"),
 		)
+
+
+@frappe.whitelist()
+def points_preview(customer: str, company: str, amount: float) -> dict:
+	"""The points a customer would earn on this payment: the same rule as ERPNext applies on submit, which is
+	the amount paid in money (points that pay part of the bill earn nothing)."""
+	from erpnext.accounts.doctype.loyalty_program.loyalty_program import get_loyalty_program_details_with_points
+	from frappe.utils import cint, today
+
+	frappe.has_permission("Customer", doc=customer, throw=True)
+	if not frappe.db.get_value("Customer", customer, "loyalty_program"):
+		return {"points": 0, "tier": None, "enrolled": 0}
+	amount = max(0.0, flt(amount))
+	details = get_loyalty_program_details_with_points(
+		customer,
+		company=company,
+		current_transaction_amount=amount,
+		expiry_date=today(),
+		include_expired_entry=True,
+	)
+	return {
+		"points": cint(amount / (flt(details.get("collection_factor")) or 1.0)),
+		"tier": details.get("tier_name"),
+		"enrolled": 1,
+	}

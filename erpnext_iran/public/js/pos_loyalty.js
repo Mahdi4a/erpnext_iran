@@ -81,6 +81,35 @@
 		show();
 	}
 
+	// "With this sale 7 points" under the mobile box: shown for any customer in a programme, not only those
+	// who already have points, because the first purchase is when the customer should hear about it.
+	let previewToken = 0;
+	async function previewPoints(payment) {
+		const doc = payment.events.get_frm().doc;
+		const $left = payment.$component.find('.payment-container-left');
+		const mine = ++previewToken;
+		const details = payment.events.get_customer_details() || {};
+		$left.find('.iran-points-preview').remove();
+		if (!details.loyalty_program || !doc.customer) return;
+		const amount = flt(doc.rounded_total || doc.grand_total) - flt(doc.loyalty_amount);
+		let result;
+		try {
+			result = await frappe.xcall('erpnext_iran.loyalty.points_preview', {
+				customer: doc.customer,
+				company: doc.company,
+				amount,
+			});
+		} catch (error) {
+			return;
+		}
+		if (mine !== previewToken || !result || !result.enrolled) return; // a newer call is on its way
+		$left.find('.iran-points-preview').remove();
+		const tier = result.tier ? ` · ${frappe.utils.escape_html(result.tier)}` : '';
+		$(`<div class="iran-points-preview" style="margin: 0 0 8px; color: var(--green-600, #278f5e); font-weight: 600">
+			${__('This sale earns {0} points', [format_number(result.points, null, 0)])}${tier}
+		</div>`).insertBefore($left.find('.payment-modes').first());
+	}
+
 	function patch_payment() {
 		const pos = window.erpnext && erpnext.PointOfSale;
 		if (!pos || !pos.Payment) return false;
@@ -106,6 +135,7 @@
 		const changed = pos.Payment.prototype.bind_loyalty_amount_event;
 		pos.Payment.prototype.bind_loyalty_amount_event = function () {
 			const result = changed.apply(this, arguments);
+			setTimeout(() => previewPoints(this), 700);
 			setTimeout(() => rebalance(this), 120);
 			setTimeout(() => rebalance(this), 450); // the stock handler finishes asynchronously
 			return result;
@@ -129,6 +159,7 @@
 			} finally {
 				events.get_customer_details = real;
 			}
+			setTimeout(() => previewPoints(this), 100);
 			const info = real.call(events) || {};
 			const card = this.$payment_modes.find('.loyalty-card');
 			card.find('.iran-loyalty-line').remove();
