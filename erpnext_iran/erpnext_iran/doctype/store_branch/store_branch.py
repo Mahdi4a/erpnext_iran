@@ -1,6 +1,6 @@
 from frappe.model.document import Document
 
-from erpnext_iran.branches import create_branch_records, sync_disabled
+from erpnext_iran.branches import create_branch_records, sync_cashiers, sync_disabled
 
 
 class StoreBranch(Document):
@@ -9,3 +9,4 @@ class StoreBranch(Document):
 
 	def on_update(self):
 		sync_disabled(self)
+		sync_cashiers(self)

@@ -15,7 +15,9 @@
   "warehouse",
   "cost_center",
   "price_list",
-  "pos_profile"
+  "pos_profile",
+  "section_cashiers",
+  "cashiers"
  ],
  "fields": [
   {
@@ -92,14 +94,48 @@
    "fieldtype": "Link",
    "options": "POS Profile",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_cashiers",
+   "label": "Cashiers",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "cashiers",
+   "label": "Cashiers (صندوق‌دارها)",
+   "fieldtype": "Table",
+   "options": "Store Branch Cashier",
+   "description": "These users open this branch's till and no other. Empty leaves the till open to everyone with POS access."
   }
  ],
  "permissions": [
-  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
-  {"role": "Sales Manager", "read": 1, "write": 1, "create": 1},
-  {"role": "Stock Manager", "read": 1, "write": 1, "create": 1},
-  {"role": "Accounts Manager", "read": 1},
-  {"role": "Sales User", "read": 1}
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Sales Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  },
+  {
+   "role": "Stock Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "read": 1
+  },
+  {
+   "role": "Sales User",
+   "read": 1
+  }
  ],
  "sort_field": "creation",
  "sort_order": "DESC",

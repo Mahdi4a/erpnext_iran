@@ -33,6 +33,37 @@ def create_branch_records(branch):
 	branch.pos_profile = ensure_pos_profile(branch)
 
 
+def sync_cashiers(branch):
+	"""The cashiers of a branch are the users of its POS Profile, and that is all they can open at the till.
+
+	Users removed from the branch are removed from the profile; users added by hand to the profile and never
+	listed on the branch are left alone."""
+	if not branch.pos_profile or not frappe.db.exists("POS Profile", branch.pos_profile):
+		return
+	wanted = [row.user for row in branch.get("cashiers") or []]
+	before = branch.get_doc_before_save()
+	removed = {row.user for row in (before.get("cashiers") if before else []) or []} - set(wanted)
+
+	profile = frappe.get_doc("POS Profile", branch.pos_profile)
+	have = {row.user for row in profile.applicable_for_users}
+	changed = False
+	for row in list(profile.applicable_for_users):
+		if row.user in removed:
+			profile.remove(row)
+			changed = True
+	for user in wanted:
+		if user not in have:
+			# the profile a user opens by default; one default per user, so only when they have none yet
+			other_default = frappe.db.exists(
+				"POS Profile User", {"user": user, "default": 1, "parent": ["!=", profile.name]}
+			)
+			profile.append("applicable_for_users", {"user": user, "default": 0 if other_default else 1})
+			changed = True
+	if changed:
+		profile.flags.ignore_permissions = True
+		profile.save()
+
+
 def sync_disabled(branch):
 	"""A closed branch cannot be sold from: its POS Profile and warehouse are disabled with it."""
 	disabled = 1 if branch.disabled else 0
