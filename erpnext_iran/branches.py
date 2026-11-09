@@ -11,6 +11,14 @@ STORES_GROUP_NAMES = ("Stores", "مغازه‌ها")
 POS_MODES = ("Cash", "کارت‌خوان")
 WALK_IN_CUSTOMER = "مشتری حضوری"
 
+# Settings for a till where a line is waiting: a scan goes straight into the cart, the receipt prints when
+# the sale is paid, and "New Invoice" keeps an unfinished sale as a draft (a hold) instead of asking.
+FAST_TILL = {
+	"auto_add_item_to_cart": 1,
+	"print_receipt_on_order_complete": 1,
+	"action_on_new_invoice": "Save Changes and Load New Invoice",
+}
+
 
 def create_branch_records(branch):
 	"""Fills the warehouse, cost center, price list and POS Profile of a Store Branch before it is saved."""
@@ -142,6 +150,7 @@ def ensure_pos_profile(branch) -> str:
 			"write_off_account": company.write_off_account or company.round_off_account,
 			"write_off_cost_center": branch.cost_center,
 			"write_off_limit": 0,
+			**FAST_TILL,
 			"payments": [
 				{"mode_of_payment": mode, "default": 1 if index == 0 else 0}
 				for index, mode in enumerate(modes)

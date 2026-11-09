@@ -124,3 +124,10 @@ class TestWalkInCustomer(unittest.TestCase):
 			branches.ensure_pos_profile(branch)
 		db.set_value.assert_called_once()
 		self.assertEqual(db.set_value.call_args.args[2:], ("customer", "W"))
+
+
+class TestFastTill(unittest.TestCase):
+	def test_a_new_profile_adds_a_scan_to_the_cart_and_prints_the_receipt(self):
+		self.assertEqual(branches.FAST_TILL["auto_add_item_to_cart"], 1)
+		self.assertEqual(branches.FAST_TILL["print_receipt_on_order_complete"], 1)
+		self.assertEqual(branches.FAST_TILL["action_on_new_invoice"], "Save Changes and Load New Invoice")
