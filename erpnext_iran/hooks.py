@@ -48,7 +48,7 @@ doc_events = {
 		"on_submit": ["erpnext_iran.moadian_send.auto_send_on_submit", "erpnext_iran.woocommerce.push_after_sale", "erpnext_iran.discount.consume_token"],
 		"on_cancel": ["erpnext_iran.moadian_send.cancel_after_erp_cancel", "erpnext_iran.woocommerce.push_after_sale"],
 	},
-	"Item": {"validate": "erpnext_iran.scale.validate_item"},
+	"Item": {"validate": ["erpnext_iran.scale.validate_item", "erpnext_iran.apparel.inherit_season"]},
 	"Pricing Rule": {"validate": "erpnext_iran.pricing_time.validate_pricing_rule"},
 	"Customer": {
 		"validate": ["erpnext_iran.validations.validate_party", "erpnext_iran.branches.keep_walk_in_out_of_loyalty"]
@@ -73,7 +73,7 @@ scheduler_events = {
 	"hourly": ["erpnext_iran.moadian_send.check_sent_invoices", "erpnext_iran.woocommerce.scheduled_push"],
 }
 
-doctype_list_js = {"Fiscal Year": "public/js/fiscal_year_list.js"}
+doctype_list_js = {"Fiscal Year": "public/js/fiscal_year_list.js", "Item": "public/js/item_list.js"}
 doctype_js = {
 	"Address": "public/js/address.js",
 	"Sales Invoice": "public/js/moadian_sales_invoice.js",

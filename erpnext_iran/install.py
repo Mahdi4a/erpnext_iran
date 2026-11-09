@@ -4,6 +4,7 @@ import frappe
 from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
 from erpnext_iran.banks import ensure_banks
+from erpnext_iran.apparel import ensure_attributes
 from erpnext_iran.dashboard import ensure_dashboard
 from erpnext_iran.payroll_setup import ensure_payroll
 from erpnext_iran.defaults import apply_defaults, ensure_time_zone
@@ -42,6 +43,7 @@ def after_migrate():
 	ensure_time_zone()
 	ensure_dashboard()
 	ensure_payroll()
+	ensure_attributes()
 	ensure_print_formats()
 	ensure_banks()
 	ensure_holiday_lists()

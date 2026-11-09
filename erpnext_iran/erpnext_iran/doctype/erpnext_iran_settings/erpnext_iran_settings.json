@@ -131,6 +131,18 @@
    "fieldtype": "Int",
    "default": "7",
    "depends_on": "grocery_mode"
+  },
+  {
+   "fieldname": "apparel_section",
+   "label": "Clothing Pack",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "apparel_barcode_prefix",
+   "label": "Barcode Prefix for Clothing",
+   "fieldtype": "Data",
+   "default": "29",
+   "description": "Digits the shop's own barcodes start with. 29 is in the range reserved for in-store use (20-29, 200-299). Not the scale prefix."
   }
  ],
  "permissions": [
