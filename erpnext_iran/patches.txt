@@ -1,3 +1,4 @@
 erpnext_iran.patches.apply_iran_defaults
 erpnext_iran.patches.create_jalali_fiscal_years
 erpnext_iran.patches.sync_system_default_values
+erpnext_iran.patches.fix_moadian_number_fields
