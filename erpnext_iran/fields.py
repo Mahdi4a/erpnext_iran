@@ -369,6 +369,28 @@ ITEM_APPAREL_FIELDS = [
 	{"fieldname": "season", "label": "Season", "fieldtype": "Select", "options": "\nبهار\nتابستان\nپاییز\nزمستان\nهمه فصل", "insert_after": "item_group", "in_standard_filter": 1, "description": "Used by the clothing pack: sell-through by season and the end-of-season discount."},
 ]
 
+ITEM_PHARMACY_FIELDS = [
+	{"fieldname": "pharmacy_section", "label": "Pharmacy", "fieldtype": "Section Break", "insert_after": "season", "collapsible": 1},
+	{"fieldname": "generic_name", "label": "Generic Name", "fieldtype": "Data", "insert_after": "pharmacy_section", "search_index": 1, "description": "The active ingredient. Drugs with the same generic name can stand in for each other."},
+	{"fieldname": "drug_strength", "label": "Strength", "fieldtype": "Data", "insert_after": "generic_name", "description": "For example 500 mg"},
+	{"fieldname": "dosage_form", "label": "Dosage Form", "fieldtype": "Data", "insert_after": "drug_strength", "description": "Tablet, syrup, ampoule, ..."},
+	{"fieldname": "irc_code", "label": "IRC Code", "fieldtype": "Data", "insert_after": "dosage_form"},
+	{"fieldname": "pharmacy_column", "fieldtype": "Column Break", "insert_after": "irc_code"},
+	{"fieldname": "requires_prescription", "label": "Prescription Only", "fieldtype": "Check", "insert_after": "pharmacy_column", "in_standard_filter": 1, "description": "Cannot be sold without the prescription number and the prescriber."},
+	{"fieldname": "is_controlled_drug", "label": "Controlled Drug", "fieldtype": "Check", "insert_after": "requires_prescription", "description": "Also needs the patient's name and national ID, and is listed in the Prescription Register."},
+	{"fieldname": "approved_price", "label": "Approved Retail Price", "fieldtype": "Currency", "insert_after": "is_controlled_drug", "description": "The price set by the authority. A sale above it is refused. Empty: no cap."},
+]
+
+SALES_INVOICE_PRESCRIPTION_FIELDS = [
+	{"fieldname": "prescription_section", "label": "Prescription", "fieldtype": "Section Break", "insert_after": "customer_name", "collapsible": 1, "collapsible_depends_on": "eval:doc.prescription_no"},
+	{"fieldname": "prescription_no", "label": "Prescription Number", "fieldtype": "Data", "insert_after": "prescription_section", "no_copy": 1},
+	{"fieldname": "prescriber_name", "label": "Prescriber", "fieldtype": "Data", "insert_after": "prescription_no", "no_copy": 1},
+	{"fieldname": "prescriber_license", "label": "Medical Council Number", "fieldtype": "Data", "insert_after": "prescriber_name", "no_copy": 1},
+	{"fieldname": "prescription_column", "fieldtype": "Column Break", "insert_after": "prescriber_license"},
+	{"fieldname": "patient_name", "label": "Patient", "fieldtype": "Data", "insert_after": "prescription_column", "no_copy": 1},
+	{"fieldname": "patient_national_id", "label": "Patient National ID", "fieldtype": "Data", "insert_after": "patient_name", "no_copy": 1},
+]
+
 ITEM_ONLINE_FIELDS = [
 	{"fieldname": "sell_online", "label": "Sell Online", "fieldtype": "Check", "insert_after": "item_group", "description": "Sent to the WooCommerce store and listed in the Instagram catalog."},
 	{"fieldname": "woo_product_id", "label": "WooCommerce Product ID", "fieldtype": "Data", "read_only": 1, "no_copy": 1, "insert_after": "sell_online"},
@@ -445,10 +467,10 @@ CUSTOM_FIELDS.update(
 	{
 		"Pricing Rule": _pricing_rule_time_fields(),
 		"Employee": EMPLOYEE_PAYROLL_FIELDS,
-		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors") + SALES_INVOICE_DISCOUNT_FIELDS + SALES_INVOICE_OFFLINE_FIELDS + CHANNEL_FIELDS,
+		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors") + SALES_INVOICE_DISCOUNT_FIELDS + SALES_INVOICE_OFFLINE_FIELDS + CHANNEL_FIELDS + SALES_INVOICE_PRESCRIPTION_FIELDS,
 		"Sales Order": SALES_ORDER_CHANNEL_FIELDS,
 		"Sales Invoice Item": custom_fields(ITEM_EXTRAS, "description"),
-		"Item": ITEM_MOADIAN_FIELDS + ITEM_SCALE_FIELDS + ITEM_ONLINE_FIELDS + ITEM_APPAREL_FIELDS,
+		"Item": ITEM_MOADIAN_FIELDS + ITEM_SCALE_FIELDS + ITEM_ONLINE_FIELDS + ITEM_APPAREL_FIELDS + ITEM_PHARMACY_FIELDS,
 		"POS Profile": POS_PROFILE_FIELDS + POS_DISCOUNT_FIELDS,
 		"UOM": UOM_MOADIAN_FIELDS,
 		"Company": COMPANY_MOADIAN_FIELDS,

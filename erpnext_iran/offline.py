@@ -101,6 +101,9 @@ def item_rows(profile) -> list[dict]:
 		if row.parent in wanted and row.barcode:
 			barcodes.setdefault(row.parent, []).append(row.barcode)
 
+	from erpnext_iran.pharmacy import drug_flags
+
+	flags = drug_flags([item.item_code for item in items])
 	return [
 		{
 			"item_code": item.item_code,
@@ -109,6 +112,8 @@ def item_rows(profile) -> list[dict]:
 			"rate": prices.get(item.item_code, 0),
 			"barcodes": barcodes.get(item.item_code, []),
 			"scale_plu": item.scale_plu or "",
+			# a prescription drug cannot be rung up offline: the till asks for a prescription it cannot take
+			"rx": int(bool((flags.get(item.item_code) or {}).get("requires_prescription") or (flags.get(item.item_code) or {}).get("is_controlled_drug"))),
 		}
 		for item in items
 	]
@@ -347,6 +352,13 @@ def build_invoice(sale: dict):
 			"remarks": _("Sold offline at the till, id {0}").format(sale["id"]),
 		}
 	)
+	from erpnext_iran.pharmacy import drug_flags
+
+	needs_prescription = [
+		code for code, f in drug_flags([line["item_code"] for line in sale["items"]]).items() if f.requires_prescription or f.is_controlled_drug
+	]
+	if needs_prescription:
+		raise RefusedSale(_("Needs a prescription, sell it on the normal till: {0}").format("، ".join(needs_prescription)))
 	row_lines = []  # the sale line each invoice row belongs to (a batch item can take several rows)
 	for line in sale["items"]:
 		for batch_no, qty in batch_split(line["item_code"], line["qty"], profile.warehouse, sale["sold_at"]):

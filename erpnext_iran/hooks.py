@@ -18,6 +18,7 @@ app_include_js = [
 	"/assets/erpnext_iran/js/pos_quick_pay.js",
 	"/assets/erpnext_iran/js/pos_loyalty.js",
 	"/assets/erpnext_iran/js/pos_discount.js",
+	"/assets/erpnext_iran/js/pos_pharmacy.js",
 	"/assets/erpnext_iran/js/pos_offline_core.js",
 	"/assets/erpnext_iran/js/pos_offline.js",
 ]
@@ -44,7 +45,7 @@ doc_events = {
 	"Sales Invoice": {
 		"before_validate": "erpnext_iran.moadian.set_defaults_from_company",
 		"validate": ["erpnext_iran.loyalty.validate_redeem_limit", "erpnext_iran.channels.default_channel"],
-		"before_submit": "erpnext_iran.discount.check_discount",
+		"before_submit": ["erpnext_iran.discount.check_discount", "erpnext_iran.pharmacy.validate_sale"],
 		"on_submit": ["erpnext_iran.moadian_send.auto_send_on_submit", "erpnext_iran.woocommerce.push_after_sale", "erpnext_iran.discount.consume_token"],
 		"on_cancel": ["erpnext_iran.moadian_send.cancel_after_erp_cancel", "erpnext_iran.woocommerce.push_after_sale"],
 	},
@@ -81,4 +82,5 @@ doctype_js = {
 	"Online Channel Settings": "public/js/online_channel_settings.js",
 	"Cost Center Allocation": "public/js/cost_center_allocation.js",
 	"Company": "public/js/moadian_company.js",
+	"Item": "public/js/item_form.js",
 }

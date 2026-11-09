@@ -1,0 +1,11 @@
+{
+ "doctype": "Report",
+ "name": "Prescription Register",
+ "report_name": "Prescription Register",
+ "ref_doctype": "Sales Invoice",
+ "report_type": "Script Report",
+ "is_standard": "Yes",
+ "module": "Erpnext Iran",
+ "add_total_row": 0,
+ "roles": [{"role": "Accounts Manager"}, {"role": "Stock Manager"}, {"role": "Sales Manager"}, {"role": "System Manager"}]
+}

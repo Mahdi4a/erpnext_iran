@@ -372,6 +372,7 @@
 
 	function addItem(item, qty) {
 		if (!item) return;
+		if (item.rx) return notice(`${item.item_name}: ${__('needs a prescription, sell it on the normal till')}`, 'danger');
 		if (!(item.rate > 0)) return notice(`${item.item_name}: ${__('no price, it cannot be sold offline')}`, 'danger');
 		state.cart = core().addLine(state.cart, item, qty);
 		paintTill();
