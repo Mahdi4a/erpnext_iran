@@ -76,6 +76,8 @@ CUSTOM_FIELDS = {"Customer": PARTY_FIELDS, "Supplier": PARTY_FIELDS, "Bank": BAN
 
 # Moadian (سامانه مؤدیان) fields. Every label says "unverified": the names and codes follow the
 # public Moadian invoice description as remembered, not an official document the project holds.
+PATTERN_OPTIONS = "\n1 - Sale\n2 - Foreign currency sale\n3 - Gold, jewellery and platinum\n4 - Contracting\n5 - Utility bills\n6 - Air ticket\n7 - Export\n8 - Waybill\n9 - Oil products\n11 - Securities (bourse)\n13 - Insurance services\n14 - Chain sale"
+
 MOADIAN_UNVERIFIED = "Unverified against the official Moadian documentation."
 
 SALES_INVOICE_MOADIAN_FIELDS = [
@@ -85,22 +87,31 @@ SALES_INVOICE_MOADIAN_FIELDS = [
 		"fieldtype": "Section Break",
 		"insert_after": "utm_content",
 		"collapsible": 1,
+		"depends_on": "eval:doc.moadian_enabled",
+	},
+	{
+		"fieldname": "moadian_enabled",
+		"label": "Moadian Enabled",
+		"fieldtype": "Check",
+		"fetch_from": "company.moadian_enabled",
+		"read_only": 1,
+		"hidden": 1,
+		"no_copy": 1,
+		"insert_after": "moadian_section",
 	},
 	{
 		"fieldname": "moadian_invoice_type",
 		"label": "Invoice Type (inty)",
 		"fieldtype": "Select",
 		"options": "\n1 - Type 1 (buyer fully identified)\n2 - Type 2 (buyer optional)",
-		"default": "1 - Type 1 (buyer fully identified)",
-		"insert_after": "moadian_section",
+		"insert_after": "moadian_enabled",
 		"description": "Type 1 puts the buyer in the buyer's Moadian wallet as a tax credit. Type 2 does not.",
 	},
 	{
 		"fieldname": "moadian_pattern",
 		"label": "Invoice Pattern (inp)",
 		"fieldtype": "Select",
-		"options": "\n1 - Sale\n2 - Foreign currency sale\n3 - Gold, jewellery and platinum\n4 - Contracting\n5 - Utility bills\n6 - Air ticket\n7 - Export\n8 - Waybill\n9 - Oil products\n11 - Securities (bourse)\n13 - Insurance services\n14 - Chain sale",
-		"default": "1 - Sale",
+		"options": PATTERN_OPTIONS,
 		"insert_after": "moadian_invoice_type",
 		"description": "The pattern decides which fields Moadian asks for.",
 	},
@@ -160,6 +171,8 @@ SALES_INVOICE_MOADIAN_FIELDS = [
 		"options": "Not Sent\nSent\nAccepted\nRejected",
 		"default": "Not Sent",
 		"read_only": 1,
+		"in_list_view": 1,
+		"in_standard_filter": 1,
 		"no_copy": 1,
 		"insert_after": "moadian_reference_number",
 	},
@@ -235,32 +248,79 @@ UOM_MOADIAN_FIELDS = [
 
 COMPANY_MOADIAN_FIELDS = [
 	{
+		"fieldname": "moadian_company_section",
+		"label": "Moadian (سامانه مؤدیان)",
+		"fieldtype": "Section Break",
+		"insert_after": "address_html",
+		"description": "Send the invoices of this company to the tax authority. Get the memory ID and the signing certificate from your account in the Moadian portal (tp.tax.gov.ir), then press Test Connection.",
+	},
+	{
+		"fieldname": "moadian_enabled",
+		"label": "Send Invoices to Moadian",
+		"fieldtype": "Check",
+		"insert_after": "moadian_company_section",
+	},
+	{
+		"fieldname": "moadian_auto_send",
+		"label": "Send Automatically When an Invoice Is Submitted",
+		"fieldtype": "Check",
+		"default": "1",
+		"depends_on": "moadian_enabled",
+		"insert_after": "moadian_enabled",
+	},
+	{
+		"fieldname": "moadian_default_pattern",
+		"label": "Business Type (Invoice Pattern)",
+		"fieldtype": "Select",
+		"options": PATTERN_OPTIONS,
+		"default": "1 - Sale",
+		"depends_on": "moadian_enabled",
+		"insert_after": "moadian_auto_send",
+		"description": "The pattern new invoices start with. It can be changed on an invoice.",
+	},
+	{
+		"fieldname": "moadian_company_column",
+		"fieldtype": "Column Break",
+		"insert_after": "moadian_default_pattern",
+	},
+	{
 		"fieldname": "moadian_memory_id",
 		"label": "Tax Memory ID (شناسه یکتای حافظه مالیاتی)",
 		"fieldtype": "Data",
-		"insert_after": "tax_id",
-		"description": "6 characters. " + MOADIAN_UNVERIFIED,
+		"depends_on": "moadian_enabled",
+		"insert_after": "moadian_company_column",
+		"description": "6 characters, from the Moadian portal.",
 	},
 	{
 		"fieldname": "moadian_private_key",
-		"label": "Moadian Private Key",
+		"label": "Signing Private Key",
 		"fieldtype": "Password",
+		"depends_on": "moadian_enabled",
 		"insert_after": "moadian_memory_id",
-		"description": "The signing key (PKCS8 PEM) of the certificate below.",
+		"description": "The private key (PEM) of the certificate below. It stays encrypted.",
 	},
 	{
 		"fieldname": "moadian_certificate",
-		"label": "Moadian Certificate",
+		"label": "Signing Certificate",
 		"fieldtype": "Long Text",
+		"depends_on": "moadian_enabled",
 		"insert_after": "moadian_private_key",
-		"description": "The signing certificate (PEM) registered in the Moadian portal.",
+		"description": "The certificate (PEM) whose public key you registered in the Moadian portal.",
 	},
 	{
 		"fieldname": "moadian_base_url",
-		"label": "Moadian API URL",
+		"label": "API Address",
 		"fieldtype": "Data",
+		"depends_on": "moadian_enabled",
 		"insert_after": "moadian_certificate",
-		"description": "Empty means the live tax authority API. Put the test environment URL here to try.",
+		"description": "Leave empty for the live tax authority. Put a test environment address here to try.",
+	},
+	{
+		"fieldname": "moadian_test_connection",
+		"label": "Test Connection",
+		"fieldtype": "Button",
+		"depends_on": "moadian_enabled",
+		"insert_after": "moadian_base_url",
 	},
 ]
 

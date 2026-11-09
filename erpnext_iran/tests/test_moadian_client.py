@@ -88,3 +88,34 @@ class TestMoadianCancellation(unittest.TestCase):
 			(3, "A1121604C220002F095011", 7, 3),
 		)
 		self.assertEqual((payload["body"], payload["payments"]), ([], []))
+
+
+class TestMoadianAutoSend(unittest.TestCase):
+	def test_gold_layout_shows_wage_profit_and_carat_but_not_the_flight_type(self):
+		from erpnext_iran import moadian
+
+		layout = moadian.pattern_layout()["3"]
+		self.assertTrue({"consfee", "spro", "bros", "cui"} <= set(layout["item"]))
+		self.assertNotIn("ft", layout["header"])
+
+	def test_submit_sends_in_the_background_only_for_a_company_that_asked_for_it(self):
+		from erpnext_iran import moadian_send
+
+		doc = MagicMock(moadian_enabled=1, company="C")
+		doc.name = "SINV-1"
+		doc.get.side_effect = lambda key: getattr(doc, key)
+		for asked, calls in ((1, 1), (0, 0)):
+			with patch.object(moadian_send.frappe, "get_cached_value", return_value=asked), patch.object(
+				moadian_send.frappe, "enqueue"
+			) as enqueue:
+				moadian_send.auto_send_on_submit(doc)
+			self.assertEqual(enqueue.call_count, calls)
+
+	def test_a_failed_automatic_send_keeps_the_reason_on_the_invoice(self):
+		from erpnext_iran import moadian_send
+
+		with patch.object(moadian_send, "send_invoice", side_effect=ValueError("control digit")), patch.object(
+			moadian_send, "frappe"
+		) as fake_frappe:
+			moadian_send.auto_send("SINV-1")
+		fake_frappe.db.set_value.assert_called_once_with("Sales Invoice", "SINV-1", "moadian_errors", "control digit")

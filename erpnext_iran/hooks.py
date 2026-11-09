@@ -31,7 +31,11 @@ doc_events = {
 		],
 		"on_update": "erpnext_iran.setup.on_company_update",
 	},
-	"Sales Invoice": {"on_cancel": "erpnext_iran.moadian_send.cancel_after_erp_cancel"},
+	"Sales Invoice": {
+		"before_validate": "erpnext_iran.moadian.set_defaults_from_company",
+		"on_submit": "erpnext_iran.moadian_send.auto_send_on_submit",
+		"on_cancel": "erpnext_iran.moadian_send.cancel_after_erp_cancel",
+	},
 	"Customer": {"validate": "erpnext_iran.validations.validate_party"},
 	"Supplier": {"validate": "erpnext_iran.validations.validate_party"},
 	"Bank Account": {"validate": "erpnext_iran.validations.validate_bank_account"},
@@ -53,4 +57,8 @@ scheduler_events = {
 }
 
 doctype_list_js = {"Fiscal Year": "public/js/fiscal_year_list.js"}
-doctype_js = {"Address": "public/js/address.js", "Sales Invoice": "public/js/sales_invoice.js"}
+doctype_js = {
+	"Address": "public/js/address.js",
+	"Sales Invoice": "public/js/moadian_sales_invoice.js",
+	"Company": "public/js/moadian_company.js",
+}

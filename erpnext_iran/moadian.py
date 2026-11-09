@@ -40,6 +40,40 @@ def pattern_fields(invoice_type, pattern) -> dict:
 	return patterns.get(str(invoice_type), {}).get(str(pattern), {})
 
 
+def set_defaults_from_company(doc, event=None):
+	"""A new invoice starts with the pattern the company chose, so the user does not pick it each time."""
+	doc.moadian_enabled = frappe.get_cached_value("Company", doc.company, "moadian_enabled")
+	if not doc.moadian_enabled or doc.moadian_pattern:
+		return
+	doc.moadian_pattern = frappe.get_cached_value("Company", doc.company, "moadian_default_pattern")
+	doc.moadian_invoice_type = doc.moadian_invoice_type or "1 - Type 1 (buyer fully identified)"
+
+
+@frappe.whitelist()
+def pattern_layout() -> dict:
+	"""Pattern number -> the extra header and item fields its invoice shows (for the form)."""
+	with open(PATTERN_FILE, encoding="utf8") as file:
+		patterns = json.load(file)["patterns"]["1"]
+	return {
+		pattern: {
+			"header": [code for code in HEADER_CODES if code in spec],
+			"item": [code for code in ITEM_CODES if code in spec],
+		}
+		for pattern, spec in patterns.items()
+	}
+
+
+@frappe.whitelist()
+def test_connection(company: str) -> str:
+	"""Ask the tax authority for its public key with the company's identity: proves the memory ID,
+	the key and the certificate work together."""
+	frappe.has_permission("Company", "write", company, throw=True)
+	from erpnext_iran.moadian_client import MoadianClient
+
+	key = MoadianClient(company).server_key()
+	return key["id"]
+
+
 def pattern_gaps(payload: dict) -> list[str]:
 	"""Mandatory fields of the invoice's type and pattern that the payload does not carry."""
 	header = payload["header"]

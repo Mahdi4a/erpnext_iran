@@ -106,6 +106,38 @@ def check_status(invoice_name: str) -> str:
 	return status
 
 
+def auto_send_on_submit(doc, event=None):
+	"""Hook: send in the background when the company asked for it."""
+	if doc.get("moadian_enabled") and frappe.get_cached_value("Company", doc.company, "moadian_auto_send"):
+		frappe.enqueue(auto_send, invoice_name=doc.name, enqueue_after_commit=True)
+
+
+def auto_send(invoice_name: str):
+	"""Send; on failure keep the reason on the invoice so the user sees it and the hourly job retries."""
+	try:
+		send_invoice(invoice_name)
+	except Exception as error:
+		frappe.db.set_value("Sales Invoice", invoice_name, "moadian_errors", str(error)[:1000])
+		frappe.log_error(title=f"Moadian send of {invoice_name}")
+
+
+def retry_unsent_invoices():
+	"""Invoices of the last week that never got through, for the companies that send by themselves."""
+	companies = frappe.get_all("Company", {"moadian_enabled": 1, "moadian_auto_send": 1}, pluck="name")
+	names = frappe.get_all(
+		"Sales Invoice",
+		{
+			"docstatus": 1,
+			"company": ("in", companies),
+			"moadian_status": "Not Sent",
+			"posting_date": (">", frappe.utils.add_days(now_datetime(), -7)),
+		},
+		pluck="name",
+	)
+	for name in names:
+		auto_send(name)
+
+
 def check_sent_invoices():
 	"""Hourly: ask about every invoice Moadian has not answered yet. A week is the API's reach."""
 	names = frappe.get_all(
@@ -118,3 +150,4 @@ def check_sent_invoices():
 			check_status(name)
 		except Exception:
 			frappe.log_error(title=f"Moadian status of {name}")
+	retry_unsent_invoices()
