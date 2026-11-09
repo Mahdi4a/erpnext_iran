@@ -6,7 +6,7 @@ import frappe
 
 from erpnext_iran import moadian
 
-SELLER = {"economic_code": "411111111111", "memory_id": "A1B2C3"}
+SELLER = {"economic_code": "14003778990", "memory_id": "A1B2C3"}
 BUYER = {"economic_code": "", "national_id": "۰۴۹۹۳۷۰۸۹۹", "legal_id": ""}
 ITEMS = {"SERVICE": "2720000114257"}
 UNITS = {"Nos": "1627"}
@@ -57,10 +57,10 @@ class TestMoadianPayload(unittest.TestCase):
 		self.assertEqual(payload["header"]["tbill"], 49500000)
 
 	def test_identifiers_are_sent_with_latin_digits(self):
-		header = moadian.build_payload(invoice(), SELLER, BUYER, ITEMS, UNITS)["header"]
+		header = moadian.build_payload(invoice(moadian_buyer_type="1 - Individual"), SELLER, BUYER, ITEMS, UNITS)["header"]
 
 		self.assertEqual(header["bid"], "0499370899")
-		self.assertEqual(header["tins"], "411111111111")
+		self.assertEqual(header["tins"], "14003778990")
 
 	def test_the_time_is_unix_milliseconds_in_tehran_time(self):
 		# 2025-03-21 10:30 in Tehran (UTC+3:30, no summer time any more) is 07:00 UTC
@@ -108,6 +108,8 @@ class TestMoadianPatterns(unittest.TestCase):
 def pattern_invoice(pattern, **extra):
 	row = frappe._dict(item_code="SERVICE", item_name="Ring", uom="Nos", qty=2, rate=1000000)
 	row.update(extra.pop("row", {}))
+	extra.setdefault("moadian_buyer_type", "1 - Individual")
+	extra.setdefault("moadian_bpc", "1234567890")
 	return invoice(moadian_pattern=str(pattern), items=[row], **extra)
 
 
@@ -122,10 +124,10 @@ class TestMoadianEveryPattern(unittest.TestCase):
 
 	def test_gold_reports_the_wage_profit_and_commission_it_still_lacks(self):
 		payload = moadian.build_payload(pattern_invoice(3), SELLER, BUYER, ITEMS, UNITS)
-		self.assertEqual(sorted(moadian.pattern_gaps(payload)), ["bros", "consfee", "spro", "tcpbs"])
+		self.assertEqual(sorted(moadian.pattern_gaps(payload)), ["bros", "consfee", "spro"])
 
 	def test_gold_with_wage_profit_and_commission_has_no_gap(self):
-		row = {"moadian_consfee": 10, "moadian_spro": 20, "moadian_bros": 5, "moadian_tcpbs": 35}
+		row = {"moadian_consfee": 10, "moadian_spro": 20, "moadian_bros": 5}
 		payload = moadian.build_payload(pattern_invoice(3, row=row), SELLER, BUYER, ITEMS, UNITS)
 		self.assertEqual(moadian.pattern_gaps(payload), [])
 
@@ -186,7 +188,7 @@ class TestMoadianTypes(unittest.TestCase):
 		self.assertNotIn("sgid", moadian.pattern_gaps(payload))
 
 	def test_fields_the_tax_authority_reads_as_whole_numbers_are_sent_as_integers(self):
-		row = {"moadian_consfee": 10.0, "moadian_spro": 20.0, "moadian_bros": 5.0, "moadian_tcpbs": 35.0, "moadian_cfee": 1.5}
+		row = {"moadian_consfee": 10.0, "moadian_spro": 20.0, "moadian_bros": 5.0, "moadian_cfee": 1.5}
 		payload = moadian.build_payload(pattern_invoice(3, row=row), SELLER, BUYER, ITEMS, UNITS)
 		line = payload["body"][0]
 		self.assertEqual([type(line[c]) for c in ("consfee", "spro", "bros", "tcpbs")], [int] * 4)
@@ -213,3 +215,30 @@ class TestMoadianSettlement(unittest.TestCase):
 			invoice(moadian_settlement_method="3 - Cash and credit", paid_amount=0), SELLER, BUYER, ITEMS, UNITS
 		)["header"]
 		self.assertEqual((header["cap"], header["insp"]), (1, 4499999))
+
+
+class TestMoadianArithmetic(unittest.TestCase):
+	def test_vat_is_cut_at_the_decimal_point_and_never_rounded_up(self):
+		rows = [frappe._dict(item_code="SERVICE", item_name="A", uom="Nos", qty=1, rate=1999, item_tax_rate='{"VAT": 9}')]
+		line = moadian.build_payload(invoice(items=rows), SELLER, BUYER, ITEMS, UNITS)["body"][0]
+		self.assertEqual((line["vam"], line["tsstam"]), (179, 2178))  # 179.91 is cut to 179
+
+	def test_a_toman_company_multiplies_by_ten_and_keeps_every_rial(self):
+		rows = [frappe._dict(item_code="SERVICE", item_name="A", uom="Nos", qty=3, rate=33.33)]
+		line = moadian.build_payload(invoice(currency="IRT", items=rows, taxes=[]), SELLER, BUYER, ITEMS, UNITS)["body"][0]
+		self.assertEqual((line["fee"], line["prdis"]), (333.3, 999))  # 3 x 333.3 = 999.9 is cut to 999
+
+	def test_gold_adds_wage_profit_and_commission_to_the_price_and_charges_ten_percent_on_them(self):
+		row = {"moadian_consfee": 100000, "moadian_spro": 50000, "moadian_bros": 25000}
+		payload = moadian.build_payload(pattern_invoice(3, row=row), SELLER, BUYER, ITEMS, UNITS)
+		line = payload["body"][0]
+		# price 2,000,000; wage 175,000; VAT = 175,000 x 10% + 2,000,000 x 10% = 217,500
+		self.assertEqual((line["tcpbs"], line["adis"], line["vam"], line["tsstam"]), (175000, 2175000, 217500, 2392500))
+		self.assertEqual((payload["header"]["tadis"], payload["header"]["tvam"], payload["header"]["tbill"]), (2175000, 217500, 2392500))
+
+
+class TestMoadianTimeZone(unittest.TestCase):
+	def test_the_posting_time_is_read_in_the_time_zone_the_site_keeps_it_in(self):
+		tehran = moadian.build_payload(invoice(), SELLER, BUYER, ITEMS, UNITS)["header"]["indatim"]
+		kolkata = moadian.build_payload(invoice(moadian_timezone="Asia/Kolkata"), SELLER, BUYER, ITEMS, UNITS)["header"]["indatim"]
+		self.assertEqual(tehran - kolkata, 2 * 3600 * 1000)  # 10:30 in Tehran is two hours after 10:30 in Kolkata

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 # (code, label, field type)
 HEADER_EXTRAS = [
-	("ft", "Flight Type", "Int"),
+	("ft", "Flight Type", "Select", "\n1 - Domestic flight\n2 - Foreign flight"),
 	("crn", "Contract Number", "Data"),
 	("billid", "Subscription or Bill ID", "Data"),
 	("cno", "Fleet Number", "Data"),
@@ -50,7 +50,6 @@ ITEM_EXTRAS = [
 	("consfee", "Manufacturing Fee (Gold)", "Float"),
 	("spro", "Seller Profit (Gold)", "Float"),
 	("bros", "Brokerage (Gold)", "Float"),
-	("tcpbs", "Fee, Profit and Brokerage Total (Gold)", "Float"),
 	("cui", "Carat (Gold)", "Float"),
 	("sgid", "Carried Goods ID", "Data"),
 	("sgt", "Carried Goods Description", "Data"),
@@ -68,7 +67,7 @@ def custom_fields(extras, after: str) -> list[dict]:
 	fields = [
 		{"fieldname": f"moadian_{after}_section", "label": "Moadian Pattern Fields", "fieldtype": "Section Break", "insert_after": after, "collapsible": 1}
 	]
-	for code, label, fieldtype in extras:
+	for code, label, fieldtype, *options in extras:
 		fields.append(
 			{
 				"fieldname": f"moadian_{code}",
@@ -76,6 +75,7 @@ def custom_fields(extras, after: str) -> list[dict]:
 				"fieldtype": fieldtype,
 				"insert_after": fields[-1]["fieldname"],
 				"no_copy": 1,
+				**({"options": options[0]} if options else {}),
 			}
 		)
 	return fields

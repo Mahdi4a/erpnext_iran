@@ -133,10 +133,9 @@ SALES_INVOICE_MOADIAN_FIELDS = [
 		"fieldname": "moadian_buyer_type",
 		"label": "Buyer Type (tob)",
 		"fieldtype": "Select",
-		"options": "\n1 - Individual\n2 - Company\n3 - Civil partnership\n4 - Foreign national\n5 - Final consumer",
-		"default": "2 - Company",
+		"options": "\n1 - Individual\n2 - Company\n3 - Civil partnership\n4 - Foreign national",
 		"insert_after": "moadian_col",
-		"description": "Unverified against the official Moadian documentation.",
+		"description": "Individual and foreign buyers need a national number or economic code and a postal code. Companies need an economic code.",
 	},
 	{
 		"fieldname": "moadian_settlement_method",
@@ -314,6 +313,14 @@ COMPANY_MOADIAN_FIELDS = [
 		"depends_on": "moadian_enabled",
 		"insert_after": "moadian_certificate",
 		"description": "Leave empty for the live tax authority. Put a test environment address here to try.",
+	},
+	{
+		"fieldname": "moadian_late_after_hours",
+		"label": "Late Sending Window (hours)",
+		"fieldtype": "Int",
+		"depends_on": "moadian_enabled",
+		"insert_after": "moadian_default_pattern",
+		"description": "The deadline the tax authority announced between the date of an invoice and sending it. Older invoices go with their registration time. 0 means no late sending.",
 	},
 	{
 		"fieldname": "moadian_test_connection",

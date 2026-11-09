@@ -45,18 +45,18 @@ class TestMoadianFlow(unittest.TestCase):
 	def test_the_server_received_exactly_the_invoice_the_client_built(self):
 		self.send(pattern_invoice(1), serial=2)
 		received = list(self.mock.invoices.values())[-1]
-		self.assertEqual((received["header"]["inno"], received["header"]["tins"]), ("2", "411111111111"))
+		self.assertEqual((received["header"]["inno"], received["header"]["tins"]), ("2", "14003778990"))
 		self.assertEqual(received["body"][0]["sstid"], "2720000114257")
 
 	def test_a_gold_invoice_without_wage_profit_and_commission_is_rejected_naming_them(self):
 		result = self.send(pattern_invoice(3), serial=3)
 		self.assertEqual(result["status"], "FAILED")
 		text = " ".join(error["message"] for error in result["data"]["error"])
-		for code in ("consfee", "spro", "bros", "tcpbs"):
+		for code in ("consfee", "spro", "bros"):
 			self.assertIn(f"Field {code} is mandatory", text)
 
 	def test_a_gold_invoice_with_everything_filled_is_accepted(self):
-		row = {"moadian_consfee": 10, "moadian_spro": 20, "moadian_bros": 5, "moadian_tcpbs": 35}
+		row = {"moadian_consfee": 10, "moadian_spro": 20, "moadian_bros": 5}
 		self.assertEqual(self.send(pattern_invoice(3, row=row), serial=4)["status"], "SUCCESS")
 
 	def test_a_wrong_control_digit_is_rejected_as_a_wrong_tax_id(self):
@@ -93,7 +93,7 @@ class TestMoadianFlow(unittest.TestCase):
 
 	def test_a_return_that_points_at_the_original_is_accepted(self):
 		original = tax_id(MEMORY_ID, 1742504400000, 7)
-		invoice = pattern_invoice(1, is_return=1, moadian_reference_tax_id=original)
+		invoice = pattern_invoice(1, is_return=1, moadian_reference_tax_id=original, row={"qty": -2})
 		self.assertEqual(self.send(invoice, serial=8)["status"], "SUCCESS")
 
 	def test_a_cash_and_credit_sale_is_accepted_when_the_two_amounts_add_up_to_the_net_bill(self):

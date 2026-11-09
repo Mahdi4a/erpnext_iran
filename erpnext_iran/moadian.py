@@ -17,12 +17,14 @@ from __future__ import annotations
 import datetime
 import json
 import os
+from decimal import ROUND_DOWN, Decimal
 from zoneinfo import ZoneInfo
 
 import frappe
 from frappe import _
 from iran_base.utils.numbers import to_latin_digits
 
+from erpnext_iran import moadian_rules
 from erpnext_iran.moadian_extras import HEADER_CODES, ITEM_CODES
 
 TEHRAN = ZoneInfo("Asia/Tehran")
@@ -31,10 +33,13 @@ UNVERIFIED = True
 
 
 # Fields the tax authority reads as whole numbers (Integer, Byte or Long in its SDK)
+SELECT_CODES = {"ft"}  # Select fields written as "1 - Domestic flight"
 INTEGER_CODES = {"ft", "cdcd", "asd", "lt", "insr", "consfee", "spro", "bros", "tcpbs", "ssrv", "sovat"}
 
 
 def typed(code, value):
+	if code in SELECT_CODES:
+		return code_of(value)
 	return int(round(float(value))) if code in INTEGER_CODES else value
 
 
@@ -51,7 +56,12 @@ def pattern_fields(invoice_type, pattern) -> dict:
 def set_defaults_from_company(doc, event=None):
 	"""A new invoice starts with the pattern the company chose, so the user does not pick it each time."""
 	doc.moadian_enabled = frappe.get_cached_value("Company", doc.company, "moadian_enabled")
-	if not doc.moadian_enabled or doc.moadian_pattern:
+	if not doc.moadian_enabled:
+		return
+	if not doc.moadian_buyer_type and doc.customer:
+		kind = frappe.db.get_value("Customer", doc.customer, "customer_type")
+		doc.moadian_buyer_type = "1 - Individual" if kind == "Individual" else "2 - Company"
+	if doc.moadian_pattern:
 		return
 	doc.moadian_pattern = frappe.get_cached_value("Company", doc.company, "moadian_default_pattern")
 	doc.moadian_invoice_type = doc.moadian_invoice_type or "1 - Type 1 (buyer fully identified)"
@@ -104,8 +114,8 @@ def rial_factor(currency: str | None) -> int:
 	return RIAL_PER_TOMAN if currency == "IRT" else 1
 
 
-def to_millis(posting_date, posting_time=None) -> int:
-	"""Unix milliseconds of a date and an optional time, read as Tehran time."""
+def to_millis(posting_date, posting_time=None, zone=TEHRAN) -> int:
+	"""Unix milliseconds of a date and an optional time, read in the time zone the site keeps it in."""
 	if isinstance(posting_date, str):
 		posting_date = datetime.date.fromisoformat(posting_date[:10])
 	if isinstance(posting_time, datetime.timedelta):
@@ -116,12 +126,21 @@ def to_millis(posting_date, posting_time=None) -> int:
 		time = posting_time
 	else:
 		time = datetime.time(0, 0)
-	moment = datetime.datetime.combine(posting_date, time, tzinfo=TEHRAN)
+	moment = datetime.datetime.combine(posting_date, time, tzinfo=zone)
 	return int(moment.timestamp() * 1000)
 
 
+def _decimal(value) -> Decimal:
+	return Decimal(str(value or 0))
+
+
+def _truncate(value: Decimal) -> int:
+	"""v7.9 section 7: every amount is cut at the decimal point, never rounded."""
+	return int(value.to_integral_value(rounding=ROUND_DOWN))
+
+
 def _amount(value, factor: int) -> int:
-	return int(round((value or 0) * factor))
+	return _truncate(_decimal(value) * factor)
 
 
 def vat_rate(invoice) -> float:
@@ -167,35 +186,47 @@ def build_payload(invoice, seller: dict, buyer: dict, items: dict, units: dict) 
 	factor = rial_factor(invoice.get("currency"))
 	sign = -1 if invoice.get("is_return") else 1
 	default_rate = vat_rate(invoice)
-	body = [_body_row(row, factor, sign, default_rate, items, units) for row in invoice.get("items") or []]
+	pattern = code_of(invoice.get("moadian_pattern"), 1)
+	body = [_body_row(row, factor, sign, default_rate, items, units, pattern) for row in invoice.get("items") or []]
 	header = _header(invoice, seller, buyer, body, factor)
 	payload = {"header": header, "body": body, "payments": [], "unverified": UNVERIFIED}
 	return _cut_to_pattern(payload)
 
 
-def _body_row(row, factor, sign, default_rate, items, units) -> dict:
+def _body_row(row, factor, sign, default_rate, items, units, pattern) -> dict:
 	rate = row_vat_rate(row, default_rate)
-	qty = sign * (row.get("qty") or 0)
-	before = _amount(row.get("rate", 0) * qty, factor)
-	discount = _amount((row.get("discount_amount") or 0) * qty, factor)
-	after = before - discount
-	vat = int(round(after * rate / 100))
+	quantity = _decimal(sign * (row.get("qty") or 0))
+	fee = _decimal(row.get("rate")) * factor
+	before = _truncate(quantity * fee)
+	discount = _truncate(_decimal(row.get("discount_amount")) * quantity * factor)
 	line = {
 		"sstid": items.get(row.item_code, ""),
 		"sstt": row.get("item_name") or row.item_code,
-		"am": qty,
+		"am": float(quantity) if quantity % 1 else int(quantity),
 		"mu": units.get(row.uom, ""),
-		"fee": _amount(row.get("rate", 0), factor),
+		"fee": float(fee) if fee % 1 else int(fee),
 		"prdis": before,
 		"dis": discount,
-		"adis": after,
 		"vra": rate,
-		"vam": vat,
-		"tsstam": after + vat,
 	}
 	for code in ITEM_CODES:
 		if row.get(f"moadian_{code}") not in (None, "", 0):
 			line[code] = typed(code, row.get(f"moadian_{code}"))
+	return _price_the_row(line, before, discount, rate, pattern)
+
+
+def _price_the_row(line: dict, before: int, discount: int, rate, pattern: int) -> dict:
+	"""Amount after discount, VAT and row total. Gold adds wage, profit and commission to the
+	price and charges 10% VAT on them (v7.9 8-40 and 8-42)."""
+	if pattern == 3:
+		wage = sum(int(line.get(code, 0)) for code in ("consfee", "spro", "bros"))
+		line["tcpbs"] = wage
+		after = before + wage - discount
+		vat = _truncate(Decimal(wage) * 10 / 100 + Decimal(before) * _decimal(rate) / 100)
+	else:
+		after = before - discount
+		vat = _truncate(Decimal(after) * _decimal(rate) / 100)
+	line.update({"adis": after, "vam": vat, "tsstam": after + vat})
 	return line
 
 
@@ -203,16 +234,18 @@ def _header(invoice, seller, buyer, body, factor) -> dict:
 	total = {code: sum(line[code] for line in body) for code in ("prdis", "dis", "adis", "vam")}
 	bill = total["adis"] + total["vam"]
 	method = code_of(invoice.get("moadian_settlement_method"), 1)
-	buyer_id = to_latin_digits(buyer.get("national_id") or buyer.get("legal_id") or "")
+	buyer_type = code_of(invoice.get("moadian_buyer_type"), 2)
+	own_id = buyer.get("legal_id") if buyer_type in (2, 3) else buyer.get("national_id")
+	buyer_id = to_latin_digits(own_id or "")
 	header = {
 		"taxid": invoice.get("moadian_tax_id") or "",
-		"indatim": to_millis(invoice.posting_date, invoice.get("posting_time")),
+		"indatim": to_millis(invoice.posting_date, invoice.get("posting_time"), ZoneInfo(invoice.get("moadian_timezone") or "Asia/Tehran")),
 		"inty": code_of(invoice.get("moadian_invoice_type"), 1),
 		"inno": str(invoice.get("moadian_serial") or 0),
 		"inp": code_of(invoice.get("moadian_pattern"), 1),
 		"ins": 4 if invoice.get("is_return") else code_of(invoice.get("moadian_subject"), 1),
 		"tins": to_latin_digits(seller.get("economic_code") or ""),
-		"tob": code_of(invoice.get("moadian_buyer_type"), 2),
+		"tob": buyer_type,
 		"bid": buyer_id,
 		"tinb": to_latin_digits(buyer.get("economic_code") or ""),
 		"setm": method,
@@ -223,13 +256,25 @@ def _header(invoice, seller, buyer, body, factor) -> dict:
 		"todam": 0,
 		"tbill": bill,
 		"irtaxid": invoice.get("moadian_reference_tax_id") or "",
+		"bpc": to_latin_digits(invoice.get("moadian_bpc") or ""),
 	}
+	header.update(_late_registration(invoice, header["indatim"]))
 	for code in HEADER_CODES:
 		if invoice.get(f"moadian_{code}") not in (None, "", 0):
 			header[code] = typed(code, invoice.get(f"moadian_{code}"))
 	if method == 3:
 		header.update(_cash_and_credit(invoice, header, factor))
 	return _add_totals(header, body)
+
+
+def _late_registration(invoice, issued_millis: int) -> dict:
+	"""An invoice sent later than the window the tax authority announced carries its registration
+	time and the late-sending rule (v7.9 6, 8-2, 8-3). The window is a company setting, off by default."""
+	hours = invoice.get("moadian_late_after_hours") or 0
+	now = invoice.get("moadian_now_millis") or int(datetime.datetime.now().timestamp() * 1000)
+	if hours and now - issued_millis > hours * 3_600_000:
+		return {"indati2m": now, "insr": 1}
+	return {}
 
 
 def _cash_and_credit(invoice, header, factor) -> dict:
@@ -277,7 +322,11 @@ def get_payload(invoice_name: str) -> dict:
 	invoice = frappe.get_doc("Sales Invoice", invoice_name)
 	invoice.check_permission("read")
 
+	invoice.moadian_timezone = frappe.utils.get_system_timezone()  # posting time is kept in this zone
 	invoice.moadian_reference_tax_id = reference_tax_id(invoice)
+	if not invoice.get("moadian_bpc") and invoice.get("customer_address"):
+		invoice.moadian_bpc = frappe.db.get_value("Address", invoice.customer_address, "pincode")
+	invoice.moadian_late_after_hours = frappe.get_cached_value("Company", invoice.company, "moadian_late_after_hours")
 	company = frappe.get_cached_doc("Company", invoice.company)
 	seller = {"economic_code": company.tax_id, "memory_id": company.get("moadian_memory_id")}
 	buyer = frappe.db.get_value(
@@ -298,5 +347,6 @@ def get_payload(invoice_name: str) -> dict:
 	header = payload["header"]
 	if header["ins"] != 1 and not header.get("irtaxid"):
 		missing.append(_("The invoice this one corrects or returns has not been sent to Moadian yet"))
+	missing += moadian_rules.data_problems(payload)
 	missing += [_("Field {0} is mandatory for this pattern and is not filled").format(c) for c in gaps if c != "taxid"]
 	return {"payload": payload, "missing": missing}

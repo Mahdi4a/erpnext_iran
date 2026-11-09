@@ -17,7 +17,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-from erpnext_iran import moadian, moadian_taxid
+from erpnext_iran import moadian, moadian_rules, moadian_taxid
 from erpnext_iran.moadian_crypto import decode_base64url
 
 
@@ -73,6 +73,10 @@ class MockMoadian:
 			good = False
 		if not good:
 			errors.append({"code": "010101", "message": "Tax ID is wrong", "errorType": "ERROR"})
+		errors += [
+			{"code": "010606", "message": problem, "errorType": "ERROR"}
+			for problem in moadian_rules.data_problems(invoice, now_millis=header["indatim"] + 1)
+		] if header.get("ins") != 3 else []
 		if header.get("ins") == 3:  # a cancellation names the invoice and carries no items (v7.9 5-3)
 			return errors + ([] if header.get("irtaxid") else [{"code": "010404", "message": "irtaxid is mandatory", "errorType": "ERROR"}])
 		try:
