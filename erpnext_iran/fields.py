@@ -331,11 +331,23 @@ COMPANY_MOADIAN_FIELDS = [
 	},
 ]
 
+ITEM_SCALE_FIELDS = [
+	{
+		"fieldname": "scale_plu",
+		"label": "Scale PLU (کد ترازو)",
+		"fieldtype": "Data",
+		"insert_after": "barcodes",
+		"length": 8,
+		"no_copy": 1,
+		"description": "For goods weighed at the till. The barcode of the item is made from it, and a label from the scale is read as this item with the weight on it.",
+	},
+]
+
 CUSTOM_FIELDS.update(
 	{
 		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors"),
 		"Sales Invoice Item": custom_fields(ITEM_EXTRAS, "description"),
-		"Item": ITEM_MOADIAN_FIELDS,
+		"Item": ITEM_MOADIAN_FIELDS + ITEM_SCALE_FIELDS,
 		"UOM": UOM_MOADIAN_FIELDS,
 		"Company": COMPANY_MOADIAN_FIELDS,
 	}

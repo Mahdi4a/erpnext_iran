@@ -10,7 +10,10 @@ required_apps = ["iran_base", "erpnext"]
 after_install = "erpnext_iran.install.after_install"
 after_migrate = "erpnext_iran.install.after_migrate"
 
-app_include_js = "/assets/erpnext_iran/js/erpnext_iran.js"
+app_include_js = [
+	"/assets/erpnext_iran/js/erpnext_iran.js",
+	"/assets/erpnext_iran/js/pos_scale.js",
+]
 
 extend_bootinfo = "erpnext_iran.defaults.extend_bootinfo"
 
@@ -36,6 +39,7 @@ doc_events = {
 		"on_submit": "erpnext_iran.moadian_send.auto_send_on_submit",
 		"on_cancel": "erpnext_iran.moadian_send.cancel_after_erp_cancel",
 	},
+	"Item": {"validate": "erpnext_iran.scale.validate_item"},
 	"Customer": {"validate": "erpnext_iran.validations.validate_party"},
 	"Supplier": {"validate": "erpnext_iran.validations.validate_party"},
 	"Bank Account": {"validate": "erpnext_iran.validations.validate_bank_account"},

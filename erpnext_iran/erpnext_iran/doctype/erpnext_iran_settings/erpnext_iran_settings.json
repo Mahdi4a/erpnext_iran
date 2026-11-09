@@ -49,6 +49,45 @@
    "fieldname": "naming_help",
    "fieldtype": "HTML",
    "options": "<p>Adds a series with the Jalali year (ACC-SINV-1405-00001) to the sales, purchase and payment documents and makes it the default. Existing series and documents are not changed; the new series counts from 1.</p>"
+  },
+  {
+   "fieldname": "scale_section",
+   "label": "Scale Barcodes (ترازو)",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "scale_barcode_prefix",
+   "label": "Label Prefix",
+   "fieldtype": "Data",
+   "default": "2",
+   "description": "The first digit(s) of a label printed by the scale. Most scales use 2."
+  },
+  {
+   "fieldname": "scale_plu_digits",
+   "label": "PLU Digits",
+   "fieldtype": "Int",
+   "default": "6"
+  },
+  {
+   "fieldname": "scale_value_digits",
+   "label": "Weight or Price Digits",
+   "fieldtype": "Int",
+   "default": "5",
+   "description": "Prefix, PLU and these digits must be 12 together; the 13th is the check digit."
+  },
+  {
+   "fieldname": "scale_value_mode",
+   "label": "The Label Carries",
+   "fieldtype": "Select",
+   "options": "Weight\nPrice",
+   "default": "Weight"
+  },
+  {
+   "fieldname": "scale_weight_divisor",
+   "label": "Weight Divisor",
+   "fieldtype": "Float",
+   "default": "1000",
+   "description": "Weight on the label in grams and the item sold in kilograms: 1000. Ignored when the label carries a price."
   }
  ],
  "permissions": [

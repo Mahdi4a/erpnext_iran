@@ -80,6 +80,10 @@ def extend_bootinfo(bootinfo):
 		"persian_digits": 1 if get_setting("use_persian_digits", "ERPNext Iran Settings") else 0,
 	}
 
+	from erpnext_iran.scale import extend_bootinfo as add_scale
+
+	add_scale(bootinfo)
+
 
 def persian_digits(value) -> str:
 	"""For print formats: {{ doc.grand_total | persian_digits }}."""
