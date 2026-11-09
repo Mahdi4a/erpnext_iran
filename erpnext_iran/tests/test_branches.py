@@ -137,3 +137,54 @@ class TestFastTill(unittest.TestCase):
 
 	def test_the_receipt_of_a_branch_is_the_persian_80_mm_one(self):
 		self.assertEqual(branches.FAST_TILL["print_format"], "Iran POS Receipt")
+
+
+class TestWalkInLoyalty(unittest.TestCase):
+	def test_the_walk_in_customer_is_taken_out_of_loyalty(self):
+		doc = SimpleNamespace(
+			get=lambda key: branches.WALK_IN_CUSTOMER if key == "customer_name" else None,
+			loyalty_program="Club",
+			loyalty_program_tier="Gold",
+		)
+		branches.keep_walk_in_out_of_loyalty(doc)
+		self.assertIsNone(doc.loyalty_program)
+		self.assertIsNone(doc.loyalty_program_tier)
+
+	def test_a_named_customer_keeps_the_program(self):
+		doc = SimpleNamespace(get=lambda key: "Ali" if key == "customer_name" else None, loyalty_program="Club", loyalty_program_tier=None)
+		branches.keep_walk_in_out_of_loyalty(doc)
+		self.assertEqual(doc.loyalty_program, "Club")
+
+
+class TestLoyaltyLookup(unittest.TestCase):
+	def test_the_walk_in_customer_is_offered_no_program(self):
+		with patch.object(branches.frappe, "db", MagicMock()) as db:
+			db.get_value.return_value = branches.WALK_IN_CUSTOMER
+			self.assertEqual(branches.get_loyalty_programs("مشتری حضوری"), [])
+
+	def test_another_customer_goes_to_erpnext(self):
+		with (
+			patch.object(branches.frappe, "db", MagicMock()) as db,
+			patch("erpnext.accounts.doctype.sales_invoice.sales_invoice.get_loyalty_programs", return_value=["Club"]),
+		):
+			db.get_value.return_value = "Ali"
+			self.assertEqual(branches.get_loyalty_programs("Ali"), ["Club"])
+
+
+class TestClosedBranch(unittest.TestCase):
+	def test_a_closed_branch_disables_its_profile_and_warehouse(self):
+		branch = SimpleNamespace(disabled=1, pos_profile="P", warehouse="W")
+		with patch.object(branches.frappe, "db", MagicMock()) as db:
+			db.get_value.return_value = 0
+			branches.sync_disabled(branch)
+		self.assertEqual(
+			[call.args for call in db.set_value.call_args_list],
+			[("POS Profile", "P", "disabled", 1), ("Warehouse", "W", "disabled", 1)],
+		)
+
+	def test_nothing_is_written_when_it_already_matches(self):
+		branch = SimpleNamespace(disabled=0, pos_profile="P", warehouse="W")
+		with patch.object(branches.frappe, "db", MagicMock()) as db:
+			db.get_value.return_value = 0
+			branches.sync_disabled(branch)
+		db.set_value.assert_not_called()

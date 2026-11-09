@@ -32,6 +32,15 @@ def create_branch_records(branch):
 	branch.pos_profile = ensure_pos_profile(branch)
 
 
+def sync_disabled(branch):
+	"""A closed branch cannot be sold from: its POS Profile and warehouse are disabled with it."""
+	disabled = 1 if branch.disabled else 0
+	if branch.pos_profile and frappe.db.get_value("POS Profile", branch.pos_profile, "disabled") != disabled:
+		frappe.db.set_value("POS Profile", branch.pos_profile, "disabled", disabled)
+	if branch.warehouse and frappe.db.get_value("Warehouse", branch.warehouse, "disabled") != disabled:
+		frappe.db.set_value("Warehouse", branch.warehouse, "disabled", disabled)
+
+
 def ensure_warehouse(name: str, company: str) -> str:
 	existing = frappe.db.get_value("Warehouse", {"warehouse_name": name, "company": company})
 	if existing:
@@ -122,6 +131,27 @@ def ensure_walk_in_customer() -> str:
 	customer.flags.ignore_permissions = True
 	customer.insert()
 	return customer.name
+
+
+def keep_walk_in_out_of_loyalty(doc, method=None):
+	"""The walk-in customer is everybody and nobody: it must not collect points that the next person in
+	the line could spend. ERPNext opts a customer in to an automatic loyalty program on save, so this
+	runs after it and takes the customer out again."""
+	if doc.get("customer_name") == WALK_IN_CUSTOMER:
+		doc.loyalty_program = None
+		doc.loyalty_program_tier = None
+
+
+@frappe.whitelist()
+def get_loyalty_programs(customer):
+	"""Replaces ERPNext's call of the same name, which the invoice form makes when a customer is chosen and
+	which opts the customer in to a loyalty program with a plain database write (so the validation above never
+	sees it). The walk-in customer gets no program there either."""
+	from erpnext.accounts.doctype.sales_invoice.sales_invoice import get_loyalty_programs as original
+
+	if frappe.db.get_value("Customer", customer, "customer_name") == WALK_IN_CUSTOMER:
+		return []
+	return original(customer)
 
 
 def ensure_pos_profile(branch) -> str:

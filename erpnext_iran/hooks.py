@@ -14,6 +14,7 @@ app_include_js = [
 	"/assets/erpnext_iran/js/erpnext_iran.js",
 	"/assets/erpnext_iran/js/pos_scale.js",
 	"/assets/erpnext_iran/js/pos_quick_pay.js",
+	"/assets/erpnext_iran/js/pos_loyalty.js",
 ]
 
 extend_bootinfo = "erpnext_iran.defaults.extend_bootinfo"
@@ -41,13 +42,16 @@ doc_events = {
 		"on_cancel": "erpnext_iran.moadian_send.cancel_after_erp_cancel",
 	},
 	"Item": {"validate": "erpnext_iran.scale.validate_item"},
-	"Customer": {"validate": "erpnext_iran.validations.validate_party"},
+	"Customer": {
+		"validate": ["erpnext_iran.validations.validate_party", "erpnext_iran.branches.keep_walk_in_out_of_loyalty"]
+	},
 	"Supplier": {"validate": "erpnext_iran.validations.validate_party"},
 	"Bank Account": {"validate": "erpnext_iran.validations.validate_bank_account"},
 	"Address": {"validate": "erpnext_iran.validations.validate_address"},
 }
 
 override_whitelisted_methods = {
+	"erpnext.accounts.doctype.sales_invoice.sales_invoice.get_loyalty_programs": "erpnext_iran.branches.get_loyalty_programs",
 	"erpnext.accounts.doctype.account.chart_of_accounts.chart_of_accounts.get_charts_for_country": "erpnext_iran.chart_of_accounts.get_charts_for_country",
 }
 
