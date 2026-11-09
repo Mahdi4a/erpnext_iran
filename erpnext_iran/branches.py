@@ -15,8 +15,10 @@ WALK_IN_CUSTOMER = "مشتری حضوری"
 # the sale is paid, and "New Invoice" keeps an unfinished sale as a draft (a hold) instead of asking.
 FAST_TILL = {
 	"auto_add_item_to_cart": 1,
+	"skip_submit_confirmation": 1,
 	"print_receipt_on_order_complete": 1,
 	"action_on_new_invoice": "Save Changes and Load New Invoice",
+	"print_format": "Iran POS Receipt",
 }
 
 

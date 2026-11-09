@@ -343,11 +343,23 @@ ITEM_SCALE_FIELDS = [
 	},
 ]
 
+POS_PROFILE_FIELDS = [
+	{
+		"fieldname": "skip_submit_confirmation",
+		"label": "Complete a Sale Without Asking",
+		"fieldtype": "Check",
+		"default": "1",
+		"insert_after": "auto_add_item_to_cart",
+		"description": "Hides the Permanently Submit question when the cashier completes a sale, so a customer takes one key press less.",
+	},
+]
+
 CUSTOM_FIELDS.update(
 	{
 		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors"),
 		"Sales Invoice Item": custom_fields(ITEM_EXTRAS, "description"),
 		"Item": ITEM_MOADIAN_FIELDS + ITEM_SCALE_FIELDS,
+		"POS Profile": POS_PROFILE_FIELDS,
 		"UOM": UOM_MOADIAN_FIELDS,
 		"Company": COMPANY_MOADIAN_FIELDS,
 	}

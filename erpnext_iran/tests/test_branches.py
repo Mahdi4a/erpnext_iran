@@ -131,3 +131,9 @@ class TestFastTill(unittest.TestCase):
 		self.assertEqual(branches.FAST_TILL["auto_add_item_to_cart"], 1)
 		self.assertEqual(branches.FAST_TILL["print_receipt_on_order_complete"], 1)
 		self.assertEqual(branches.FAST_TILL["action_on_new_invoice"], "Save Changes and Load New Invoice")
+
+	def test_a_sale_is_completed_without_the_submit_question(self):
+		self.assertEqual(branches.FAST_TILL["skip_submit_confirmation"], 1)
+
+	def test_the_receipt_of_a_branch_is_the_persian_80_mm_one(self):
+		self.assertEqual(branches.FAST_TILL["print_format"], "Iran POS Receipt")

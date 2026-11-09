@@ -13,6 +13,7 @@ after_migrate = "erpnext_iran.install.after_migrate"
 app_include_js = [
 	"/assets/erpnext_iran/js/erpnext_iran.js",
 	"/assets/erpnext_iran/js/pos_scale.js",
+	"/assets/erpnext_iran/js/pos_quick_pay.js",
 ]
 
 extend_bootinfo = "erpnext_iran.defaults.extend_bootinfo"
