@@ -11,8 +11,6 @@ import re
 from contextlib import contextmanager
 from datetime import datetime, timedelta
 
-from unittest.mock import patch
-
 import frappe
 from frappe import _
 from frappe.utils import cint, flt, getdate, now_datetime, strip_html_tags, today
@@ -240,16 +238,44 @@ def submit_one(raw) -> dict:
 		return {**result, "status": "refused", "reason": strip_html_tags(str(error)).strip()}
 
 
+FLAG = "iran_offline_negative_stock"
+
+
 @contextmanager
 def negative_stock_allowed():
-	"""The goods of an offline sale are already gone; the books follow. Only for the call that makes the invoice."""
+	"""The goods of an offline sale are already gone; the books follow. Only for the call that makes the invoice.
+
+	The flag lives on frappe.flags, which belongs to this request alone, so a sale rung up at the same moment on
+	another thread of the same server still gets ERPNext's stock check."""
 	if cint(frappe.db.get_single_value("ERPNext Iran Settings", "offline_refuse_negative_stock")):
 		yield
 		return
+	install()
+	frappe.flags[FLAG] = True
+	try:
+		yield
+	finally:
+		frappe.flags[FLAG] = False
+
+
+def install(*args, **kwargs):
+	"""Lets ERPNext's negative stock check ask the flag above. Put in once per process; safe to call again."""
 	from erpnext.stock import stock_ledger
 
-	with patch.object(stock_ledger, "is_negative_stock_allowed", lambda *args, **kwargs: True):
-		yield
+	original = stock_ledger.is_negative_stock_allowed
+	if getattr(original, "_iran_offline", False):
+		return
+
+	def allowed(**kwargs):
+		return bool(frappe.flags.get(FLAG)) or original(**kwargs)
+
+	allowed._iran_offline = True
+	stock_ledger.is_negative_stock_allowed = allowed
+
+
+def effective_list_rate(server_rate, line: dict) -> float:
+	"""The list price a sold rate is compared with: the server's, and the till's own only when the server has none."""
+	return max(flt(server_rate) or line["list_rate"], line["rate"])
 
 
 def build_invoice(sale: dict):
@@ -306,9 +332,10 @@ def build_invoice(sale: dict):
 	doc.set_missing_values()
 
 	# The customer paid the price the till showed: keep that rate, and show any difference to the list price as a
-	# discount, so the cashier discount limit judges it like any other sale.
+	# discount, so the cashier discount limit judges it like any other sale. The list price is the server's own:
+	# the till could send any "list price" and make a cut price look like no discount at all.
 	for row, line in zip(doc.items, sale["items"], strict=True):
-		list_rate = max(line["list_rate"], line["rate"])
+		list_rate = effective_list_rate(row.price_list_rate, line)
 		row.price_list_rate = list_rate
 		row.discount_percentage = (list_rate - line["rate"]) / list_rate * 100 if list_rate else 0
 		row.rate = line["rate"]

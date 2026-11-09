@@ -22,8 +22,11 @@ class TestNaming(unittest.TestCase):
 		self.assertEqual(naming.parse_variable(FakeDoc(transaction_date="2027-03-21"), "JY"), "1406")
 
 	def test_without_a_date_it_is_today(self):
-		self.assertEqual(naming.document_date(FakeDoc()), datetime.date.today())
-		self.assertEqual(naming.document_date(None), datetime.date.today())
+		# today is the site's today (its time zone), not the server clock's: they differ for hours every night
+		from frappe.utils import getdate
+
+		self.assertEqual(naming.document_date(FakeDoc()), getdate())
+		self.assertEqual(naming.document_date(None), getdate())
 
 
 class TestJalaliSeries(unittest.TestCase):

@@ -120,3 +120,51 @@ class TestTaxRows(unittest.TestCase):
 		with patch.object(offline.frappe, "get_cached_doc", return_value=frappe._dict(taxes=rows)):
 			result = offline.tax_rows(self.profile("VAT"))
 		self.assertEqual(result, {"rows": [{"rate": 10.0, "included": 0}], "exact": False})
+
+
+class TestNegativeStockFlag(unittest.TestCase):
+	def setUp(self):
+		from erpnext.stock import stock_ledger
+
+		self.stock_ledger = stock_ledger
+		offline.install()
+
+	def run_check(self, refuse=0):
+		with patch.object(offline.frappe.db, "get_single_value", return_value=refuse), patch.object(
+			self.stock_ledger.frappe, "get_cached_doc", return_value=frappe._dict(allow_negative_stock=0)
+		), patch.object(self.stock_ledger.frappe, "get_cached_value", return_value=0):
+			outside = self.stock_ledger.is_negative_stock_allowed(item_code="X")
+			with offline.negative_stock_allowed():
+				inside = self.stock_ledger.is_negative_stock_allowed(item_code="X")
+			after = self.stock_ledger.is_negative_stock_allowed(item_code="X")
+		return outside, inside, after
+
+	def test_only_the_offline_call_may_go_negative_and_the_flag_is_cleared_after(self):
+		self.assertEqual(self.run_check(), (False, True, False))
+
+	def test_the_setting_that_refuses_negative_stock_wins(self):
+		self.assertEqual(self.run_check(refuse=1), (False, False, False))
+
+	def test_the_flag_is_cleared_even_when_the_sale_fails(self):
+		with patch.object(offline.frappe.db, "get_single_value", return_value=0):
+			with self.assertRaises(ValueError):
+				with offline.negative_stock_allowed():
+					raise ValueError
+		self.assertFalse(frappe.flags.get(offline.FLAG))
+
+	def test_install_is_idempotent(self):
+		first = self.stock_ledger.is_negative_stock_allowed
+		offline.install()
+		self.assertIs(self.stock_ledger.is_negative_stock_allowed, first)
+
+
+class TestListRate(unittest.TestCase):
+	def test_the_server_price_beats_the_one_the_till_claims(self):
+		line = {"rate": 1, "list_rate": 1}  # a till that sends the same cut price as "list price"
+		self.assertEqual(offline.effective_list_rate(100000, line), 100000)
+
+	def test_the_tills_list_price_is_used_only_when_the_server_has_none(self):
+		self.assertEqual(offline.effective_list_rate(0, {"rate": 80, "list_rate": 100}), 100)
+
+	def test_a_rate_above_the_list_price_is_no_discount(self):
+		self.assertEqual(offline.effective_list_rate(100, {"rate": 120, "list_rate": 100}), 120)

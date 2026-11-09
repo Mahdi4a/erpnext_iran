@@ -32,6 +32,8 @@ def after_install():
 	for company in frappe.get_all("Company", pluck="name"):
 		ensure_vat_templates(company)
 		ensure_default_income_account(company)
+	ensure_dashboard()
+	ensure_payroll()
 
 
 def after_migrate():

@@ -10,7 +10,7 @@ import json
 
 import frappe
 from frappe import _
-from frappe.utils import cint, flt
+from frappe.utils import cint
 
 WORKSPACE = "Shop Dashboard"
 TODAY = "frappe.datetime.get_today()"
