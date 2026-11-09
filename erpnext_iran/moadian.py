@@ -15,6 +15,8 @@ Assumptions that need an owner decision (listed in the README):
 from __future__ import annotations
 
 import datetime
+import json
+import os
 from zoneinfo import ZoneInfo
 
 import frappe
@@ -24,6 +26,27 @@ from iran_base.utils.numbers import to_latin_digits
 TEHRAN = ZoneInfo("Asia/Tehran")
 RIAL_PER_TOMAN = 10
 UNVERIFIED = True
+
+
+PATTERN_FILE = os.path.join(os.path.dirname(__file__), "data", "moadian_patterns.json")
+
+
+def pattern_fields(invoice_type, pattern) -> dict:
+	"""Field code -> mandatory, optional or conditional, for one invoice type and pattern (v7.9 table 1)."""
+	with open(PATTERN_FILE, encoding="utf8") as file:
+		patterns = json.load(file)["patterns"]
+	return patterns.get(str(invoice_type), {}).get(str(pattern), {})
+
+
+def pattern_gaps(payload: dict) -> list[str]:
+	"""Mandatory fields of the invoice's type and pattern that the payload does not carry."""
+	header = payload["header"]
+	spec = pattern_fields(header["inty"], header["inp"])
+	if not spec:
+		raise ValueError(f"Pattern {header['inp']} is not valid for invoice type {header['inty']}")
+	present = set(header) | {code for row in payload["body"] for code in row}
+	present |= {code for row in payload["payments"] for code in row}
+	return [code for code, status in spec.items() if status == "mandatory" and code not in present]
 
 
 def rial_factor(currency: str | None) -> int:
@@ -111,6 +134,11 @@ def build_payload(invoice, seller: dict, buyer: dict, items: dict, units: dict) 
 		total_after_discount += after
 		total_vat += vat
 
+	total_bill = total_after_discount + total_vat
+	paid = min(_amount(invoice.get("paid_amount"), factor), total_bill)
+	cash, credit = {1: (total_bill, 0), 2: (0, total_bill)}.get(
+		int(invoice.get("moadian_settlement_method") or 1), (paid, total_bill - paid)
+	)
 	buyer_id = to_latin_digits(buyer.get("national_id") or buyer.get("legal_id") or "")
 	header = {
 		"taxid": invoice.get("moadian_tax_id") or "",
@@ -128,7 +156,10 @@ def build_payload(invoice, seller: dict, buyer: dict, items: dict, units: dict) 
 		"tdis": total_discount,
 		"tadis": total_after_discount,
 		"tvam": total_vat,
-		"tbill": total_after_discount + total_vat,
+		"todam": 0,
+		"tbill": total_bill,
+		"cap": cash,
+		"insp": credit,
 	}
 	return {"header": header, "body": body, "payments": [], "unverified": UNVERIFIED}
 
@@ -149,7 +180,12 @@ def get_payload(invoice_name: str) -> dict:
 	}
 	units = {row.uom: frappe.db.get_value("UOM", row.uom, "moadian_unit_code") for row in invoice.items}
 
-	return {
-		"payload": build_payload(invoice, seller, buyer or {}, items, units),
-		"missing": missing_data(invoice, seller, buyer or {}, items, units),
-	}
+	payload = build_payload(invoice, seller, buyer or {}, items, units)
+	missing = missing_data(invoice, seller, buyer or {}, items, units)
+	try:
+		gaps = pattern_gaps(payload)
+	except ValueError as error:
+		gaps = []
+		missing.append(str(error))
+	missing += [_("Field {0} is mandatory for this pattern and is not filled").format(c) for c in gaps if c != "taxid"]
+	return {"payload": payload, "missing": missing}

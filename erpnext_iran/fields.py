@@ -98,10 +98,10 @@ SALES_INVOICE_MOADIAN_FIELDS = [
 		"fieldname": "moadian_pattern",
 		"label": "Invoice Pattern (inp)",
 		"fieldtype": "Select",
-		"options": "\n1\n2\n3\n4\n5\n6\n7\n8\n9",
+		"options": "\n1\n2\n3\n4\n5\n6\n7\n8\n9\n11\n13\n14",
 		"default": "1",
 		"insert_after": "moadian_invoice_type",
-		"description": "1: sale. " + MOADIAN_UNVERIFIED,
+		"description": "1: sale, 2: foreign currency, 3: gold and jewellery, 4: contracting, 5: utility bills, 6: air ticket, 7: export, 8: waybill, 9: oil products, 11: securities, 13: insurance, 14: chain sale. " + MOADIAN_UNVERIFIED,
 	},
 	{
 		"fieldname": "moadian_subject",

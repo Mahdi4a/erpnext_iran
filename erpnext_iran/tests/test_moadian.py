@@ -84,3 +84,22 @@ class TestMoadianPayload(unittest.TestCase):
 
 		self.assertEqual(payload["header"]["tvam"], 0)
 		self.assertEqual(payload["header"]["tbill"], 4500000)
+
+
+class TestMoadianPatterns(unittest.TestCase):
+	def test_plain_sale_carries_every_mandatory_field_of_pattern_one(self):
+		payload = moadian.build_payload(invoice(), SELLER, BUYER, ITEMS, UNITS)
+		self.assertEqual(moadian.pattern_gaps(payload), [])
+
+	def test_gold_pattern_asks_for_wage_profit_and_commission_on_top_of_a_plain_sale(self):
+		plain = moadian.pattern_fields(1, 1)
+		gold = moadian.pattern_fields(1, 3)
+		for code in ("bros", "consfee", "spro", "tcpbs"):
+			self.assertEqual((plain.get(code), gold[code]), (None, "mandatory"))
+
+	def test_a_pattern_the_invoice_type_does_not_have_is_refused_with_its_number(self):
+		payload = moadian.build_payload(
+			invoice(moadian_invoice_type="2", moadian_pattern="8"), SELLER, BUYER, ITEMS, UNITS
+		)
+		with self.assertRaisesRegex(ValueError, "Pattern 8 is not valid for invoice type 2"):
+			moadian.pattern_gaps(payload)
