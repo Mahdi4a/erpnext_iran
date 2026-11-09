@@ -19,6 +19,7 @@ FAST_TILL = {
 	"print_receipt_on_order_complete": 1,
 	"action_on_new_invoice": "Save Changes and Load New Invoice",
 	"print_format": "Iran POS Receipt",
+	"letter_head": "",  # a letterhead does not fit 80 mm paper
 }
 
 
