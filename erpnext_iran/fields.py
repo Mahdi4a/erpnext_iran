@@ -354,8 +354,33 @@ POS_PROFILE_FIELDS = [
 	},
 ]
 
+def _pricing_rule_time_fields():
+	from erpnext_iran.pricing_time import DAYS
+
+	fields = [
+		{
+			"fieldname": "iran_time_section",
+			"label": "Days and Hours",
+			"fieldtype": "Section Break",
+			"insert_after": "valid_upto",
+			"description": "Leave empty for every day and every hour. For example Thursday 10:00 to 12:00.",
+		}
+	]
+	previous = "iran_time_section"
+	for fieldname, _weekday, label in DAYS:
+		fields.append({"fieldname": fieldname, "label": label, "fieldtype": "Check", "insert_after": previous})
+		previous = fieldname
+	fields += [
+		{"fieldname": "iran_time_break", "fieldtype": "Column Break", "insert_after": previous},
+		{"fieldname": "iran_from_time", "label": "From Time", "fieldtype": "Time", "insert_after": "iran_time_break"},
+		{"fieldname": "iran_to_time", "label": "To Time", "fieldtype": "Time", "insert_after": "iran_from_time"},
+	]
+	return fields
+
+
 CUSTOM_FIELDS.update(
 	{
+		"Pricing Rule": _pricing_rule_time_fields(),
 		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors"),
 		"Sales Invoice Item": custom_fields(ITEM_EXTRAS, "description"),
 		"Item": ITEM_MOADIAN_FIELDS + ITEM_SCALE_FIELDS,

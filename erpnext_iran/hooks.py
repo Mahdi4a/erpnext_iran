@@ -9,6 +9,8 @@ required_apps = ["iran_base", "erpnext"]
 
 after_install = "erpnext_iran.install.after_install"
 after_migrate = "erpnext_iran.install.after_migrate"
+before_request = "erpnext_iran.pricing_time.install"
+before_job = "erpnext_iran.pricing_time.install"
 
 app_include_js = [
 	"/assets/erpnext_iran/js/erpnext_iran.js",
@@ -43,6 +45,7 @@ doc_events = {
 		"on_cancel": "erpnext_iran.moadian_send.cancel_after_erp_cancel",
 	},
 	"Item": {"validate": "erpnext_iran.scale.validate_item"},
+	"Pricing Rule": {"validate": "erpnext_iran.pricing_time.validate_pricing_rule"},
 	"Customer": {
 		"validate": ["erpnext_iran.validations.validate_party", "erpnext_iran.branches.keep_walk_in_out_of_loyalty"]
 	},
