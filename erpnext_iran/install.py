@@ -12,6 +12,7 @@ from erpnext_iran.jalali import ensure_current_and_next_fiscal_years
 from erpnext_iran.payments import ensure_fixed_rates, ensure_payment_modes
 from erpnext_iran.print_formats import ensure_print_formats
 from erpnext_iran.setup import ensure_default_income_account, ensure_vat_templates
+from erpnext_iran.gateways import ensure_gateway
 from erpnext_iran.zarinpal import ensure_payment_gateway
 
 
@@ -25,6 +26,8 @@ def after_install():
 	ensure_payment_modes()
 	ensure_fixed_rates()
 	ensure_payment_gateway()
+	ensure_gateway("Tara", "Tara Settings")
+	ensure_gateway("Snapp Pay", "Snapp Pay Settings")
 	for company in frappe.get_all("Company", pluck="name"):
 		ensure_vat_templates(company)
 		ensure_default_income_account(company)
@@ -40,5 +43,7 @@ def after_migrate():
 	ensure_payment_modes()
 	ensure_fixed_rates()
 	ensure_payment_gateway()
+	ensure_gateway("Tara", "Tara Settings")
+	ensure_gateway("Snapp Pay", "Snapp Pay Settings")
 	for company in frappe.get_all("Company", pluck="name"):
 		ensure_default_income_account(company)

@@ -1,0 +1,53 @@
+{
+ "doctype": "DocType",
+ "name": "Tara Settings",
+ "module": "Erpnext Iran",
+ "issingle": 1,
+ "engine": "InnoDB",
+ "description": "Tara (buy now, pay later) as a payment gateway for Payment Request. Unverified against official documentation.",
+ "fields": [
+  {
+   "fieldname": "username",
+   "label": "User Name (Merchant ID)",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "password",
+   "label": "Password (Merchant Key)",
+   "fieldtype": "Password"
+  },
+  {
+   "fieldname": "service_id",
+   "label": "Gateway Code",
+   "fieldtype": "Data",
+   "description": "The service code Tara gave the shop"
+  },
+  {
+   "fieldname": "api_url",
+   "label": "API Address",
+   "fieldtype": "Data",
+   "default": "https://pay.tara360.ir/pay"
+  },
+  {
+   "fieldname": "amount_unit",
+   "label": "Send Amounts in",
+   "fieldtype": "Select",
+   "options": "Rial\nToman",
+   "default": "Rial",
+   "description": "The unit the gateway counts in. Unverified: confirm it with the gateway's sandbox before going live."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

@@ -1,0 +1,57 @@
+{
+ "doctype": "DocType",
+ "name": "Snapp Pay Settings",
+ "module": "Erpnext Iran",
+ "issingle": 1,
+ "engine": "InnoDB",
+ "description": "Snapp Pay (installments) as a payment gateway for Payment Request. Unverified against official documentation.",
+ "fields": [
+  {
+   "fieldname": "api_url",
+   "label": "API Address",
+   "fieldtype": "Data",
+   "description": "The address in the Snapp Pay contract, without a trailing slash"
+  },
+  {
+   "fieldname": "client_id",
+   "label": "Client ID",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "client_secret",
+   "label": "Client Secret",
+   "fieldtype": "Password"
+  },
+  {
+   "fieldname": "username",
+   "label": "User Name",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "password",
+   "label": "Password",
+   "fieldtype": "Password"
+  },
+  {
+   "fieldname": "amount_unit",
+   "label": "Send Amounts in",
+   "fieldtype": "Select",
+   "options": "Rial\nToman",
+   "default": "Rial",
+   "description": "The unit the gateway counts in. Unverified: confirm it with the gateway's sandbox before going live."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}
