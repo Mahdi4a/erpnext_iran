@@ -17,6 +17,7 @@ app_include_js = [
 	"/assets/erpnext_iran/js/pos_scale.js",
 	"/assets/erpnext_iran/js/pos_quick_pay.js",
 	"/assets/erpnext_iran/js/pos_loyalty.js",
+	"/assets/erpnext_iran/js/pos_discount.js",
 ]
 
 extend_bootinfo = "erpnext_iran.defaults.extend_bootinfo"
@@ -41,6 +42,7 @@ doc_events = {
 	"Sales Invoice": {
 		"before_validate": "erpnext_iran.moadian.set_defaults_from_company",
 		"validate": "erpnext_iran.loyalty.validate_redeem_limit",
+		"before_submit": "erpnext_iran.discount.check_discount",
 		"on_submit": "erpnext_iran.moadian_send.auto_send_on_submit",
 		"on_cancel": "erpnext_iran.moadian_send.cancel_after_erp_cancel",
 	},

@@ -378,13 +378,29 @@ def _pricing_rule_time_fields():
 	return fields
 
 
+POS_DISCOUNT_FIELDS = [
+	{
+		"fieldname": "cashier_discount_limit",
+		"label": "Cashier Discount Limit (%)",
+		"fieldtype": "Percent",
+		"default": "100",
+		"insert_after": "skip_submit_confirmation",
+		"description": "The most a cashier may take off the listed prices of a sale. Above it a manager must approve with their password. 100 means no limit. Pricing Rule promotions do not count.",
+	},
+]
+
+SALES_INVOICE_DISCOUNT_FIELDS = [
+	{"fieldname": "discount_approval_token", "label": "Discount Approval Token", "fieldtype": "Data", "hidden": 1, "no_copy": 1, "print_hide": 1, "read_only": 1, "insert_after": "additional_discount_percentage"},
+	{"fieldname": "discount_approved_by", "label": "Discount Approved By", "fieldtype": "Link", "options": "User", "read_only": 1, "no_copy": 1, "insert_after": "discount_amount"},
+]
+
 CUSTOM_FIELDS.update(
 	{
 		"Pricing Rule": _pricing_rule_time_fields(),
-		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors"),
+		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors") + SALES_INVOICE_DISCOUNT_FIELDS,
 		"Sales Invoice Item": custom_fields(ITEM_EXTRAS, "description"),
 		"Item": ITEM_MOADIAN_FIELDS + ITEM_SCALE_FIELDS,
-		"POS Profile": POS_PROFILE_FIELDS,
+		"POS Profile": POS_PROFILE_FIELDS + POS_DISCOUNT_FIELDS,
 		"UOM": UOM_MOADIAN_FIELDS,
 		"Company": COMPANY_MOADIAN_FIELDS,
 	}

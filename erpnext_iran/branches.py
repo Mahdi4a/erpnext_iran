@@ -185,6 +185,7 @@ def ensure_pos_profile(branch) -> str:
 			"write_off_cost_center": branch.cost_center,
 			"write_off_limit": 0,
 			**FAST_TILL,
+			"cashier_discount_limit": 10,
 			"payments": [
 				{"mode_of_payment": mode, "default": 1 if mode == DEFAULT_MODE else 0}
 				for mode in modes
