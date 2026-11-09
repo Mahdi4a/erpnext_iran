@@ -1,0 +1,15 @@
+{
+ "doctype": "Report",
+ "name": "Branch Profit",
+ "report_name": "Branch Profit",
+ "ref_doctype": "Sales Invoice",
+ "report_type": "Script Report",
+ "is_standard": "Yes",
+ "module": "Erpnext Iran",
+ "add_total_row": 0,
+ "roles": [
+  {"role": "Accounts User"},
+  {"role": "Accounts Manager"},
+  {"role": "Sales Manager"}
+ ]
+}
