@@ -185,13 +185,20 @@
 			return result;
 		};
 
-		document.addEventListener('keydown', (e) => {
-			if (e.key !== 'F6') return;
-			const payment = window.cur_pos && cur_pos.payment;
-			if (!payment || !payment.$component || !payment.$component.is(':visible')) return;
-			e.preventDefault();
-			redeem_all(payment);
-		});
+		// capture phase: the mobile number box keeps every key from bubbling (so digits do not reach the amount),
+		// and F6 is pressed with the cursor in that box
+		document.addEventListener(
+			'keydown',
+			async (e) => {
+				if (e.key !== 'F6') return;
+				const payment = window.cur_pos && cur_pos.payment;
+				if (!payment || !payment.$component || !payment.$component.is(':visible')) return;
+				e.preventDefault();
+				await (window.erpnext_iran && erpnext_iran.mobileLookup); // the customer being looked up has the points
+				redeem_all(payment);
+			},
+			true
+		);
 		return true;
 	}
 

@@ -54,3 +54,19 @@ class TestEndpoints(unittest.TestCase):
 				if callable(function) and function in frappe.guest_methods:
 					found.add(f"erpnext_iran.{path.stem}.{name}")
 		self.assertEqual(found, allowed)
+
+
+class TestPosKeys(unittest.TestCase):
+	"""The mobile number box on the payment screen stops every key from bubbling (so digits never reach the amount).
+	A key that is meant to work with the cursor in that box must listen in the capture phase."""
+
+	def test_function_keys_listen_in_the_capture_phase(self):
+		import pathlib
+		import re
+
+		js = pathlib.Path(frappe.get_app_path("erpnext_iran")) / "public" / "js"
+		for name in ("pos_quick_pay.js", "pos_loyalty.js"):
+			source = (js / name).read_text(encoding="utf8")
+			for match in re.finditer(r"document\.addEventListener\(\s*'keydown'", source):
+				tail = source[match.start() : match.start() + 1500]
+				self.assertRegex(tail, r"\n\t*true\s*\n?\s*\);", f"{name}: a document keydown listener without capture")

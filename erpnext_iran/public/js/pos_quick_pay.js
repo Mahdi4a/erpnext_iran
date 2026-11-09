@@ -133,7 +133,10 @@
 
 		$box.on('input', () => {
 			$box.data('done', '');
-			if (isMobile($box.val())) running = useMobile($box, $note);
+			if (isMobile($box.val())) {
+				running = useMobile($box, $note);
+				window.erpnext_iran = Object.assign(window.erpnext_iran || {}, { mobileLookup: running });
+			}
 		});
 		$box.on('keydown', async (event) => {
 			// the stock POS types every key into the selected payment amount; this box keeps its keys
