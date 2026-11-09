@@ -79,5 +79,6 @@ doctype_js = {
 	"Sales Invoice": "public/js/moadian_sales_invoice.js",
 	"Sales Order": "public/js/sales_order_quick.js",
 	"Online Channel Settings": "public/js/online_channel_settings.js",
+	"Cost Center Allocation": "public/js/cost_center_allocation.js",
 	"Company": "public/js/moadian_company.js",
 }

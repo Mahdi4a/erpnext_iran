@@ -5,7 +5,7 @@ import unittest
 
 import frappe
 
-from erpnext_iran import discount, iran_payroll, jalali, moadian_send, naming, offline, pos_customer, woocommerce
+from erpnext_iran import allocation, discount, iran_payroll, jalali, moadian_send, naming, offline, pos_customer, woocommerce
 from erpnext_iran.erpnext_iran.doctype.iran_cheque import iran_cheque
 
 MUTATING = [
@@ -20,6 +20,7 @@ MUTATING = [
 	naming.add_jalali_series,
 	naming.remove_jalali_series,
 	jalali.create_fiscal_year,
+	allocation.make_allocation,
 ]
 
 
