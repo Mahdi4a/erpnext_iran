@@ -51,6 +51,12 @@ def pattern_gaps(payload: dict) -> list[str]:
 	return [code for code, status in spec.items() if status == "mandatory" and code not in present]
 
 
+def code_of(value, default: int = 1) -> int:
+	"""The number of a Select option like "1 - Sale": the user reads the words, Moadian gets the number."""
+	text = str(value or "").split("-")[0].strip()
+	return int(text) if text.isdigit() else default
+
+
 def rial_factor(currency: str | None) -> int:
 	return RIAL_PER_TOMAN if currency == "IRT" else 1
 
@@ -154,18 +160,18 @@ def _header(invoice, seller, buyer, body, factor) -> dict:
 	total = {code: sum(line[code] for line in body) for code in ("prdis", "dis", "adis", "vam")}
 	bill = total["adis"] + total["vam"]
 	paid = min(_amount(invoice.get("paid_amount"), factor), bill)
-	method = int(invoice.get("moadian_settlement_method") or 1)
+	method = code_of(invoice.get("moadian_settlement_method"), 1)
 	cash, credit = {1: (bill, 0), 2: (0, bill)}.get(method, (paid, bill - paid))
 	buyer_id = to_latin_digits(buyer.get("national_id") or buyer.get("legal_id") or "")
 	header = {
 		"taxid": invoice.get("moadian_tax_id") or "",
 		"indatim": to_millis(invoice.posting_date, invoice.get("posting_time")),
-		"inty": int(invoice.get("moadian_invoice_type") or 1),
+		"inty": code_of(invoice.get("moadian_invoice_type"), 1),
 		"inno": invoice.get("moadian_serial") or 0,
-		"inp": int(invoice.get("moadian_pattern") or 1),
-		"ins": 4 if invoice.get("is_return") else int(invoice.get("moadian_subject") or 1),
+		"inp": code_of(invoice.get("moadian_pattern"), 1),
+		"ins": 4 if invoice.get("is_return") else code_of(invoice.get("moadian_subject"), 1),
 		"tins": to_latin_digits(seller.get("economic_code") or ""),
-		"tob": int(invoice.get("moadian_buyer_type") or 2),
+		"tob": code_of(invoice.get("moadian_buyer_type"), 2),
 		"bid": buyer_id,
 		"tinb": to_latin_digits(buyer.get("economic_code") or ""),
 		"setm": method,

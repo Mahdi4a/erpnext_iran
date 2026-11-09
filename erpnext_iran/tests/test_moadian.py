@@ -157,3 +157,17 @@ class TestMoadianEveryPattern(unittest.TestCase):
 		)
 		self.assertEqual((payload["header"]["ins"], payload["header"]["irtaxid"]), (4, "A1121604C220002F095011"))
 		self.assertEqual(payload["body"][0]["am"], 2)
+
+
+class TestMoadianOptionCodes(unittest.TestCase):
+	def test_the_number_of_a_select_option_is_what_goes_to_moadian(self):
+		self.assertEqual(moadian.code_of("3 - Gold, jewellery and platinum"), 3)
+		self.assertEqual(moadian.code_of("11 - Securities (bourse)"), 11)
+		self.assertEqual(moadian.code_of("2"), 2)
+		self.assertEqual(moadian.code_of(None, 5), 5)
+
+	def test_a_payload_reads_the_pattern_from_the_words_the_user_picked(self):
+		payload = moadian.build_payload(
+			invoice(moadian_pattern="6 - Air ticket", moadian_settlement_method="2 - Credit"), SELLER, BUYER, ITEMS, UNITS
+		)
+		self.assertEqual((payload["header"]["inp"], payload["header"]["setm"]), (6, 2))
