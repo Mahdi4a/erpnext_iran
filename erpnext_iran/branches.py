@@ -9,6 +9,7 @@ from frappe import _
 
 STORES_GROUP_NAMES = ("Stores", "مغازه‌ها")
 POS_MODES = ("Cash", "کارت‌خوان")
+WALK_IN_CUSTOMER = "مشتری حضوری"
 
 
 def create_branch_records(branch):
@@ -92,9 +93,31 @@ def ensure_mode_account(mode: str, company: str) -> str | None:
 	return mode
 
 
+def ensure_walk_in_customer() -> str:
+	"""The customer a sale goes to when the cashier does not ask for a name. Without it the POS refuses to
+	add an item until a customer is chosen, which stops the line at the till."""
+	if frappe.db.exists("Customer", WALK_IN_CUSTOMER):
+		return WALK_IN_CUSTOMER
+
+	customer = frappe.new_doc("Customer")
+	customer.update(
+		{
+			"customer_name": WALK_IN_CUSTOMER,
+			"customer_type": "Individual",
+			"customer_group": frappe.db.get_value("Customer Group", {"is_group": 0}),
+			"territory": frappe.db.get_value("Territory", {"is_group": 0}),
+		}
+	)
+	customer.flags.ignore_permissions = True
+	customer.insert()
+	return customer.name
+
+
 def ensure_pos_profile(branch) -> str:
 	name = _("{0} - POS").format(branch.branch_name)
 	if frappe.db.exists("POS Profile", name):
+		if not frappe.db.get_value("POS Profile", name, "customer"):
+			frappe.db.set_value("POS Profile", name, "customer", ensure_walk_in_customer())
 		return name
 
 	company = frappe.get_cached_doc("Company", branch.company)
@@ -111,6 +134,7 @@ def ensure_pos_profile(branch) -> str:
 		{
 			"name": name,
 			"company": branch.company,
+			"customer": ensure_walk_in_customer(),
 			"warehouse": branch.warehouse,
 			"cost_center": branch.cost_center,
 			"selling_price_list": branch.price_list,

@@ -92,3 +92,35 @@ class TestPosReceipt(unittest.TestCase):
 		self.assertIn("80mm", html)
 		self.assertIn("direction: rtl", html)
 		self.assertIn("jalali_date", html)
+
+
+class TestWalkInCustomer(unittest.TestCase):
+	def test_an_existing_walk_in_customer_is_reused(self):
+		with patch.object(branches.frappe, "db", MagicMock()) as db, patch.object(branches.frappe, "new_doc") as new_doc:
+			db.exists.return_value = True
+			self.assertEqual(branches.ensure_walk_in_customer(), branches.WALK_IN_CUSTOMER)
+		new_doc.assert_not_called()
+
+	def test_a_new_one_is_an_individual_in_a_leaf_group_and_territory(self):
+		made = MagicMock()
+		made.name = branches.WALK_IN_CUSTOMER
+		with patch.object(branches.frappe, "db", MagicMock()) as db, patch.object(branches.frappe, "new_doc", return_value=made):
+			db.exists.return_value = False
+			db.get_value.side_effect = ["Individual", "Iran"]
+			branches.ensure_walk_in_customer()
+		values = made.update.call_args.args[0]
+		self.assertEqual(values["customer_type"], "Individual")
+		self.assertEqual((values["customer_group"], values["territory"]), ("Individual", "Iran"))
+		made.insert.assert_called_once()
+
+	def test_an_existing_profile_without_a_customer_gets_the_walk_in_customer(self):
+		branch = SimpleNamespace(branch_name="Valiasr")
+		with (
+			patch.object(branches.frappe, "db", MagicMock()) as db,
+			patch.object(branches, "ensure_walk_in_customer", return_value="W"),
+		):
+			db.exists.return_value = True
+			db.get_value.return_value = None
+			branches.ensure_pos_profile(branch)
+		db.set_value.assert_called_once()
+		self.assertEqual(db.set_value.call_args.args[2:], ("customer", "W"))
