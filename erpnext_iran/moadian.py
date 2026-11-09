@@ -116,7 +116,7 @@ def build_payload(invoice, seller: dict, buyer: dict, items: dict, units: dict) 
 		"taxid": invoice.get("moadian_tax_id") or "",
 		"indatim": to_millis(invoice.posting_date, invoice.get("posting_time")),
 		"inty": int(invoice.get("moadian_invoice_type") or 1),
-		"inno": invoice.get("name"),
+		"inno": invoice.get("moadian_serial") or 0,
 		"inp": int(invoice.get("moadian_pattern") or 1),
 		"ins": int(invoice.get("moadian_subject") or 1),
 		"tins": to_latin_digits(seller.get("economic_code") or ""),

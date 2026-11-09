@@ -163,6 +163,30 @@ SALES_INVOICE_MOADIAN_FIELDS = [
 		"no_copy": 1,
 		"insert_after": "moadian_reference_number",
 	},
+	{
+		"fieldname": "moadian_serial",
+		"label": "Moadian Serial (inno)",
+		"fieldtype": "Int",
+		"read_only": 1,
+		"no_copy": 1,
+		"insert_after": "moadian_status",
+	},
+	{
+		"fieldname": "moadian_sent_at",
+		"label": "Sent At",
+		"fieldtype": "Datetime",
+		"read_only": 1,
+		"no_copy": 1,
+		"insert_after": "moadian_serial",
+	},
+	{
+		"fieldname": "moadian_errors",
+		"label": "Moadian Errors",
+		"fieldtype": "Long Text",
+		"read_only": 1,
+		"no_copy": 1,
+		"insert_after": "moadian_sent_at",
+	},
 ]
 
 ITEM_MOADIAN_FIELDS = [
@@ -192,6 +216,27 @@ COMPANY_MOADIAN_FIELDS = [
 		"fieldtype": "Data",
 		"insert_after": "tax_id",
 		"description": "6 characters. " + MOADIAN_UNVERIFIED,
+	},
+	{
+		"fieldname": "moadian_private_key",
+		"label": "Moadian Private Key",
+		"fieldtype": "Password",
+		"insert_after": "moadian_memory_id",
+		"description": "The signing key (PKCS8 PEM) of the certificate below.",
+	},
+	{
+		"fieldname": "moadian_certificate",
+		"label": "Moadian Certificate",
+		"fieldtype": "Long Text",
+		"insert_after": "moadian_private_key",
+		"description": "The signing certificate (PEM) registered in the Moadian portal.",
+	},
+	{
+		"fieldname": "moadian_base_url",
+		"label": "Moadian API URL",
+		"fieldtype": "Data",
+		"insert_after": "moadian_certificate",
+		"description": "Empty means the live tax authority API. Put the test environment URL here to try.",
 	},
 ]
 

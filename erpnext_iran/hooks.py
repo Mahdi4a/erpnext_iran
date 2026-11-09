@@ -46,7 +46,10 @@ naming_series_variables_list = ["JY", "JYY", "JM", "JD"]
 naming_series_variables = {
 	variable: "erpnext_iran.naming.parse_variable" for variable in ("JY", "JYY", "JM", "JD")
 }
-scheduler_events = {"daily": ["erpnext_iran.jalali.ensure_current_and_next_fiscal_years"]}
+scheduler_events = {
+	"daily": ["erpnext_iran.jalali.ensure_current_and_next_fiscal_years"],
+	"hourly": ["erpnext_iran.moadian_send.check_sent_invoices"],
+}
 
 doctype_list_js = {"Fiscal Year": "public/js/fiscal_year_list.js"}
-doctype_js = {"Address": "public/js/address.js"}
+doctype_js = {"Address": "public/js/address.js", "Sales Invoice": "public/js/sales_invoice.js"}
