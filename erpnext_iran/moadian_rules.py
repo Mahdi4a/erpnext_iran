@@ -41,6 +41,29 @@ def buyer_problems(header: dict) -> list[str]:
 	return problems
 
 
+# Text fields of the patterns: exact length, or (minimum, maximum), from v7.9 section 8
+FIELD_LENGTH = {
+	"sbc": 4, "bbc": 4, "bpc": 10, "bpn": 9, "scc": 5, "ocu": 3, "dco": 3,
+	"oci": (1, 5), "dci": (1, 5), "scln": (1, 14), "crn": (1, 12), "lno": (1, 18), "lrno": (1, 18),
+	"cno": (1, 20), "asn": (1, 30), "in": (9, 12), "an": (9, 12), "nti1": (1, 30), "nti2": (1, 30),
+	"did": (10, 12), "tid": (10, 12), "rid": (10, 12), "tinc": (11, 14),
+}  # fmt: skip
+DIGIT_ONLY = {"sbc", "bbc", "bpc", "scc", "ocu", "dco", "oci", "dci", "scln", "crn", "in", "an", "tinc"}
+
+
+def field_length_problems(header: dict) -> list[str]:
+	problems = []
+	for code, wanted in FIELD_LENGTH.items():
+		value = header.get(code)
+		if value in (None, ""):
+			continue
+		low, high = (wanted, wanted) if isinstance(wanted, int) else wanted
+		text = str(value)
+		if not low <= len(text) <= high or (code in DIGIT_ONLY and not text.isdigit()):
+			problems.append(f"Field {code} must be {'digits' if code in DIGIT_ONLY else 'text'} of length {low if low == high else f'{low} to {high}'}")
+	return problems
+
+
 def row_problems(payload: dict) -> list[str]:
 	problems = []
 	for number, line in enumerate(payload["body"], start=1):
@@ -50,6 +73,8 @@ def row_problems(payload: dict) -> list[str]:
 			problems.append(f"Row {number}: the quantity must be above zero")
 		if payload["header"].get("inp") in SINGLE_ITEM_PATTERNS and line.get("am") != 1:
 			problems.append(f"Row {number}: this pattern allows a quantity of 1 only")
+		if "cui" in line and not 0 < line["cui"] <= 1000:
+			problems.append(f"Row {number}: the carat must be above 0 and at most 1000")
 		if not 0 <= line.get("vra", 0) < 1000:
 			problems.append(f"Row {number}: the VAT rate must be between 0 and 999")
 	return problems
@@ -58,7 +83,7 @@ def row_problems(payload: dict) -> list[str]:
 def data_problems(payload: dict, now_millis: int | None = None) -> list[str]:
 	"""Everything the tax authority would refuse that we can see now, in one list."""
 	header = payload["header"]
-	problems = seller_problems(header) + buyer_problems(header) + row_problems(payload)
+	problems = seller_problems(header) + buyer_problems(header) + field_length_problems(header) + row_problems(payload)
 	if header.get("ins") != 3 and header.get("tprdis", 1) <= 0:
 		problems.append("The invoice total must be above zero")
 	if header["indatim"] > (now_millis if now_millis is not None else int(time.time() * 1000)):

@@ -33,7 +33,7 @@ UNVERIFIED = True
 
 
 # Fields the tax authority reads as whole numbers (Integer, Byte or Long in its SDK)
-SELECT_CODES = {"ft"}  # Select fields written as "1 - Domestic flight"
+SELECT_CODES = {"ft", "lt"}  # Select fields written as "1 - Domestic flight"
 INTEGER_CODES = {"ft", "cdcd", "asd", "lt", "insr", "consfee", "spro", "bros", "tcpbs", "ssrv", "sovat"}
 
 

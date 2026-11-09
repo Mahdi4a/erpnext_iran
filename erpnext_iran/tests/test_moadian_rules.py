@@ -65,3 +65,25 @@ class TestMoadianRules(unittest.TestCase):
 		self.assertEqual((header["insr"], header["indati2m"]), (1, 1_742_504_400_000 + 5 * 86_400_000))
 		fresh = invoice(moadian_late_after_hours=48, moadian_now_millis=1_742_504_400_000 + 86_400_000)
 		self.assertNotIn("insr", moadian.build_payload(fresh, SELLER, BUYER, ITEMS, UNITS)["header"])
+
+
+class TestMoadianPatternFieldRules(unittest.TestCase):
+	def check(self, pattern, **extra):
+		payload = moadian.build_payload(pattern_invoice(pattern, **extra), SELLER, {}, ITEMS, UNITS)
+		return moadian_rules.data_problems(payload, now_millis=NOW)
+
+	def test_a_waybill_number_longer_than_eighteen_characters_is_reported(self):
+		found = self.check(8, moadian_lno="1" * 19)
+		self.assertIn("Field lno must be text of length 1 to 18", found)
+
+	def test_an_insurance_policy_id_must_be_nine_to_twelve_digits(self):
+		self.assertIn("Field in must be digits of length 9 to 12", self.check(13, moadian_in="123"))
+		self.assertNotIn("Field in must be digits of length 9 to 12", self.check(13, moadian_in="123456789"))
+
+	def test_a_carat_above_one_thousand_is_reported_for_gold(self):
+		found = self.check(3, row={"moadian_cui": 1500})
+		self.assertIn("Row 1: the carat must be above 0 and at most 1000", found)
+
+	def test_waybill_type_is_the_number_of_the_picked_option(self):
+		payload = moadian.build_payload(pattern_invoice(8, moadian_lt="3 - Air"), SELLER, {}, ITEMS, UNITS)
+		self.assertEqual(payload["header"]["lt"], 3)
