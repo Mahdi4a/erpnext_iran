@@ -185,3 +185,43 @@ class TestSnapshotPermissions(unittest.TestCase):
 			with self.assertRaises(RuntimeError):
 				offline.snapshot("P")
 		self.assertEqual(asked, ["POS Profile", "Item", "Customer"])
+
+
+class TestBatchSplit(unittest.TestCase):
+	def split(self, qty, batches, has_batch=True):
+		import datetime as dt
+
+		rows = [{"batch_no": n, "qty": q, "expiry_date": dt.date(*d) if d else None} for n, q, d in batches]
+		with patch.object(offline.frappe, "get_cached_value", return_value=1 if has_batch else 0), patch(
+			"erpnext.stock.doctype.batch.batch.get_batch_qty", return_value=rows
+		):
+			return offline.batch_split("I", qty, "W", "2026-11-09 12:00:00")
+
+	STOCK = [("EXPIRED", 10, (2026, 11, 7)), ("NEAR", 15, (2026, 11, 13)), ("FAR", 30, (2027, 1, 8))]
+
+	def test_an_item_without_batches_is_one_plain_line(self):
+		self.assertEqual(self.split(7, [], has_batch=False), [(None, 7)])
+
+	def test_the_batch_that_expires_first_is_sold_first(self):
+		self.assertEqual(self.split(5, self.STOCK), [("NEAR", 5)])
+
+	def test_a_line_spans_batches_in_expiry_order(self):
+		self.assertEqual(self.split(40, self.STOCK), [("NEAR", 15), ("FAR", 25)])
+
+	def test_an_expired_batch_is_never_sold(self):
+		self.assertNotIn("EXPIRED", [b for b, _q in self.split(45, self.STOCK)])
+
+	def test_stock_that_only_expired_batches_hold_is_not_enough(self):
+		with self.assertRaises(offline.RefusedSale):
+			self.split(46, self.STOCK)  # 45 unexpired
+		with self.assertRaises(offline.RefusedSale):
+			self.split(1, [("EXPIRED", 10, (2026, 11, 7))])
+
+	def test_a_batch_that_expires_today_can_still_be_sold_today(self):
+		self.assertEqual(self.split(3, [("TODAY", 5, (2026, 11, 9))]), [("TODAY", 3)])
+
+	def test_a_batch_without_an_expiry_date_comes_last(self):
+		self.assertEqual(self.split(20, [("OPEN", 50, None), ("DATED", 15, (2026, 12, 1))]), [("DATED", 15), ("OPEN", 5)])
+
+	def test_empty_and_zero_quantity_batches_are_skipped(self):
+		self.assertEqual(self.split(2, [("EMPTY", 0, (2026, 11, 10)), ("OK", 5, (2026, 11, 20))]), [("OK", 2)])

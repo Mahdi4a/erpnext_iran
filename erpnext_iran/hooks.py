@@ -69,7 +69,7 @@ naming_series_variables = {
 	variable: "erpnext_iran.naming.parse_variable" for variable in ("JY", "JYY", "JM", "JD")
 }
 scheduler_events = {
-	"daily": ["erpnext_iran.jalali.ensure_current_and_next_fiscal_years"],
+	"daily": ["erpnext_iran.jalali.ensure_current_and_next_fiscal_years", "erpnext_iran.grocery.notify_expiring"],
 	"hourly": ["erpnext_iran.moadian_send.check_sent_invoices", "erpnext_iran.woocommerce.scheduled_push"],
 }
 

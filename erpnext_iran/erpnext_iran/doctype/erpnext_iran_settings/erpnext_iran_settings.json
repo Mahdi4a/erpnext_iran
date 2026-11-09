@@ -112,6 +112,25 @@
    "fieldtype": "Check",
    "default": "0",
    "description": "By default a sale made at the till without a connection is recorded even when the books show too little stock (the goods have already left), and the stock goes below zero until they are received. Tick to have such sales refused and held at the till for a manager."
+  },
+  {
+   "fieldname": "grocery_section",
+   "label": "Food Pack",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "grocery_mode",
+   "label": "Track Expiry Dates",
+   "fieldtype": "Check",
+   "default": "0",
+   "description": "For shops that sell food: switches on batch numbers with expiry dates in Stock Settings and makes the POS sell the batch that expires first. Items must have Has Batch No and Has Expiry Date ticked."
+  },
+  {
+   "fieldname": "expiry_warning_days",
+   "label": "Warn This Many Days Before Expiry",
+   "fieldtype": "Int",
+   "default": "7",
+   "depends_on": "grocery_mode"
   }
  ],
  "permissions": [

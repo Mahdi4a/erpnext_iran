@@ -45,3 +45,15 @@ class TestDashboard(unittest.TestCase):
 		self.assertFalse(frappe.db.get_value("Number Card", "Low Stock Items", "currency"))
 		self.assertFalse(frappe.db.get_value("Number Card", "Today's Invoices", "currency"))
 		self.assertTrue(frappe.db.get_value("Number Card", "Today's Sales", "currency"))
+
+
+class TestNewCards(unittest.TestCase):
+	def test_a_card_added_later_reaches_an_existing_dashboard(self):
+		dashboard.ensure_dashboard()
+		workspace = frappe.get_doc("Workspace", dashboard.WORKSPACE)
+		self.assertIn("Expiring Stock", {row.number_card_name for row in workspace.number_cards})
+		blocks = [b for b in json.loads(workspace.content) if b["type"] == "number_card"]
+		self.assertEqual(len(blocks), len(dashboard.NUMBER_CARDS))
+
+	def test_the_expiry_card_gives_a_plain_number(self):
+		self.assertIsInstance(dashboard.expiring_count(), int)

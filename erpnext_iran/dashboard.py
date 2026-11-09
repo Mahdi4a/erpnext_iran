@@ -31,6 +31,20 @@ def low_stock_count() -> int:
 	return cint(row[0][0])
 
 
+@frappe.whitelist()
+def expiring_count() -> int:
+	"""Batches on the shelves that have expired or expire within the warning days (Number Card method)."""
+	from frappe.utils import add_days, getdate, today
+
+	from erpnext_iran.grocery import batch_stock, warning_days
+
+	limit = getdate(add_days(today(), warning_days()))
+	try:
+		return sum(1 for row in batch_stock() if getdate(row["expiry_date"]) <= limit)
+	except Exception:
+		return 0  # a site without batches switched on has nothing that expires
+
+
 NUMBER_CARDS = [
 	{
 		"label": "Today's Sales",
@@ -81,6 +95,7 @@ NUMBER_CARDS = [
 		"color": "#7575ff",
 	},
 	{"label": "Low Stock Items", "type": "Custom", "method": "erpnext_iran.dashboard.low_stock_count", "color": "#FFA00A"},
+	{"label": "Expiring Stock", "type": "Custom", "method": "erpnext_iran.dashboard.expiring_count", "color": "#FF5858"},
 ]
 
 CHARTS = [
@@ -187,6 +202,24 @@ def ensure_chart(spec: dict) -> str:
 	return chart.name
 
 
+def add_missing_cards(cards: list[str]):
+	"""A card added to the app later reaches a dashboard that was made before it, next to the other cards."""
+	workspace = frappe.get_doc("Workspace", WORKSPACE)
+	have = {row.number_card_name for row in workspace.number_cards}
+	missing = [card for card in cards if card not in have]
+	if not missing:
+		return
+	content = json.loads(workspace.content or "[]")
+	position = max((i for i, block in enumerate(content) if block.get("type") == "number_card"), default=0)
+	for card in missing:
+		workspace.append("number_cards", {"label": card, "number_card_name": card})
+		position += 1
+		content.insert(position, _block("number_card", card, 4, "number_card_name"))
+	workspace.content = json.dumps(content)
+	workspace.flags.ignore_permissions = True
+	workspace.save()
+
+
 def ensure_dashboard():
 	"""Cards, charts and the workspace that shows them. Safe to run again; existing ones are left as edited."""
 	if not frappe.db.exists("DocType", "Sales Invoice") or not frappe.get_meta("Sales Order").has_field("sales_channel"):
@@ -195,6 +228,7 @@ def ensure_dashboard():
 	charts = [ensure_chart(spec) for spec in CHARTS]
 
 	if frappe.db.exists("Workspace", WORKSPACE):
+		add_missing_cards(cards)
 		return
 	content = [
 		{"id": frappe.generate_hash(length=10), "type": "header", "data": {"text": f'<span class="h4"><b>{_("Shop Dashboard")}</b></span>', "col": 12}},

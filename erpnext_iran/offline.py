@@ -276,6 +276,33 @@ def install(*args, **kwargs):
 	stock_ledger.is_negative_stock_allowed = allowed
 
 
+def batch_split(item_code: str, qty: float, warehouse: str, sold_at) -> list[tuple[str | None, float]]:
+	"""[(batch, qty)] for a line. An item without batches is one line with no batch. A batch item is taken from the
+	batches that have not expired, the one that expires first first. ERPNext's own automatic pick fails when one
+	line spans several batches, and it would sell an expired batch before it refused to go negative; so the pick
+	is done here, and a line that unexpired stock cannot cover is refused, not made negative."""
+	if not frappe.get_cached_value("Item", item_code, "has_batch_no"):
+		return [(None, qty)]
+	from datetime import date
+
+	from erpnext.stock.doctype.batch.batch import get_batch_qty
+
+	sold_on = getdate(sold_at)
+	batches = get_batch_qty(item_code=item_code, warehouse=warehouse, for_stock_levels=True) or []
+	live = [b for b in batches if flt(b.get("qty")) > 0 and (not b.get("expiry_date") or getdate(b["expiry_date"]) >= sold_on)]
+	live.sort(key=lambda b: b.get("expiry_date") or date.max)
+	left, taken = flt(qty), []
+	for batch in live:
+		if left <= 1e-9:
+			break
+		part = min(left, flt(batch["qty"]))
+		taken.append((batch["batch_no"], part))
+		left -= part
+	if left > 1e-6:
+		raise RefusedSale(_("Not enough unexpired stock of {0}: {1} short").format(item_code, round(left, 3)))
+	return taken
+
+
 def effective_list_rate(server_rate, line: dict) -> float:
 	"""The list price a sold rate is compared with: the server's, and the till's own only when the server has none."""
 	return max(flt(server_rate) or line["list_rate"], line["rate"])
@@ -320,16 +347,22 @@ def build_invoice(sale: dict):
 			"remarks": _("Sold offline at the till, id {0}").format(sale["id"]),
 		}
 	)
+	row_lines = []  # the sale line each invoice row belongs to (a batch item can take several rows)
 	for line in sale["items"]:
-		doc.append(
-			"items",
-			{
-				"item_code": line["item_code"],
-				"qty": line["qty"],
-				"warehouse": profile.warehouse,
-				"cost_center": profile.cost_center,
-			},
-		)
+		for batch_no, qty in batch_split(line["item_code"], line["qty"], profile.warehouse, sale["sold_at"]):
+			doc.append(
+				"items",
+				{
+					"item_code": line["item_code"],
+					"qty": qty,
+					"warehouse": profile.warehouse,
+					"cost_center": profile.cost_center,
+					# like the POS: the stock is picked on submit
+					"use_serial_batch_fields": 1,
+					**({"batch_no": batch_no} if batch_no else {}),
+				},
+			)
+			row_lines.append(line)
 	if profile.get("taxes_and_charges"):
 		doc.taxes_and_charges = profile.taxes_and_charges
 	doc.set_missing_values()
@@ -337,7 +370,7 @@ def build_invoice(sale: dict):
 	# The customer paid the price the till showed: keep that rate, and show any difference to the list price as a
 	# discount, so the cashier discount limit judges it like any other sale. The list price is the server's own:
 	# the till could send any "list price" and make a cut price look like no discount at all.
-	for row, line in zip(doc.items, sale["items"], strict=True):
+	for row, line in zip(doc.items, row_lines, strict=True):
 		list_rate = effective_list_rate(row.price_list_rate, line)
 		row.price_list_rate = list_rate
 		row.discount_percentage = (list_rate - line["rate"]) / list_rate * 100 if list_rate else 0
