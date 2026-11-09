@@ -46,6 +46,17 @@ def apply_system_defaults():
 	frappe.clear_cache()
 
 
+def ensure_time_zone():
+	"""A shop's day is the Tehran day: an invoice at 23:00 there must not be dated tomorrow. Only the stock
+	values (empty or the installer's Asia/Kolkata) are replaced; a time zone somebody chose is left alone.
+	Run on every migrate, not once, so a restored or re-created site cannot stay on the wrong clock."""
+	current = str(frappe.db.get_single_value("System Settings", "time_zone") or "")
+	if current in {"", "Asia/Kolkata"}:
+		frappe.db.set_single_value("System Settings", "time_zone", "Asia/Tehran")
+		frappe.db.set_default("time_zone", "Asia/Tehran")
+		frappe.clear_cache()
+
+
 def sync_default_values():
 	"""The desk boots with the defaults table, which System Settings fills in when it is saved. Writing
 	the fields directly skips that, so the number format and precision of the desk stayed stock."""

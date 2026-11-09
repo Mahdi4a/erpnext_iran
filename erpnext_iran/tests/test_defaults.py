@@ -56,3 +56,22 @@ class TestDefaults(unittest.TestCase):
 		self.assertEqual(settings["first_day_of_the_week"], "Saturday")
 		self.assertEqual(settings["time_zone"], "Europe/Berlin")
 		self.assertEqual(settings["language"], "fa")
+
+
+class TestTimeZone(unittest.TestCase):
+	def run_with(self, current):
+		from unittest.mock import patch
+
+		with patch.object(defaults.frappe.db, "get_single_value", return_value=current), patch.object(
+			defaults.frappe.db, "set_single_value"
+		) as set_value, patch.object(defaults.frappe.db, "set_default"), patch.object(defaults.frappe, "clear_cache"):
+			defaults.ensure_time_zone()
+		return set_value.call_args
+
+	def test_the_installers_zone_becomes_tehran(self):
+		for stock in ("", None, "Asia/Kolkata"):
+			self.assertEqual(self.run_with(stock).args, ("System Settings", "time_zone", "Asia/Tehran"))
+
+	def test_a_zone_somebody_chose_is_left_alone(self):
+		for chosen in ("Europe/London", "Asia/Dubai", "Asia/Tehran"):
+			self.assertIsNone(self.run_with(chosen))
