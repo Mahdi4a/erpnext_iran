@@ -56,6 +56,44 @@ def send_invoice(invoice_name: str) -> str:
 	return reference_number
 
 
+def cancellation_payload(invoice, serial: int) -> dict:
+	"""Subject 3: names the invoice it cancels and carries no items (RC_IITP.IS_V7.9, section 5-3)."""
+	original = moadian.get_payload(invoice.name)["payload"]["header"]
+	header = {
+		"indatim": moadian.to_millis(now_datetime().date(), now_datetime().time()),
+		"inty": original["inty"],
+		"inno": serial,
+		"inp": original["inp"],
+		"ins": 3,
+		"tins": original["tins"],
+		"irtaxid": invoice.moadian_tax_id,
+	}
+	return {"header": header, "body": [], "payments": []}
+
+
+@frappe.whitelist()
+def cancel_in_moadian(invoice_name: str) -> str:
+	"""Tell Moadian that an invoice it accepted is void. Run it after the invoice is cancelled."""
+	invoice = frappe.get_doc("Sales Invoice", invoice_name)
+	invoice.check_permission("write")
+	if invoice.moadian_status != "Accepted" or invoice.moadian_cancel_tax_id:
+		frappe.throw("Only an invoice Moadian accepted, and not yet cancelled there, can be cancelled.")
+	memory_id = frappe.get_cached_value("Company", invoice.company, "moadian_memory_id")
+	payload = cancellation_payload(invoice, next_serial(memory_id))
+	payload["header"]["taxid"] = tax_id(memory_id, payload["header"]["indatim"], payload["header"]["inno"])
+	_, reference_number = MoadianClient(invoice.company).send(payload)
+	invoice.db_set(
+		{"moadian_cancel_tax_id": payload["header"]["taxid"], "moadian_cancel_reference_number": reference_number}
+	)
+	return reference_number
+
+
+def cancel_after_erp_cancel(doc, event=None):
+	"""Hook: an invoice Moadian accepted is cancelled there too, in the background."""
+	if doc.get("moadian_status") == "Accepted":
+		frappe.enqueue(cancel_in_moadian, invoice_name=doc.name, enqueue_after_commit=True)
+
+
 @frappe.whitelist()
 def check_status(invoice_name: str) -> str:
 	invoice = frappe.get_doc("Sales Invoice", invoice_name)

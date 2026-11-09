@@ -23,6 +23,8 @@ import frappe
 from frappe import _
 from iran_base.utils.numbers import to_latin_digits
 
+from erpnext_iran.moadian_extras import HEADER_CODES, ITEM_CODES
+
 TEHRAN = ZoneInfo("Asia/Tehran")
 RIAL_PER_TOMAN = 10
 UNVERIFIED = True
@@ -74,11 +76,20 @@ def _amount(value, factor: int) -> int:
 
 
 def vat_rate(invoice) -> float:
-	"""The rate of the first tax row. A different rate per item is not supported yet."""
+	"""The rate of the first tax row: the rate of an item that has none of its own."""
 	for row in invoice.get("taxes") or []:
 		if row.get("rate"):
 			return float(row.rate)
 	return 0.0
+
+
+def row_vat_rate(row, default: float) -> float:
+	"""The item's own rate (Item Tax Template: account -> rate), else the invoice's."""
+	own = row.get("item_tax_rate")
+	if not own:
+		return default
+	rates = json.loads(own) if isinstance(own, str) else own
+	return float(sum(rates.values()))
 
 
 def missing_data(invoice, seller: dict, buyer: dict, items: dict, units: dict) -> list[str]:
@@ -99,46 +110,52 @@ def missing_data(invoice, seller: dict, buyer: dict, items: dict, units: dict) -
 
 
 def build_payload(invoice, seller: dict, buyer: dict, items: dict, units: dict) -> dict:
-	"""{"header": {...}, "body": [...], "payments": []} for one Sales Invoice. Unverified, see the module doc.
+	"""{"header": {...}, "body": [...], "payments": []} for one Sales Invoice, cut to its pattern.
 
 	`seller`: economic_code, memory_id. `buyer`: economic_code, national_id, legal_id.
 	`items`: item code -> goods or service ID. `units`: UOM -> Moadian unit code.
 	"""
 	factor = rial_factor(invoice.get("currency"))
-	rate = vat_rate(invoice)
+	sign = -1 if invoice.get("is_return") else 1
+	default_rate = vat_rate(invoice)
+	body = [_body_row(row, factor, sign, default_rate, items, units) for row in invoice.get("items") or []]
+	header = _header(invoice, seller, buyer, body, factor)
+	payload = {"header": header, "body": body, "payments": [], "unverified": UNVERIFIED}
+	return _cut_to_pattern(payload)
 
-	body = []
-	total_before_discount = total_discount = total_after_discount = total_vat = 0
-	for row in invoice.get("items") or []:
-		before = _amount(row.get("rate", 0) * row.get("qty", 0), factor)
-		discount = _amount((row.get("discount_amount") or 0) * row.get("qty", 0), factor)
-		after = before - discount
-		vat = int(round(after * rate / 100))
-		body.append(
-			{
-				"sstid": items.get(row.item_code, ""),
-				"sstt": row.get("item_name") or row.item_code,
-				"am": row.get("qty", 0),
-				"mu": units.get(row.uom, ""),
-				"fee": _amount(row.get("rate", 0), factor),
-				"prdis": before,
-				"dis": discount,
-				"adis": after,
-				"vra": rate,
-				"vam": vat,
-				"tsstam": after + vat,
-			}
-		)
-		total_before_discount += before
-		total_discount += discount
-		total_after_discount += after
-		total_vat += vat
 
-	total_bill = total_after_discount + total_vat
-	paid = min(_amount(invoice.get("paid_amount"), factor), total_bill)
-	cash, credit = {1: (total_bill, 0), 2: (0, total_bill)}.get(
-		int(invoice.get("moadian_settlement_method") or 1), (paid, total_bill - paid)
-	)
+def _body_row(row, factor, sign, default_rate, items, units) -> dict:
+	rate = row_vat_rate(row, default_rate)
+	qty = sign * (row.get("qty") or 0)
+	before = _amount(row.get("rate", 0) * qty, factor)
+	discount = _amount((row.get("discount_amount") or 0) * qty, factor)
+	after = before - discount
+	vat = int(round(after * rate / 100))
+	line = {
+		"sstid": items.get(row.item_code, ""),
+		"sstt": row.get("item_name") or row.item_code,
+		"am": qty,
+		"mu": units.get(row.uom, ""),
+		"fee": _amount(row.get("rate", 0), factor),
+		"prdis": before,
+		"dis": discount,
+		"adis": after,
+		"vra": rate,
+		"vam": vat,
+		"tsstam": after + vat,
+	}
+	for code in ITEM_CODES:
+		if row.get(f"moadian_{code}") not in (None, "", 0):
+			line[code] = row.get(f"moadian_{code}")
+	return line
+
+
+def _header(invoice, seller, buyer, body, factor) -> dict:
+	total = {code: sum(line[code] for line in body) for code in ("prdis", "dis", "adis", "vam")}
+	bill = total["adis"] + total["vam"]
+	paid = min(_amount(invoice.get("paid_amount"), factor), bill)
+	method = int(invoice.get("moadian_settlement_method") or 1)
+	cash, credit = {1: (bill, 0), 2: (0, bill)}.get(method, (paid, bill - paid))
 	buyer_id = to_latin_digits(buyer.get("national_id") or buyer.get("legal_id") or "")
 	header = {
 		"taxid": invoice.get("moadian_tax_id") or "",
@@ -146,22 +163,53 @@ def build_payload(invoice, seller: dict, buyer: dict, items: dict, units: dict) 
 		"inty": int(invoice.get("moadian_invoice_type") or 1),
 		"inno": invoice.get("moadian_serial") or 0,
 		"inp": int(invoice.get("moadian_pattern") or 1),
-		"ins": int(invoice.get("moadian_subject") or 1),
+		"ins": 4 if invoice.get("is_return") else int(invoice.get("moadian_subject") or 1),
 		"tins": to_latin_digits(seller.get("economic_code") or ""),
 		"tob": int(invoice.get("moadian_buyer_type") or 2),
 		"bid": buyer_id,
 		"tinb": to_latin_digits(buyer.get("economic_code") or ""),
-		"setm": int(invoice.get("moadian_settlement_method") or 1),
-		"tprdis": total_before_discount,
-		"tdis": total_discount,
-		"tadis": total_after_discount,
-		"tvam": total_vat,
+		"setm": method,
+		"tprdis": total["prdis"],
+		"tdis": total["dis"],
+		"tadis": total["adis"],
+		"tvam": total["vam"],
 		"todam": 0,
-		"tbill": total_bill,
+		"tbill": bill,
 		"cap": cash,
 		"insp": credit,
+		"irtaxid": invoice.get("moadian_reference_tax_id") or "",
 	}
-	return {"header": header, "body": body, "payments": [], "unverified": UNVERIFIED}
+	for code in HEADER_CODES:
+		if invoice.get(f"moadian_{code}") not in (None, "", 0):
+			header[code] = invoice.get(f"moadian_{code}")
+	return _add_totals(header, body)
+
+
+def _add_totals(header: dict, body: list[dict]) -> dict:
+	"""Header totals that are plain sums of a body field, for the patterns that ask for them."""
+	for total, field in (("tonw", "nw"), ("torv", "ssrv"), ("tocv", "sscv")):
+		if any(field in line for line in body):
+			header[total] = sum(line.get(field, 0) for line in body)
+	return header
+
+
+def _cut_to_pattern(payload: dict) -> dict:
+	"""Drop what the pattern ignores or what is empty: the table says such a field has no effect."""
+	header = payload["header"]
+	allowed = pattern_fields(header["inty"], header["inp"])
+	if not allowed:
+		return payload
+	payload["header"] = {k: v for k, v in header.items() if k in allowed and v not in ("", None)}
+	payload["body"] = [{k: v for k, v in line.items() if k in allowed} for line in payload["body"]]
+	payload["header"].setdefault("taxid", "")
+	return payload
+
+
+def reference_tax_id(invoice) -> str:
+	"""The tax ID of the invoice a return or a correction points at."""
+	reference = invoice.get("return_against") if invoice.get("is_return") else None
+	reference = reference or invoice.get("moadian_reference_invoice")
+	return frappe.db.get_value("Sales Invoice", reference, "moadian_tax_id") or "" if reference else ""
 
 
 @frappe.whitelist()
@@ -170,6 +218,7 @@ def get_payload(invoice_name: str) -> dict:
 	invoice = frappe.get_doc("Sales Invoice", invoice_name)
 	invoice.check_permission("read")
 
+	invoice.moadian_reference_tax_id = reference_tax_id(invoice)
 	company = frappe.get_cached_doc("Company", invoice.company)
 	seller = {"economic_code": company.tax_id, "memory_id": company.get("moadian_memory_id")}
 	buyer = frappe.db.get_value(
@@ -187,5 +236,8 @@ def get_payload(invoice_name: str) -> dict:
 	except ValueError as error:
 		gaps = []
 		missing.append(str(error))
+	header = payload["header"]
+	if header["ins"] != 1 and not header.get("irtaxid"):
+		missing.append(_("The invoice this one corrects or returns has not been sent to Moadian yet"))
 	missing += [_("Field {0} is mandatory for this pattern and is not filled").format(c) for c in gaps if c != "taxid"]
 	return {"payload": payload, "missing": missing}

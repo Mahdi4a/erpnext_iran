@@ -103,3 +103,57 @@ class TestMoadianPatterns(unittest.TestCase):
 		)
 		with self.assertRaisesRegex(ValueError, "Pattern 8 is not valid for invoice type 2"):
 			moadian.pattern_gaps(payload)
+
+
+def pattern_invoice(pattern, **extra):
+	row = frappe._dict(item_code="SERVICE", item_name="Ring", uom="Nos", qty=2, rate=1000000)
+	row.update(extra.pop("row", {}))
+	return invoice(moadian_pattern=str(pattern), items=[row], **extra)
+
+
+class TestMoadianEveryPattern(unittest.TestCase):
+	def test_export_sends_rial_and_currency_values_and_leaves_out_the_totals_it_ignores(self):
+		row = {"moadian_ssrv": 500, "moadian_sscv": 10, "moadian_cut": "USD", "moadian_exr": 50}
+		payload = moadian.build_payload(pattern_invoice(7, row=row), SELLER, BUYER, ITEMS, UNITS)
+		self.assertEqual((payload["header"]["torv"], payload["header"]["tocv"]), (500, 10))
+		self.assertNotIn("prdis", payload["body"][0])
+		self.assertNotIn("tprdis", payload["header"])
+		self.assertEqual(moadian.pattern_gaps(payload), [])
+
+	def test_gold_reports_the_wage_profit_and_commission_it_still_lacks(self):
+		payload = moadian.build_payload(pattern_invoice(3), SELLER, BUYER, ITEMS, UNITS)
+		self.assertEqual(sorted(moadian.pattern_gaps(payload)), ["bros", "consfee", "spro", "tcpbs"])
+
+	def test_gold_with_wage_profit_and_commission_has_no_gap(self):
+		row = {"moadian_consfee": 10, "moadian_spro": 20, "moadian_bros": 5, "moadian_tcpbs": 35}
+		payload = moadian.build_payload(pattern_invoice(3, row=row), SELLER, BUYER, ITEMS, UNITS)
+		self.assertEqual(moadian.pattern_gaps(payload), [])
+
+	def test_air_ticket_needs_the_flight_type_and_sends_it_when_given(self):
+		self.assertIn("ft", moadian.pattern_gaps(moadian.build_payload(pattern_invoice(6), SELLER, BUYER, ITEMS, UNITS)))
+		payload = moadian.build_payload(pattern_invoice(6, moadian_ft=1), SELLER, BUYER, ITEMS, UNITS)
+		self.assertEqual(payload["header"]["ft"], 1)
+		self.assertEqual(moadian.pattern_gaps(payload), [])
+
+	def test_a_field_the_pattern_ignores_is_not_sent_even_if_filled(self):
+		payload = moadian.build_payload(pattern_invoice(1, moadian_ft=1), SELLER, BUYER, ITEMS, UNITS)
+		self.assertNotIn("ft", payload["header"])
+
+	def test_each_item_uses_its_own_vat_rate_when_it_has_one(self):
+		rows = [
+			frappe._dict(item_code="SERVICE", item_name="A", uom="Nos", qty=1, rate=1000, item_tax_rate='{"VAT - X": 9}'),
+			frappe._dict(item_code="SERVICE", item_name="B", uom="Nos", qty=1, rate=1000, item_tax_rate='{"VAT - X": 0}'),
+			frappe._dict(item_code="SERVICE", item_name="C", uom="Nos", qty=1, rate=1000),
+		]
+		payload = moadian.build_payload(invoice(items=rows), SELLER, BUYER, ITEMS, UNITS)
+		self.assertEqual([line["vam"] for line in payload["body"]], [90, 0, 100])
+		self.assertEqual(payload["header"]["tvam"], 190)
+
+	def test_sales_return_is_subject_four_with_positive_amounts_and_points_at_the_original(self):
+		rows = [frappe._dict(item_code="SERVICE", item_name="A", uom="Nos", qty=-2, rate=1000)]
+		payload = moadian.build_payload(
+			invoice(items=rows, is_return=1, moadian_reference_tax_id="A1121604C220002F095011"),
+			SELLER, BUYER, ITEMS, UNITS,
+		)
+		self.assertEqual((payload["header"]["ins"], payload["header"]["irtaxid"]), (4, "A1121604C220002F095011"))
+		self.assertEqual(payload["body"][0]["am"], 2)

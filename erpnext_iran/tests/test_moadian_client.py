@@ -69,3 +69,22 @@ class TestMoadianClient(unittest.TestCase):
 		self.assertEqual(packet["header"], {"requestTraceId": request_id, "fiscalId": "A11216"})
 		self.assertEqual(len(packet["payload"].split(".")), 5)
 		self.assertTrue(post.call_args.kwargs["headers"]["Authorization"].startswith("Bearer "))
+
+
+class TestMoadianCancellation(unittest.TestCase):
+	def test_cancellation_names_the_cancelled_invoice_and_carries_no_items(self):
+		from erpnext_iran import moadian_send
+
+		original = {"header": {"inty": 1, "inp": 3, "tins": "411111111111"}}
+		doc = MagicMock(moadian_tax_id="A1121604C220002F095011")
+		doc.name = "SINV-1"
+		with patch.object(moadian_send.moadian, "get_payload", return_value={"payload": original}), patch.object(
+			moadian_send, "now_datetime", return_value=datetime(2025, 3, 21, 10, 30)
+		):
+			payload = moadian_send.cancellation_payload(doc, 7)
+
+		self.assertEqual(
+			(payload["header"]["ins"], payload["header"]["irtaxid"], payload["header"]["inno"], payload["header"]["inp"]),
+			(3, "A1121604C220002F095011", 7, 3),
+		)
+		self.assertEqual((payload["body"], payload["payments"]), ([], []))

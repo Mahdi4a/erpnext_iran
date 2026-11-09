@@ -1,5 +1,8 @@
 frappe.ui.form.on("Sales Invoice", {
 	refresh(frm) {
+		if (frm.doc.docstatus === 2 && frm.doc.moadian_status === "Accepted" && !frm.doc.moadian_cancel_tax_id) {
+			frm.add_custom_button(__("Cancel in Moadian"), () => call_moadian(frm, "cancel_in_moadian"), __("Moadian"));
+		}
 		if (frm.doc.docstatus !== 1) return;
 		const status = frm.doc.moadian_status;
 		if (status === "Not Sent" || status === "Rejected") {

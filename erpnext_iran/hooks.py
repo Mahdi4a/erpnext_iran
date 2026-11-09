@@ -31,6 +31,7 @@ doc_events = {
 		],
 		"on_update": "erpnext_iran.setup.on_company_update",
 	},
+	"Sales Invoice": {"on_cancel": "erpnext_iran.moadian_send.cancel_after_erp_cancel"},
 	"Customer": {"validate": "erpnext_iran.validations.validate_party"},
 	"Supplier": {"validate": "erpnext_iran.validations.validate_party"},
 	"Bank Account": {"validate": "erpnext_iran.validations.validate_bank_account"},

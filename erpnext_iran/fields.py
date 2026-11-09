@@ -70,6 +70,8 @@ ADDRESS_FIELDS = [
 	},
 ]
 
+from erpnext_iran.moadian_extras import HEADER_EXTRAS, ITEM_EXTRAS, custom_fields  # noqa: E402
+
 CUSTOM_FIELDS = {"Customer": PARTY_FIELDS, "Supplier": PARTY_FIELDS, "Bank": BANK_FIELDS, "Address": ADDRESS_FIELDS}
 
 # Moadian (سامانه مؤدیان) fields. Every label says "unverified": the names and codes follow the
@@ -164,12 +166,36 @@ SALES_INVOICE_MOADIAN_FIELDS = [
 		"insert_after": "moadian_reference_number",
 	},
 	{
+		"fieldname": "moadian_reference_invoice",
+		"label": "Reference Invoice (for a correction)",
+		"fieldtype": "Link",
+		"options": "Sales Invoice",
+		"insert_after": "moadian_status",
+		"description": "The invoice this one corrects. A sales return is linked automatically.",
+	},
+	{
+		"fieldname": "moadian_cancel_tax_id",
+		"label": "Cancellation Tax ID",
+		"fieldtype": "Data",
+		"read_only": 1,
+		"no_copy": 1,
+		"insert_after": "moadian_reference_invoice",
+	},
+	{
+		"fieldname": "moadian_cancel_reference_number",
+		"label": "Cancellation Reference Number",
+		"fieldtype": "Data",
+		"read_only": 1,
+		"no_copy": 1,
+		"insert_after": "moadian_cancel_tax_id",
+	},
+	{
 		"fieldname": "moadian_serial",
 		"label": "Moadian Serial (inno)",
 		"fieldtype": "Int",
 		"read_only": 1,
 		"no_copy": 1,
-		"insert_after": "moadian_status",
+		"insert_after": "moadian_cancel_reference_number",
 	},
 	{
 		"fieldname": "moadian_sent_at",
@@ -242,7 +268,8 @@ COMPANY_MOADIAN_FIELDS = [
 
 CUSTOM_FIELDS.update(
 	{
-		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS,
+		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors"),
+		"Sales Invoice Item": custom_fields(ITEM_EXTRAS, "description"),
 		"Item": ITEM_MOADIAN_FIELDS,
 		"UOM": UOM_MOADIAN_FIELDS,
 		"Company": COMPANY_MOADIAN_FIELDS,
