@@ -18,12 +18,14 @@
 
 	function askManager() {
 		return new Promise((resolve) => {
+			let submitted = false; // Approve hides the dialog at once; only a close without Approve is a cancel
 			const dialog = frappe.prompt(
 				[
 					{ fieldname: 'manager', label: __('Manager User'), fieldtype: 'Data', options: 'Email', reqd: 1 },
 					{ fieldname: 'password', label: __('Password'), fieldtype: 'Password', reqd: 1 },
 				],
 				async (values) => {
+					submitted = true;
 					try {
 						const result = await frappe.xcall('erpnext_iran.discount.approve_discount', values);
 						resolve(result);
@@ -34,7 +36,7 @@
 				__('Manager Approval Needed'),
 				__('Approve')
 			);
-			dialog.onhide = () => setTimeout(() => resolve(null), 0);
+			dialog.onhide = () => setTimeout(() => !submitted && resolve(null), 0);
 		});
 	}
 

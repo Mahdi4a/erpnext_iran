@@ -39,11 +39,13 @@ def points_preview(customer: str, company: str, amount: float) -> dict:
 	from frappe.utils import cint, today
 
 	frappe.has_permission("Customer", doc=customer, throw=True)
-	if not frappe.db.get_value("Customer", customer, "loyalty_program"):
+	program = frappe.db.get_value("Customer", customer, "loyalty_program")
+	if not program:
 		return {"points": 0, "tier": None, "enrolled": 0}
 	amount = max(0.0, flt(amount))
 	details = get_loyalty_program_details_with_points(
 		customer,
+		loyalty_program=program,  # the function does not look it up on its own for the tier rules
 		company=company,
 		current_transaction_amount=amount,
 		expiry_date=today(),

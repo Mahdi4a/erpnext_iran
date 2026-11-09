@@ -13,8 +13,10 @@ class TestPointsPreview(unittest.TestCase):
 		), patch(
 			"erpnext.accounts.doctype.loyalty_program.loyalty_program.get_loyalty_program_details_with_points",
 			return_value=frappe._dict(collection_factor=collection_factor, tier_name="Silver"),
-		):
-			return loyalty.points_preview("C", "Co", amount)
+		) as details:
+			result = loyalty.points_preview("C", "Co", amount)
+		self.details = details
+		return result
 
 	def test_points_are_whole_units_of_the_collection_factor(self):
 		self.assertEqual(self.run_preview(75000)["points"], 7)
@@ -29,3 +31,8 @@ class TestPointsPreview(unittest.TestCase):
 
 	def test_the_tier_is_passed_on(self):
 		self.assertEqual(self.run_preview(50000)["tier"], "Silver")
+
+	def test_the_programme_is_handed_to_erpnext(self):
+		# ERPNext's function fails with "Loyalty Program None not found" when it is not given the programme
+		self.run_preview(50000)
+		self.assertEqual(self.details.call_args.kwargs["loyalty_program"], "hamid")

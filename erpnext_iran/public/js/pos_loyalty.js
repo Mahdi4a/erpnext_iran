@@ -94,11 +94,13 @@
 		const amount = flt(doc.rounded_total || doc.grand_total) - flt(doc.loyalty_amount);
 		let result;
 		try {
-			result = await frappe.xcall('erpnext_iran.loyalty.points_preview', {
-				customer: doc.customer,
-				company: doc.company,
-				amount,
+			// silent: the preview is a nicety and must never put an error box in front of the cashier
+			const response = await frappe.call({
+				method: 'erpnext_iran.loyalty.points_preview',
+				args: { customer: doc.customer, company: doc.company, amount },
+				silent: true,
 			});
+			result = response.message;
 		} catch (error) {
 			return;
 		}
