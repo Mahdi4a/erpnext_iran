@@ -80,6 +80,10 @@ def extend_bootinfo(bootinfo):
 		"persian_digits": 1 if get_setting("use_persian_digits", "ERPNext Iran Settings") else 0,
 	}
 
+	from erpnext_iran.loyalty import max_redeem_percent
+
+	bootinfo.erpnext_iran["loyalty_max_percent"] = max_redeem_percent()
+
 	from erpnext_iran.scale import extend_bootinfo as add_scale
 
 	add_scale(bootinfo)

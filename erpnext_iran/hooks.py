@@ -38,6 +38,7 @@ doc_events = {
 	},
 	"Sales Invoice": {
 		"before_validate": "erpnext_iran.moadian.set_defaults_from_company",
+		"validate": "erpnext_iran.loyalty.validate_redeem_limit",
 		"on_submit": "erpnext_iran.moadian_send.auto_send_on_submit",
 		"on_cancel": "erpnext_iran.moadian_send.cancel_after_erp_cancel",
 	},

@@ -30,6 +30,14 @@
 
 	// Payment screen: the stock redeem card hides its limit and ignores the numpad, so it was
 	// unusable in a queue. Show the points on the card and redeem the most that fits in one tap.
+	// The most that may be redeemed on this invoice: the points' worth, capped by the Settings percentage.
+	function allowed_amount(doc, points, factor) {
+		const percent = flt(((frappe.boot.erpnext_iran || {}).loyalty_max_percent)) || 100;
+		const due = flt(doc.rounded_total || doc.grand_total);
+		const cap = percent < 100 ? (due * percent) / 100 : due;
+		return Math.floor(Math.min(flt(points) * factor, cap, due) / factor) * factor;
+	}
+
 	function redeem_all(payment) {
 		const frm = payment.events.get_frm();
 		const doc = frm.doc;
@@ -37,8 +45,7 @@
 		const factor = flt(conversion_factor);
 		const control = payment['loyalty-amount_control'];
 		if (!control || !flt(loyalty_points) || !factor) return;
-		const due = flt(doc.rounded_total || doc.grand_total);
-		const whole = Math.floor(Math.min(flt(loyalty_points) * factor, due) / factor) * factor;
+		const whole = allowed_amount(doc, loyalty_points, factor);
 		if (whole <= 0) {
 			frappe.show_alert({ message: __('Not enough points to redeem'), indicator: 'orange' });
 			return;
@@ -99,21 +106,39 @@
 		const changed = pos.Payment.prototype.bind_loyalty_amount_event;
 		pos.Payment.prototype.bind_loyalty_amount_event = function () {
 			const result = changed.apply(this, arguments);
-			setTimeout(() => rebalance(this), 400);
+			setTimeout(() => rebalance(this), 120);
+			setTimeout(() => rebalance(this), 450); // the stock handler finishes asynchronously
 			return result;
 		};
 
 		const render = pos.Payment.prototype.render_loyalty_points_payment_mode;
 		pos.Payment.prototype.render_loyalty_points_payment_mode = function () {
-			const result = render.apply(this, arguments);
-			const info = this.events.get_customer_details() || {};
+			// The stock control rejects any number above "points x factor"; hand it the capped points.
+			const events = this.events;
+			const real = events.get_customer_details;
+			const doc = events.get_frm().doc;
+			events.get_customer_details = () => {
+				const d = real.call(events) || {};
+				if (!d.loyalty_points || !flt(d.conversion_factor)) return d;
+				const points = allowed_amount(doc, d.loyalty_points, flt(d.conversion_factor)) / flt(d.conversion_factor);
+				return Object.assign({}, d, { loyalty_points: points });
+			};
+			let result;
+			try {
+				result = render.apply(this, arguments);
+			} finally {
+				events.get_customer_details = real;
+			}
+			const info = real.call(events) || {};
 			const card = this.$payment_modes.find('.loyalty-card');
 			card.find('.iran-loyalty-line').remove();
 			if (!card.length || !flt(info.loyalty_points)) return result;
 			const worth = flt(info.loyalty_points) * flt(info.conversion_factor);
+			const percent = flt((frappe.boot.erpnext_iran || {}).loyalty_max_percent) || 100;
+			const limit = percent < 100 ? ` · ${__('max')} ${format_number(percent, null, 0)}%` : '';
 			const line = $(`<div class="iran-loyalty-line" style="margin-top:4px">
 				<span style="color: var(--green-600, #278f5e); font-weight: 600">
-					${__('Club points')}: ${format_number(info.loyalty_points, null, 0)} ≈ ${format_currency(worth)}
+					${__('Club points')}: ${format_number(info.loyalty_points, null, 0)} ≈ ${format_currency(worth)}${limit}
 				</span>
 				<button type="button" class="btn btn-xs btn-default iran-redeem-all" style="margin-inline-start:8px">
 					${__('Use points')} (F6)

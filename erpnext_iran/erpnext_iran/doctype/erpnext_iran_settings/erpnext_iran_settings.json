@@ -88,6 +88,18 @@
    "fieldtype": "Float",
    "default": "1000",
    "description": "Weight on the label in grams and the item sold in kilograms: 1000. Ignored when the label carries a price."
+  },
+  {
+   "fieldname": "loyalty_section",
+   "label": "Club Points",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "loyalty_max_redeem_percent",
+   "label": "Max Share of an Invoice Payable with Points (%)",
+   "fieldtype": "Percent",
+   "default": "100",
+   "description": "At most this part of an invoice may be paid with club points, so a customer cannot take everything as a discount. 100 means no limit. Checked on the POS and again when the invoice is saved."
   }
  ],
  "permissions": [
