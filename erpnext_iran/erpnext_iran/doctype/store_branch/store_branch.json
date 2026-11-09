@@ -1,0 +1,107 @@
+{
+ "doctype": "DocType",
+ "name": "Store Branch",
+ "module": "Erpnext Iran",
+ "autoname": "field:branch_name",
+ "engine": "InnoDB",
+ "field_order": [
+  "branch_name",
+  "company",
+  "city",
+  "disabled",
+  "column_break_1",
+  "separate_price_list",
+  "section_records",
+  "warehouse",
+  "cost_center",
+  "price_list",
+  "pos_profile"
+ ],
+ "fields": [
+  {
+   "fieldname": "branch_name",
+   "label": "Branch Name (نام شعبه)",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "company",
+   "label": "Company",
+   "fieldtype": "Link",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "city",
+   "label": "City (شهر)",
+   "fieldtype": "Data",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "disabled",
+   "label": "Disabled",
+   "fieldtype": "Check",
+   "default": "0"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "separate_price_list",
+   "label": "Own Price List (قیمت جدا برای این شعبه)",
+   "fieldtype": "Check",
+   "default": "0",
+   "set_only_once": 1,
+   "description": "Off: the branch sells at the Standard Selling prices of the head office"
+  },
+  {
+   "fieldname": "section_records",
+   "label": "Made for this branch",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "warehouse",
+   "label": "Warehouse",
+   "fieldtype": "Link",
+   "options": "Warehouse",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cost_center",
+   "label": "Cost Center",
+   "fieldtype": "Link",
+   "options": "Cost Center",
+   "read_only": 1
+  },
+  {
+   "fieldname": "price_list",
+   "label": "Price List",
+   "fieldtype": "Link",
+   "options": "Price List",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pos_profile",
+   "label": "POS Profile",
+   "fieldtype": "Link",
+   "options": "POS Profile",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+  {"role": "Sales Manager", "read": 1, "write": 1, "create": 1},
+  {"role": "Stock Manager", "read": 1, "write": 1, "create": 1},
+  {"role": "Accounts Manager", "read": 1},
+  {"role": "Sales User", "read": 1}
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

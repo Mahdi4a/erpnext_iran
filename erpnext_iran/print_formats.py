@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import frappe
 
+from erpnext_iran.pos_receipt import build_receipt_html
+
 STYLE = """<style>
 	.iran-doc { direction: rtl; text-align: right; font-family: Vazirmatn, Tahoma, "Noto Naskh Arabic", "DejaVu Sans", sans-serif; font-size: 11px; color: #111; }
 	.iran-doc table { width: 100%; border-collapse: collapse; }
@@ -186,6 +188,7 @@ def formats() -> dict[str, tuple[str, str]]:
 	"""Print Format name -> (document type, html)"""
 	result = {f"Iran {doctype}": (doctype, build_document_html(doctype)) for doctype in DOCUMENTS}
 	result["Iran Payment Entry"] = ("Payment Entry", build_payment_entry_html())
+	result["Iran POS Receipt"] = ("Sales Invoice", build_receipt_html())
 	return result
 
 
