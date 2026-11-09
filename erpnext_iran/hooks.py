@@ -18,6 +18,8 @@ app_include_js = [
 	"/assets/erpnext_iran/js/pos_quick_pay.js",
 	"/assets/erpnext_iran/js/pos_loyalty.js",
 	"/assets/erpnext_iran/js/pos_discount.js",
+	"/assets/erpnext_iran/js/pos_offline_core.js",
+	"/assets/erpnext_iran/js/pos_offline.js",
 ]
 
 extend_bootinfo = "erpnext_iran.defaults.extend_bootinfo"

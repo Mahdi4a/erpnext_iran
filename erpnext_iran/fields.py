@@ -394,10 +394,24 @@ SALES_INVOICE_DISCOUNT_FIELDS = [
 	{"fieldname": "discount_approved_by", "label": "Discount Approved By", "fieldtype": "Link", "options": "User", "read_only": 1, "no_copy": 1, "insert_after": "discount_amount"},
 ]
 
+SALES_INVOICE_OFFLINE_FIELDS = [
+	{
+		"fieldname": "offline_sale_id",
+		"label": "Offline Sale ID",
+		"fieldtype": "Data",
+		"unique": 1,
+		"read_only": 1,
+		"no_copy": 1,
+		"print_hide": 1,
+		"insert_after": "pos_profile",
+		"description": "Made by the till when the sale was rung up without a connection; keeps a sale that is sent twice from becoming two invoices.",
+	},
+]
+
 CUSTOM_FIELDS.update(
 	{
 		"Pricing Rule": _pricing_rule_time_fields(),
-		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors") + SALES_INVOICE_DISCOUNT_FIELDS,
+		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors") + SALES_INVOICE_DISCOUNT_FIELDS + SALES_INVOICE_OFFLINE_FIELDS,
 		"Sales Invoice Item": custom_fields(ITEM_EXTRAS, "description"),
 		"Item": ITEM_MOADIAN_FIELDS + ITEM_SCALE_FIELDS,
 		"POS Profile": POS_PROFILE_FIELDS + POS_DISCOUNT_FIELDS,

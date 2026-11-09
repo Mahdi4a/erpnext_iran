@@ -1,0 +1,122 @@
+import unittest
+from datetime import datetime
+from unittest.mock import MagicMock, patch
+
+import frappe
+
+from erpnext_iran import offline
+
+
+def sale(**extra):
+	return {
+		"id": "abcd1234-ef567890",
+		"pos_profile": "P",
+		"mode": "Cash",
+		"sold_at": datetime.now().strftime(offline.TIME_FORMAT),
+		"offline_total": 100000,
+		"items": [{"item_code": "A", "qty": 1, "rate": 100000, "list_rate": 100000}],
+		**extra,
+	}
+
+
+class TestCleanSale(unittest.TestCase):
+	def test_a_good_sale_is_kept_as_sent(self):
+		clean = offline.clean_sale(sale())
+		self.assertEqual(clean["items"][0], {"item_code": "A", "qty": 1, "rate": 100000, "list_rate": 100000})
+		self.assertEqual(clean["mode"], "Cash")
+
+	def test_a_missing_list_rate_means_no_discount(self):
+		clean = offline.clean_sale(sale(items=[{"item_code": "A", "qty": 2, "rate": 500}]))
+		self.assertEqual(clean["items"][0]["list_rate"], 500)
+
+	def test_a_mobile_is_normalised(self):
+		self.assertEqual(offline.clean_sale(sale(mobile="+98 912 123 4567"))["mobile"], "09121234567")
+
+	def test_bad_sales_are_refused(self):
+		bad = [
+			"not a sale",
+			sale(id="short"),
+			sale(id="has space in it!!"),
+			sale(items=[]),
+			sale(items="x"),
+			sale(items=[{"item_code": "", "qty": 1, "rate": 1}]),
+			sale(items=[{"item_code": "A", "qty": 0, "rate": 1}]),
+			sale(items=[{"item_code": "A", "qty": -1, "rate": 1}]),
+			sale(items=[{"item_code": "A", "qty": 1, "rate": -5}]),
+			sale(items=["A"]),
+			sale(sold_at="yesterday"),
+			sale(sold_at="2099-01-01 10:00:00"),
+			sale(mobile="0912"),
+			sale(items=[{"item_code": "A", "qty": 1, "rate": 1}] * (offline.MAX_LINES + 1)),
+		]
+		for case in bad:
+			with self.assertRaises(offline.RefusedSale, msg=str(case)[:60]):
+				offline.clean_sale(case)
+
+
+class TestSubmitOne(unittest.TestCase):
+	def test_an_id_already_booked_is_a_duplicate_and_nothing_is_built(self):
+		with patch.object(offline, "existing_invoice", return_value="SINV-1"), patch.object(offline, "build_invoice") as build:
+			result = offline.submit_one(sale())
+		self.assertEqual(result, {"id": "abcd1234-ef567890", "status": "duplicate", "invoice": "SINV-1"})
+		build.assert_not_called()
+
+	def test_a_refusal_comes_back_with_its_reason_and_rolls_back(self):
+		doc = MagicMock()
+		doc.insert.side_effect = frappe.ValidationError("<b>Discount</b> too high")
+		with patch.object(offline, "existing_invoice", return_value=None), patch.object(offline, "build_invoice", return_value=doc), patch.object(
+			offline, "negative_stock_allowed"
+		), patch.object(offline.frappe, "db", MagicMock()) as db:
+			result = offline.submit_one(sale())
+		self.assertEqual(result["status"], "refused")
+		self.assertEqual(result["reason"], "Discount too high")
+		db.rollback.assert_called_once()
+
+	def test_two_requests_racing_for_one_id_end_as_a_duplicate(self):
+		doc = MagicMock()
+		doc.insert.side_effect = frappe.UniqueValidationError("Duplicate")
+		with patch.object(offline, "existing_invoice", side_effect=[None, "SINV-9"]), patch.object(offline, "build_invoice", return_value=doc), patch.object(
+			offline, "negative_stock_allowed"
+		), patch.object(offline.frappe, "db", MagicMock()):
+			result = offline.submit_one(sale())
+		self.assertEqual((result["status"], result["invoice"]), ("duplicate", "SINV-9"))
+
+	def test_an_unexpected_error_is_not_swallowed_so_the_till_retries(self):
+		doc = MagicMock()
+		doc.insert.side_effect = RuntimeError("database went away")
+		with patch.object(offline, "existing_invoice", return_value=None), patch.object(offline, "build_invoice", return_value=doc), patch.object(
+			offline, "negative_stock_allowed"
+		):
+			with self.assertRaises(RuntimeError):
+				offline.submit_one(sale())
+
+	def test_a_total_that_differs_is_reported_but_the_sale_is_kept(self):
+		doc = MagicMock(rounded_total=120000, grand_total=120000)
+		doc.name = "SINV-2"
+		with patch.object(offline, "existing_invoice", return_value=None), patch.object(offline, "build_invoice", return_value=doc), patch.object(
+			offline, "negative_stock_allowed"
+		), patch.object(offline.frappe, "db", MagicMock()):
+			result = offline.submit_one(sale())
+		self.assertEqual(result["status"], "ok")
+		self.assertIn("warning", result)
+
+	def test_too_many_sales_in_one_call_is_refused(self):
+		with self.assertRaises(frappe.ValidationError):
+			offline.submit_sales([sale()] * (offline.MAX_SALES_PER_CALL + 1))
+
+
+class TestTaxRows(unittest.TestCase):
+	def profile(self, template):
+		return frappe._dict(taxes_and_charges=template)
+
+	def test_no_template_means_no_tax_and_exact(self):
+		self.assertEqual(offline.tax_rows(self.profile(None)), {"rows": [], "exact": True})
+
+	def test_only_rows_on_net_total_can_be_worked_out(self):
+		rows = [
+			frappe._dict(charge_type="On Net Total", rate=10, included_in_print_rate=0),
+			frappe._dict(charge_type="Actual", rate=0, included_in_print_rate=0),
+		]
+		with patch.object(offline.frappe, "get_cached_doc", return_value=frappe._dict(taxes=rows)):
+			result = offline.tax_rows(self.profile("VAT"))
+		self.assertEqual(result, {"rows": [{"rate": 10.0, "included": 0}], "exact": False})

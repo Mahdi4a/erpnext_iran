@@ -67,7 +67,9 @@
 		if (!code) return;
 		$('.iran-pos-phone').val('').data('done', ''); // the digits of the scan went into the mobile box if it had the cursor
 		pos().payment.edit_cart();
-		await new Promise((resolve) => setTimeout(resolve, 500));
+		const deadline = Date.now() + 3000;
+		while (Date.now() < deadline && !onItems()) await new Promise((resolve) => setTimeout(resolve, 50));
+		await new Promise((resolve) => setTimeout(resolve, 150)); // the items screen finishes its own set-up
 		if (window.onScan && onItems()) onScan.simulate(document, code);
 	});
 
@@ -174,6 +176,8 @@
 		(event) => {
 			const action = keys[event.key];
 			if (!action || event.ctrlKey || event.altKey || event.metaKey || !onPosPage()) return;
+			// the offline till has its own keys
+			if (window.erpnext_iran && erpnext_iran.offlineTillOpen) return;
 			// Enter in the mobile number box is handled by the box itself
 			if (event.key === 'Enter' && $(event.target).is('.iran-pos-phone')) return;
 			// Enter inside a text box belongs to that box, except in the amount boxes of the payment screen
