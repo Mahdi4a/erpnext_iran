@@ -228,7 +228,15 @@ def invoice_exists(lease: str, key: str) -> str | None:
 
 
 def build_invoice(lease, year: int, month: int, kind: str = "rent"):
-	"""The Sales Invoice of one lease for one month; None when the month is already invoiced or there is nothing to bill."""
+	"""The Sales Invoice of one lease for one month; None when the month is already invoiced or there is nothing to bill.
+	Two people pressing the button together must not bill the same month twice, so one lease-month is built at a time."""
+	from frappe.utils.synchronization import filelock
+
+	with filelock(f"mall_bill_{lease.name}_{period_key(year, month, kind)}", timeout=60):
+		return _build_invoice(lease, year, month, kind)
+
+
+def _build_invoice(lease, year: int, month: int, kind: str = "rent"):
 	key = period_key(year, month, kind)
 	if invoice_exists(lease.name, key):
 		return None

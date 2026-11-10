@@ -7,5 +7,5 @@
  "is_standard": "Yes",
  "module": "Erpnext Iran",
  "add_total_row": 0,
- "roles": [{"role": "Accounts Manager"}, {"role": "Stock Manager"}, {"role": "Sales Manager"}, {"role": "System Manager"}]
+ "roles": [{"role": "Accounts Manager"}, {"role": "Stock Manager"}, {"role": "System Manager"}]
 }
