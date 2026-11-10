@@ -391,6 +391,11 @@ SALES_INVOICE_PRESCRIPTION_FIELDS = [
 	{"fieldname": "patient_national_id", "label": "Patient National ID", "fieldtype": "Data", "insert_after": "patient_name", "no_copy": 1},
 ]
 
+SALES_INVOICE_MALL_FIELDS = [
+	{"fieldname": "mall_lease", "label": "Mall Lease", "fieldtype": "Link", "options": "Mall Lease", "read_only": 1, "no_copy": 1, "insert_after": "customer_name", "search_index": 1},
+	{"fieldname": "mall_period", "label": "Rent Period", "fieldtype": "Data", "read_only": 1, "no_copy": 1, "insert_after": "mall_lease", "search_index": 1, "description": "The Jalali month a mall invoice is for, for example 1405-08; -T is the turnover rent."},
+]
+
 ITEM_ONLINE_FIELDS = [
 	{"fieldname": "sell_online", "label": "Sell Online", "fieldtype": "Check", "insert_after": "item_group", "description": "Sent to the WooCommerce store and listed in the Instagram catalog."},
 	{"fieldname": "woo_product_id", "label": "WooCommerce Product ID", "fieldtype": "Data", "read_only": 1, "no_copy": 1, "insert_after": "sell_online"},
@@ -467,7 +472,7 @@ CUSTOM_FIELDS.update(
 	{
 		"Pricing Rule": _pricing_rule_time_fields(),
 		"Employee": EMPLOYEE_PAYROLL_FIELDS,
-		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors") + SALES_INVOICE_DISCOUNT_FIELDS + SALES_INVOICE_OFFLINE_FIELDS + CHANNEL_FIELDS + SALES_INVOICE_PRESCRIPTION_FIELDS,
+		"Sales Invoice": SALES_INVOICE_MOADIAN_FIELDS + custom_fields(HEADER_EXTRAS, "moadian_errors") + SALES_INVOICE_DISCOUNT_FIELDS + SALES_INVOICE_OFFLINE_FIELDS + CHANNEL_FIELDS + SALES_INVOICE_PRESCRIPTION_FIELDS + SALES_INVOICE_MALL_FIELDS,
 		"Sales Order": SALES_ORDER_CHANNEL_FIELDS,
 		"Sales Invoice Item": custom_fields(ITEM_EXTRAS, "description"),
 		"Item": ITEM_MOADIAN_FIELDS + ITEM_SCALE_FIELDS + ITEM_ONLINE_FIELDS + ITEM_APPAREL_FIELDS + ITEM_PHARMACY_FIELDS,

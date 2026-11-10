@@ -91,6 +91,12 @@ def extend_bootinfo(bootinfo):
 		"persian_digits": 1 if get_setting("use_persian_digits", "ERPNext Iran Settings") else 0,
 	}
 
+	from frappe.utils import getdate
+	from iran_base.utils.jalali import to_jalali
+
+	# the site's today, not the server clock's: the month the mall forms offer by default
+	bootinfo.erpnext_iran["jalali_today"] = list(to_jalali(getdate()))[:2]
+
 	from erpnext_iran.loyalty import max_redeem_percent
 
 	bootinfo.erpnext_iran["loyalty_max_percent"] = max_redeem_percent()

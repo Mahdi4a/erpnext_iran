@@ -1,0 +1,174 @@
+{
+ "doctype": "DocType",
+ "name": "Mall Lease",
+ "module": "Erpnext Iran",
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "unit",
+   "label": "Unit",
+   "fieldtype": "Link",
+   "options": "Mall Unit",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "tenant",
+   "label": "Tenant",
+   "fieldtype": "Link",
+   "options": "Customer",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "status",
+   "label": "Status",
+   "fieldtype": "Select",
+   "options": "Draft\nUpcoming\nActive\nExpired\nTerminated\nCancelled",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "label": "",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "label": "Company",
+   "fieldtype": "Link",
+   "options": "Company",
+   "fetch_from": "unit.company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "area",
+   "label": "Area (m²)",
+   "fieldtype": "Float",
+   "fetch_from": "unit.area",
+   "read_only": 1
+  },
+  {
+   "fieldname": "start_date",
+   "label": "Start Date",
+   "fieldtype": "Date",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "end_date",
+   "label": "End Date",
+   "fieldtype": "Date",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_money",
+   "label": "Rent and Charges",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "monthly_rent",
+   "label": "Monthly Rent",
+   "fieldtype": "Currency",
+   "reqd": 1,
+   "description": "For a full month, in the first year."
+  },
+  {
+   "fieldname": "annual_increase_percent",
+   "label": "Yearly Increase (%)",
+   "fieldtype": "Percent",
+   "description": "Applied on every anniversary of the start, on top of the last year's rent."
+  },
+  {
+   "fieldname": "service_charge_per_m2",
+   "label": "Monthly Service Charge per m²",
+   "fieldtype": "Currency"
+  },
+  {
+   "fieldname": "column_break_2",
+   "label": "",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "turnover_percent",
+   "label": "Turnover Rent (%)",
+   "fieldtype": "Percent",
+   "description": "A share of the tenant's monthly sales; only what is above the base rent is charged."
+  },
+  {
+   "fieldname": "deposit_amount",
+   "label": "Deposit",
+   "fieldtype": "Currency"
+  },
+  {
+   "fieldname": "invoice_day",
+   "label": "Invoice Day",
+   "fieldtype": "Int",
+   "description": "Day of the Jalali month. Empty: the one in Mall Settings."
+  },
+  {
+   "fieldname": "section_end",
+   "label": "Ending",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "terminated_on",
+   "label": "Terminated On",
+   "fieldtype": "Date",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "remarks",
+   "label": "Remarks",
+   "fieldtype": "Small Text"
+  },
+  {
+   "fieldname": "amended_from",
+   "label": "Amended From",
+   "fieldtype": "Link",
+   "options": "Mall Lease",
+   "read_only": 1,
+   "no_copy": 1,
+   "print_hide": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "submit": 1,
+   "cancel": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1
+  },
+  {
+   "role": "Sales Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1
+  }
+ ],
+ "is_submittable": 1,
+ "autoname": "LEASE-.#####",
+ "title_field": "tenant",
+ "search_fields": "unit,tenant,status"
+}

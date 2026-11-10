@@ -95,6 +95,13 @@ NUMBER_CARDS = [
 		"color": "#7575ff",
 	},
 	{"label": "Low Stock Items", "type": "Custom", "method": "erpnext_iran.dashboard.low_stock_count", "color": "#FFA00A"},
+	{
+		"label": "Vacant Units",
+		"document_type": "Mall Unit",
+		"function": "Count",
+		"filters": [["Mall Unit", "status", "=", "Vacant"]],
+		"color": "#FFA00A",
+	},
 	{"label": "Expiring Stock", "type": "Custom", "method": "erpnext_iran.dashboard.expiring_count", "color": "#FF5858"},
 ]
 

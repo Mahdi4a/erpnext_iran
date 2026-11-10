@@ -70,7 +70,7 @@ naming_series_variables = {
 	variable: "erpnext_iran.naming.parse_variable" for variable in ("JY", "JYY", "JM", "JD")
 }
 scheduler_events = {
-	"daily": ["erpnext_iran.jalali.ensure_current_and_next_fiscal_years", "erpnext_iran.grocery.notify_expiring"],
+	"daily": ["erpnext_iran.jalali.ensure_current_and_next_fiscal_years", "erpnext_iran.grocery.notify_expiring", "erpnext_iran.mall.refresh_statuses", "erpnext_iran.mall.bill_due_leases"],
 	"hourly": ["erpnext_iran.moadian_send.check_sent_invoices", "erpnext_iran.woocommerce.scheduled_push"],
 }
 
@@ -83,4 +83,6 @@ doctype_js = {
 	"Cost Center Allocation": "public/js/cost_center_allocation.js",
 	"Company": "public/js/moadian_company.js",
 	"Item": "public/js/item_form.js",
+	"Mall Lease": "public/js/mall_lease.js",
+	"Mall Settings": "public/js/mall_settings.js",
 }

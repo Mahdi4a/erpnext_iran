@@ -1,0 +1,71 @@
+{
+ "doctype": "DocType",
+ "name": "Mall Settings",
+ "module": "Erpnext Iran",
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "company",
+   "label": "Company",
+   "fieldtype": "Link",
+   "options": "Company"
+  },
+  {
+   "fieldname": "rent_item",
+   "label": "Rent Item",
+   "fieldtype": "Link",
+   "options": "Item",
+   "description": "Made for you on first use when empty."
+  },
+  {
+   "fieldname": "service_item",
+   "label": "Service Charge Item",
+   "fieldtype": "Link",
+   "options": "Item"
+  },
+  {
+   "fieldname": "turnover_item",
+   "label": "Turnover Rent Item",
+   "fieldtype": "Link",
+   "options": "Item"
+  },
+  {
+   "fieldname": "tax_template",
+   "label": "Sales Taxes and Charges Template",
+   "fieldtype": "Link",
+   "options": "Sales Taxes and Charges Template",
+   "description": "Added to the rent invoices. Empty: no tax."
+  },
+  {
+   "fieldname": "default_invoice_day",
+   "label": "Invoice Day of the Jalali Month",
+   "fieldtype": "Int",
+   "default": "1",
+   "description": "The day the monthly invoice is made (1 to 28). A lease can have its own."
+  },
+  {
+   "fieldname": "auto_submit_invoices",
+   "label": "Submit the Invoices at Once",
+   "fieldtype": "Check",
+   "default": "0",
+   "description": "Off: they are made as drafts for somebody to look at."
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1
+  }
+ ],
+ "issingle": 1,
+ "description": "Mall management: the items and tax of rent invoices."
+}

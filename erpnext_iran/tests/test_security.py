@@ -5,7 +5,7 @@ import unittest
 
 import frappe
 
-from erpnext_iran import allocation, apparel, discount, iran_payroll, jalali, moadian_send, naming, offline, pos_customer, woocommerce
+from erpnext_iran import allocation, apparel, discount, mall, iran_payroll, jalali, moadian_send, naming, offline, pos_customer, woocommerce
 from erpnext_iran.erpnext_iran.doctype.iran_cheque import iran_cheque
 
 MUTATING = [
@@ -23,6 +23,8 @@ MUTATING = [
 	allocation.make_allocation,
 	apparel.make_style,
 	apparel.season_clearance,
+	mall.generate_invoices,
+	mall.terminate_lease,
 ]
 
 

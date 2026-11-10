@@ -1,0 +1,117 @@
+{
+ "doctype": "DocType",
+ "name": "Mall Unit",
+ "module": "Erpnext Iran",
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "unit_code",
+   "label": "Unit Code",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "floor",
+   "label": "Floor",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "unit_type",
+   "label": "Type",
+   "fieldtype": "Select",
+   "options": "Shop\nKiosk\nFood Court\nOffice\nStorage",
+   "default": "Shop",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "label": "",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "label": "Company",
+   "fieldtype": "Link",
+   "options": "Company",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "area",
+   "label": "Area (m²)",
+   "fieldtype": "Float",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status",
+   "label": "Status",
+   "fieldtype": "Select",
+   "options": "Vacant\nLeased\nMaintenance",
+   "default": "Vacant",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Leased and Vacant follow the leases; Maintenance is yours to set."
+  },
+  {
+   "fieldname": "section_rent",
+   "label": "Rent",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "default_rent_per_m2",
+   "label": "Usual Monthly Rent per m²",
+   "fieldtype": "Currency"
+  },
+  {
+   "fieldname": "cost_center",
+   "label": "Cost Center",
+   "fieldtype": "Link",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "current_lease",
+   "label": "Current Lease",
+   "fieldtype": "Link",
+   "options": "Mall Lease",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "notes",
+   "label": "Notes",
+   "fieldtype": "Small Text"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  },
+  {
+   "role": "Sales Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  }
+ ],
+ "autoname": "field:unit_code",
+ "title_field": "unit_code",
+ "search_fields": "floor,unit_type,status"
+}
